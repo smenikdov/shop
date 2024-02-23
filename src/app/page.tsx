@@ -1,5 +1,7 @@
 import Image from 'next/image';
-import Flex from '@/components/Flex';
+import Container from '@/components/Container';
+import Row from '@/components/Row';
+import Col from '@/components/Col';
 import styles from './page.module.css';
 
 export default function Home() {

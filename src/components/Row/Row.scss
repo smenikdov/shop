@@ -4,7 +4,7 @@
 
     display: flex;
     flex-wrap: wrap;
-    margin-top: calc($space-y * -1);
+    margin-top: calc($spase-y * -1);
     margin-right: calc($spase-x * -0.5);
     margin-left: calc($spase-x * -0.5);
 
@@ -14,6 +14,6 @@
         max-width: 100%;
         padding-right: calc($spase-x * 0.5);
         padding-left: calc($spase-x * 0.5);
-        margin-top: $space-y;
+        margin-top: $spase-y;
     }
 }
