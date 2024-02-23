@@ -1,0 +1,21 @@
+.flex {
+    display: flex;
+
+    $flex-direction: row, row-reverse, column, column-reverse;
+    $justify-content: flex-start, flex-end, center, space-around, space-between, space-evenly;
+    $align-items: flex-start, flex-end, center, stretch, baseline;
+    $flex-wrap: nowrap, wrap, wrap-reverse;
+
+    @mixin apply-styles($name, $prop, $values) {
+        @each $value in $values {
+            &-#{$name}-#{$value} {
+                #{$prop}: #{$value};
+            }
+        }
+    }
+
+    @include apply-styles('direction', 'flex-direction', $flex-direction);
+    @include apply-styles('justify', 'justify-content', $justify-content);
+    @include apply-styles('align', 'align-items', $align-items);
+    @include apply-styles('wrap', 'flex-wrap', $flex-wrap);
+}

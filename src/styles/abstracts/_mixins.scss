@@ -1,0 +1,38 @@
+@mixin box($width: auto, $height: auto) {
+    width: $width;
+    height: $height;
+}
+
+@mixin font-face($font-name, $path, $weight: normal, $style: normal) {
+    @font-face {
+        font-family: quote($font-name);
+        src: url($path + '.eot');
+        src: url($path + '.eot?#iefix') format('embedded-opentype'),
+            url($path + '.woff') format('woff'), url($path + '.ttf') format('truetype'),
+            url($path + '.svg##{$font-name}') format('svg');
+        font-weight: $weight;
+        font-style: $style;
+    }
+}
+
+@mixin text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin input-placeholder {
+    &.placeholder { @content; }
+    &:-moz-placeholder { @content; }
+    &::-moz-placeholder { @content; }
+    &:-ms-input-placeholder { @content; }
+    &::-webkit-input-placeholder { @content; }
+}
+
+@mixin absolute ($top: 0, $right: 0, $bottom: 0, $left: 0) {
+    position: absolute; 
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}
