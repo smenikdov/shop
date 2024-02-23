@@ -1,0 +1,18 @@
+$columns: 12;
+.col {
+    flex: 1 0 0%;
+
+    @each $breakpoint, $width in $breakpoints {
+        @media only screen and (min-width: $width) {
+            .col-#{$breakpoint}-auto {
+                flex: 0 0 auto;
+                width: auto;
+            }
+            @for $i from 1 through $columns {
+                .col-#{$breakpoint}-#{$i} {
+                    max-width: 100% * $i / $columns;
+                }
+            }
+        }
+    }
+}

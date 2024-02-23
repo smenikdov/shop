@@ -1,0 +1,27 @@
+.container, .container-fluid {
+    $gutter-x: 100px;
+    width: 100%;
+    padding-right: $gutter-x;
+    padding-left: $gutter-x;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.container {
+    @include xs() {};
+    @include sm() {
+        max-width: 640px;
+    };
+    @include md() {
+        max-width: 768px;
+    };
+    @include lg() {
+        max-width: 1024px;
+    };
+    @include xl() {
+        max-width: 1280px;
+    };
+    @include xxl() {
+        max-width: 1536px;
+    };
+}
