@@ -1,0 +1,23 @@
+@import '@/styles/abstracts';
+
+.button {
+    &-primary {}
+    &-secondary {}
+    &-success {}
+    &-warning {}
+    &-danger {}
+
+    &-squre {}
+    &-round {}
+    &-circle {}
+
+    &-outlined {}
+    &-filled {}
+    &-dashed {}
+    &-link {}
+    &-text {}
+
+    &-disabled {}
+    &-loading {}
+    &-icon-only {}
+}

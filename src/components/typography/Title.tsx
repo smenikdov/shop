@@ -3,7 +3,7 @@ import type { TitleProps } from './Typography.types';
 import Typography from './Typography';
 
 const Title = (props: TitleProps) => {
-    const { level = 1, ...otherProps } = props;
+    const { level = 2, ...otherProps } = props;
     const component: keyof JSX.IntrinsicElements = `h${level}`;
     return <Typography {...otherProps} component={component} />;
 };

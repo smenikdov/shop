@@ -1,13 +1,12 @@
 import type React from 'react';
-
-export type BaseType = 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+import { BaseColors } from '@/typings';
 
 export interface TypographyProps<C extends keyof JSX.IntrinsicElements>
     extends React.HTMLAttributes<HTMLOrSVGElement> {
     className?: string;
     style?: React.CSSProperties;
     children?: React.ReactNode;
-    type?: BaseType;
+    type?: BaseColors;
     // decorations
     code?: boolean;
     mark?: boolean;

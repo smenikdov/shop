@@ -1,0 +1,19 @@
+@import '@/styles/abstracts';
+
+.icon {
+    &-primary {
+        color: $primary;
+    }
+    &-secondary {
+        color: $secondary;
+    }
+    &-success {
+        color: $success;
+    }
+    &-warning {
+        color: $warning;
+    }
+    &-danger {
+        color: $danger;
+    }
+}
