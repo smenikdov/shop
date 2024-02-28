@@ -17,6 +17,7 @@
         "react-dom": "^18",
         "react-icons": "^5.0.1",
         "react-redux": "^9.0.4",
+        "uncontrollable": "^8.0.4",
         "winston": "^3.11.0"
     },
     "devDependencies": {

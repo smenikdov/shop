@@ -3,8 +3,8 @@
 import React, { useMemo } from 'react';
 import './Button.scss';
 import Icon from '@/components/Icon';
+import Spin from '@/components/Spin';
 import classNames from 'classnames';
-import { FaSpinner } from 'react-icons/fa';
 
 import type { ButtonProps } from './Button.types';
 
@@ -50,7 +50,7 @@ const Button = (props: ButtonProps) => {
 
     const ButtonInner = () => {
         if (loading) {
-            return <Icon icon={FaSpinner} />;
+            return <Spin spinning />;
         }
         return (
             <>
@@ -67,8 +67,8 @@ const Button = (props: ButtonProps) => {
                 className={mergedCls}
                 href={disabled ? undefined : href}
                 style={style}
-                onClick={handleClick}
                 tabIndex={disabled ? -1 : 0}
+                onClick={handleClick}
             >
                 <ButtonInner />
             </a>
@@ -81,8 +81,8 @@ const Button = (props: ButtonProps) => {
             type={htmlType}
             className={mergedCls}
             style={style}
-            onClick={handleClick}
             disabled={disabled}
+            onClick={handleClick}
         >
             <ButtonInner />
         </button>
