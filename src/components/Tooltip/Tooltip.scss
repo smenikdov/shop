@@ -1,0 +1,19 @@
+@import '@/styles/abstracts';
+
+.tooltip {
+    z-index: 1500;
+    position: absolute;
+
+    &-hidden {
+        opacity: 0;
+    }
+    &-visible {
+        opacity: 1;
+    }
+
+    &-primary {}
+    &-secondary {}
+    &-success {}
+    &-warning {}
+    &-danger {}
+}

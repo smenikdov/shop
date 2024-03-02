@@ -12,6 +12,7 @@ import Icon from '@/components/Icon';
 import Empty from '@/components/Empty';
 import Result from '@/components/Result';
 import Button from '@/components/Button';
+import Tooltip from '@/components/Tooltip';
 import { FaBeer } from 'react-icons/fa';
 import styles from './page.module.css';
 import { useState } from 'react';
@@ -22,7 +23,9 @@ export default function Home() {
             <Container>
                 <Title>4234fsd</Title>
                 <Icon icon={FaBeer} />
-                <Button>asdasd</Button>
+                <Tooltip title="Клкни на меня">
+                    <Button>asdasd</Button>
+                </Tooltip>
             </Container>
         </main>
     );
