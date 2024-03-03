@@ -1,12 +1,16 @@
 import type React from 'react';
-import { BaseColors } from '@/typings';
+import { BaseColors, FontFamily } from '@/typings';
 
+export type TextAlign = 'center' | 'left' | 'right' | 'justify';
 export interface TypographyProps<C extends keyof JSX.IntrinsicElements>
     extends React.HTMLAttributes<HTMLOrSVGElement> {
     className?: string;
     style?: React.CSSProperties;
     children?: React.ReactNode;
     type?: BaseColors;
+    //
+    align?: TextAlign;
+    family?: FontFamily;
     // decorations
     code?: boolean;
     mark?: boolean;

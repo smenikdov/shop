@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import type { TypographyProps } from './Typography.types';
 import './Typography.scss';
+import { plexSerif, plexSans } from '@/ui/fonts';
 
 function wrapperDecorations(
     {
@@ -39,10 +40,19 @@ const Typography = (props: TypographyProps<keyof JSX.IntrinsicElements>) => {
         children,
         style,
         type,
+        align,
+        family,
         ...otherProps
     } = props;
 
-    const mergedCls = classNames('typography', { [`typography-${type}`]: type }, className);
+    const mergedCls = classNames(
+        'typography',
+        { [`typography-align-${align}`]: align },
+        { [`typography-${type}`]: type },
+        { [plexSans.className]: family === 'plex-sans' },
+        { [plexSerif.className]: family === 'plex-serif' },
+        className
+    );
 
     return (
         <Component className={mergedCls} style={style} {...otherProps}>

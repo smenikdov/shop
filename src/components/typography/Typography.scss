@@ -4,4 +4,10 @@
     &-success {}
     &-warning {}
     &-danger {}
+
+    @each $value in ('center', 'left', 'right', 'justify') {
+        &-align-#{$value} {
+            text-align: #{$value};
+        }
+    }
 }

@@ -14,10 +14,6 @@ import Tooltip from '@/components/Tooltip';
 import { FaBeer } from 'react-icons/fa';
 import styles from './page.module.css';
 import { useState } from 'react';
-import Radio from '@/components/inputs/Radio/Radio';
-import RadioGroup from '@/components/inputs/Radio/RadioGroup';
-import CheckboxGroup from '@/components/inputs/Checkbox/CheckboxGroup';
-import Checkbox from '@/components/inputs/Checkbox/Checkbox';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export default function Home() {
@@ -28,12 +24,6 @@ export default function Home() {
                 <Title>4234fsd</Title>
                 <Icon icon={FaBeer} />
                 <Button>asdasd</Button>
-                <RadioGroup name="radiogroup">
-                    <Radio value="1">A</Radio>
-                    <Radio value="2">B</Radio>
-                    <Radio value="3">C</Radio>
-                    <Radio value="4">D</Radio>
-                </RadioGroup>
             </Container>
         </main>
     );
