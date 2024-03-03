@@ -27,7 +27,7 @@ export interface TooltipProps {
         | 'top-end'
         | 'top-start'
         | 'top';
-    title: React.ReactNode | String;
+    title: React.ReactNode;
     offset?: [number | string, number | string];
     trigger?: ActionType;
 }
