@@ -17,7 +17,6 @@ export interface ModalProps extends React.HTMLAttributes<HTMLElement> {
     onAfterOpen?: Function;
     onAfterClose?: Function;
     onClose?: Function;
-    closeTimeoutMS?: number;
 
     shouldFocusAfterRender?: boolean;
     shouldCloseOnOverlayClick?: boolean;

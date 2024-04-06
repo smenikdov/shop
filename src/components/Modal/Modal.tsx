@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.scss';
 import classNames from 'classnames';
+import Fade from '@/components/transitions/Fade';
 import useOnMount from '@/hooks/useOnMount';
 
 import type { ModalProps } from './Modal.types';
@@ -14,7 +15,6 @@ const Modal = (props: ModalProps) => {
         // portalClassName,
         bodyOpenClassName = 'overflow-hidden',
         role = 'dialog',
-        closeTimeoutMS = 300,
         shouldFocusAfterRender = true,
         shouldCloseOnEsc = true,
         shouldCloseOnOverlayClick = true,
@@ -32,7 +32,6 @@ const Modal = (props: ModalProps) => {
     } = props;
 
     const [isOpen, setIsOpen] = useState(false);
-    const [beforeClose, setBeforeClose] = useState(false);
 
     const open = () => {
         bodyOpenClassName && document.body.classList.add(bodyOpenClassName);
@@ -43,15 +42,11 @@ const Modal = (props: ModalProps) => {
     };
 
     const close = () => {
-        setBeforeClose(true);
-        setTimeout(() => {
-            setBeforeClose(false);
-            setIsOpen(false);
-            bodyOpenClassName && document.body.classList.remove(bodyOpenClassName);
-            if (onAfterClose) {
-                onAfterClose();
-            }
-        }, closeTimeoutMS);
+        setIsOpen(false);
+        bodyOpenClassName && document.body.classList.remove(bodyOpenClassName);
+        if (onAfterClose) {
+            onAfterClose();
+        }
     };
 
     useEffect(() => {
@@ -62,9 +57,7 @@ const Modal = (props: ModalProps) => {
         }
     }, [isOpenProp]);
 
-    const mergedCls = classNames(className, 'modal-content', {
-        [`modal-before-close`]: beforeClose,
-    });
+    const mergedCls = classNames(className, 'modal-content');
 
     const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (shouldCloseOnOverlayClick) {
@@ -90,28 +83,26 @@ const Modal = (props: ModalProps) => {
         }
     };
 
-    if (!isOpen) {
-        return null;
-    }
-
     return createPortal(
-        <div
-            className={classNames('modal-overlay', overlayClassName)}
-            style={overlayStyle}
-            onClick={handleOverlayClick}
-        >
+        <Fade isVisible={isOpen}>
             <div
-                tabIndex={-1}
-                className={mergedCls}
-                style={style}
-                role={role}
-                onKeyDown={handleKeyDown}
-                onClick={handleContentClick}
-                {...othersProps}
+                className={classNames('modal-overlay', overlayClassName)}
+                style={overlayStyle}
+                onClick={handleOverlayClick}
             >
-                {children}
+                <div
+                    tabIndex={-1}
+                    className={mergedCls}
+                    style={style}
+                    role={role}
+                    onKeyDown={handleKeyDown}
+                    onClick={handleContentClick}
+                    {...othersProps}
+                >
+                    {children}
+                </div>
             </div>
-        </div>,
+        </Fade>,
         document.body
     );
 };
