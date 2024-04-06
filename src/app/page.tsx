@@ -16,6 +16,7 @@ import styles from './page.module.css';
 import { useState } from 'react';
 import type { Metadata } from 'next';
 import TextBlock from '@/widgets/TextBlock/TextBlock';
+import Input from '@/components/form/Input';
 
 export const metadata: Metadata = {
     title: 'Моя первая страница',
@@ -25,15 +26,13 @@ export const metadata: Metadata = {
 export default function Home() {
     return (
         <main>
-            <Container>
-                <Icon icon={FaBeer} />
-            </Container>
-
             <TextBlock
+                before={<Icon icon={FaBeer} />}
                 title="Working with small businesses and supporting our local economy"
                 description="We recognize the importance of the American small business community and support buying local whenever possible."
                 after={<Button>Купить</Button>}
             />
+            <Input />
         </main>
     );
 }

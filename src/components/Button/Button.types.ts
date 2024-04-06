@@ -2,12 +2,12 @@ import type React from 'react';
 import { BaseColors } from '@/typings';
 import { IconType } from 'react-icons';
 
-export type ButtonType = 'outlined' | 'filled' | 'dashed' | 'link' | 'text';
+export type ButtonVariant = 'outlined' | 'filled' | 'dashed' | 'link' | 'text';
 export type ButtonShape = 'squre' | 'circle' | 'round';
 export type ButtonHTMLType = 'submit' | 'button' | 'reset';
 
 export interface BaseButtonProps {
-    type?: ButtonType;
+    variant?: ButtonVariant;
     icon?: IconType;
     shape?: ButtonShape;
     disabled?: boolean;

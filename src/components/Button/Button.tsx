@@ -11,7 +11,7 @@ import type { ButtonProps } from './Button.types';
 const Button = (props: ButtonProps) => {
     const {
         loading = false,
-        type = 'filled',
+        variant = 'filled',
         color = 'primary',
         shape = 'squre',
         disabled = false,
@@ -39,7 +39,7 @@ const Button = (props: ButtonProps) => {
         'button',
         `button-${color}`,
         `button-${shape}`,
-        `button-${type}`,
+        `button-${variant}`,
         {
             [`button-disabled`]: disabled,
             [`button-icon-only`]: !children && children !== 0 && !!icon,
