@@ -11,7 +11,7 @@ const Link = ({ rel, ...otherProps }: LinkProps) => {
     // @ts-expect-error: https://github.com/ant-design/ant-design/issues/26622
     delete mergedProps.navigate;
 
-    return <Typography {...otherProps} component="a" />;
+    return <Typography {...mergedProps} component="a" />;
 };
 
 export default Link;

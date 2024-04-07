@@ -18,8 +18,9 @@ import styles from './page.module.css';
 import { useState } from 'react';
 import type { Metadata } from 'next';
 import TextBlock from '@/widgets/TextBlock/TextBlock';
-import Input from '@/components/form/Input';
+import Input from '@/components/form/Field';
 import Modal from '@/components/Modal';
+import InputNumber from '@/components/form/InputNumber';
 
 // export const metadata: Metadata = {
 //     title: 'Моя первая страница',
@@ -40,6 +41,7 @@ export default function Home() {
             <Input />
 
             <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>12321</Modal>
+            <InputNumber />
         </main>
     );
 }

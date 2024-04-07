@@ -1,3 +1,9 @@
 @import '@/styles/abstracts';
 
-.input-number {}
+.input-number {
+    &-min {}
+    &-max {}
+
+    &-decrement {}
+    &-increment {}
+}

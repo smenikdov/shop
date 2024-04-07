@@ -70,8 +70,8 @@ const Modal = (props: ModalProps) => {
     };
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
-        const isTabKey = event.code === 'Tab' || event.keyCode === 9;
-        const isEscKey = event.code === 'Escape' || event.keyCode === 27;
+        const isTabKey = event.keyCode === 9;
+        const isEscKey = event.keyCode === 27;
 
         if (isTabKey) {
             // scopeTab(this.content, event);

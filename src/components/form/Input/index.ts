@@ -1,5 +1,5 @@
 import Input from './Input';
-import type { InputProps, SingleLineInputProps, MultiLineInputProps } from './Input.types';
+import type { InputProps } from './Input.types';
 
-export type { InputProps, SingleLineInputProps, MultiLineInputProps };
+export type { InputProps };
 export default Input;
