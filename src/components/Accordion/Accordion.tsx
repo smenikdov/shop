@@ -43,11 +43,12 @@ const Accordion = (props: AccordionProps) => {
 
     return (
         <div {...otherProps} className={mergedCls} style={style}>
-            {items.map((item) => (
+            {items.map((item, index) => (
                 <AccordionItem
                     {...item}
-                    key={item.name}
-                    isActive={!!controlledValue && controlledValue.includes(item.name)}
+                    key={item.name || index}
+                    name={item.name || index}
+                    isActive={!!controlledValue && controlledValue.includes(item.name || index)}
                     onSelect={handleSelect}
                 />
             ))}

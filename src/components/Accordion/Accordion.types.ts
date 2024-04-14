@@ -5,13 +5,14 @@ export interface AccordionItem {
     header?: string | React.ReactNode;
     className?: string;
     style?: React.CSSProperties;
-    name: string | number;
     disabled?: boolean;
     content?: string | React.ReactNode;
+    name?: string | number;
 }
 
 export interface AccordionItemProps extends AccordionItem {
     isActive: boolean;
+    name: string | number;
     onSelect: (itemName: string | number) => void;
 }
 

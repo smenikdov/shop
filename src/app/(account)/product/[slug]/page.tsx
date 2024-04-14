@@ -20,6 +20,7 @@ import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
 
 import ProductPrice from '@/features/product/components/ProductPrice';
+import ProductAdvantagesList from '@/features/product/components/ProductAdvantagesList';
 
 export const metadata: Metadata = {
     title: 'Моя первая страница',
@@ -27,8 +28,9 @@ export const metadata: Metadata = {
 };
 
 const product = {
-    title: '123',
-    description: 'dsfsfsd',
+    title: 'Cookware Set',
+    description:
+        'This non‑alcoholic herbal tincture is crafted to help you wind down before bedtime. It is a blend of restorative herbs and nervines that have traditionally been known to calm restless minds and relax the central nervous system so you can gently slip into dreamland. Keep it by your bedside so you are always 2 dropperfuls away from a peaceful night of sleep.',
     id: 4325,
     rating: 4.3,
     price: 99.99,
@@ -36,12 +38,18 @@ const product = {
     discount: 20.2,
     advantages: [
         {
-            title: '',
-            description: '',
+            header: 'Size',
+            content: '153mm x 215mm',
         },
         {
-            title: '',
-            description: '',
+            header: 'Paper quality',
+            content:
+                '96 leaves (192 sides) of paper. The inner pages are 100gsm. Its hardback cover is 3mm thick with a 150gsm silk paper finish.',
+        },
+        {
+            header: 'Returns',
+            content:
+                "Due to the personalised nature of these products, we don’t typically accept returns. However, if you're not 100% happy with your order, get in touch within 30 days of your order date and we'll sort it.",
         },
     ],
 };
@@ -66,7 +74,7 @@ export default function Home() {
                             />
                             {/* <ProductAddButton/> */}
                             <Paragraph>{product.description}</Paragraph>
-                            {/* <AdvantagesList advantages={advantages} /> */}
+                            <ProductAdvantagesList advantages={product.advantages} />
                         </div>
                     </Col>
                 </Row>
