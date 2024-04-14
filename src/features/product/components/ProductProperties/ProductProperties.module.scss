@@ -1,0 +1,9 @@
+@import '@/styles/abstracts';
+
+.container {
+    column-count: 1;
+    
+    @include lg() {
+        column-count: 2;
+    }
+}

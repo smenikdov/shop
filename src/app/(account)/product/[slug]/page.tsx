@@ -18,9 +18,12 @@ import TextBlock from '@/widgets/TextBlock/TextBlock';
 import Input from '@/components/form/Field';
 import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
+import Flex from '@/components/Flex';
 
 import ProductPrice from '@/features/product/components/ProductPrice';
 import ProductAdvantagesList from '@/features/product/components/ProductAdvantagesList';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import ProductProperties from '@/features/product/components/ProductProperties';
 
 export const metadata: Metadata = {
     title: 'Моя первая страница',
@@ -52,11 +55,52 @@ const product = {
                 "Due to the personalised nature of these products, we don’t typically accept returns. However, if you're not 100% happy with your order, get in touch within 30 days of your order date and we'll sort it.",
         },
     ],
+    properties: [
+        {
+            name: 'Серия',
+            value: 'UnicornBook. Мега-бестселлеры в мини-формате',
+        },
+        {
+            name: 'ISBN',
+            value: '978-5-04-114126-4',
+        },
+        {
+            name: 'Год выпуска',
+            value: '2023',
+        },
+        {
+            name: 'Автор',
+            value: 'Эриксон Томас',
+        },
+        {
+            name: 'Серия',
+            value: 'UnicornBook. Мега-бестселлеры в мини-формате',
+        },
+        {
+            name: 'ISBN',
+            value: '978-5-04-114126-4',
+        },
+        {
+            name: 'Год выпуска',
+            value: '2023',
+        },
+        {
+            name: 'Автор',
+            value: 'Эриксон Томас',
+        },
+    ],
 };
 
 export default function Home() {
     return (
         <main>
+            <Container>
+                <Flex>
+                    <Breadcrumbs />
+                    <div />
+                </Flex>
+            </Container>
+
             <Container>
                 <Row>
                     <Col md={7}>{/* <ProductImage/> */}</Col>
@@ -80,7 +124,7 @@ export default function Home() {
                 </Row>
             </Container>
 
-            {/* <ProductCharacterisctsi/> */}
+            <ProductProperties properties={product.properties} />
 
             {/* Product */}
         </main>

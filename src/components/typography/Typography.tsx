@@ -5,15 +5,7 @@ import './Typography.scss';
 import { plexSerif, plexSans } from '@/ui/fonts';
 
 function wrapperDecorations(
-    {
-        mark,
-        code,
-        underline,
-        delete: del,
-        bold,
-        keyboard,
-        italic,
-    }: TypographyProps<keyof JSX.IntrinsicElements>,
+    props: TypographyProps<keyof JSX.IntrinsicElements>,
     content: React.ReactNode
 ) {
     let currentContent = content;
@@ -23,13 +15,13 @@ function wrapperDecorations(
         }
         currentContent = React.createElement(tag, {}, currentContent);
     };
-    wrap('b', bold);
-    wrap('u', underline);
-    wrap('del', del);
-    wrap('code', code);
-    wrap('mark', mark);
-    wrap('kbd', keyboard);
-    wrap('i', italic);
+    wrap('b', props.bold);
+    wrap('u', props.underline);
+    wrap('del', props.delete);
+    wrap('code', props.code);
+    wrap('mark', props.mark);
+    wrap('kbd', props.keyboard);
+    wrap('i', props.italic);
     return currentContent;
 }
 
@@ -42,6 +34,15 @@ const Typography = (props: TypographyProps<keyof JSX.IntrinsicElements>) => {
         color,
         align,
         family,
+
+        mark,
+        code,
+        underline,
+        delete: del,
+        bold,
+        keyboard,
+        italic,
+
         ...otherProps
     } = props;
 
