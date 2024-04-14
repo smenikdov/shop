@@ -1,9 +1,40 @@
+interface FormatNumberOptions {
+    prefix?: string;
+    suffix?: string;
+    round?: number;
+    delimiter?: string;
+}
+
 export const randomNumberFromRange = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-export const addSpacesToNumber = (number: number, delimiter: string = ' '): string => {
-    let [numberBeforeDot, numberAfterDot] = number.toString().split('.');
-    numberBeforeDot = numberBeforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, delimiter);
-    return `${numberBeforeDot}.${numberAfterDot}`;
+export const formatNumber = (number: number, options: FormatNumberOptions = {}) => {
+    const output: Array<string> = [];
+    let formatNumber = number.toString();
+    if (options.round) {
+        formatNumber = number.toFixed(options.round);
+    }
+    const isNegative = formatNumber[0] === '-';
+    formatNumber = formatNumber.replace(/^\-/g, '');
+
+    if (isNegative) {
+        output.push('-');
+    }
+    if (options.prefix) {
+        output.push(options.prefix);
+    }
+    let [numberBeforeDot, numberAfterDot] = formatNumber.split('.');
+    numberBeforeDot = numberBeforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, options.delimiter || ' ');
+    output.push(numberBeforeDot);
+    if (numberAfterDot) {
+        output.push('.');
+        output.push(numberAfterDot);
+    }
+
+    if (options.suffix) {
+        output.push(options.suffix);
+    }
+
+    return output.join('');
 };

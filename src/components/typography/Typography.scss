@@ -1,9 +1,24 @@
+@import '@/styles/abstracts';
+
 .typography {
-    &-primary {}
-    &-secondary {}
-    &-success {}
-    &-warning {}
-    &-danger {}
+    &-primary {
+        color: $primary;
+    }
+    &-secondary {
+        color: $secondary;
+    }
+    &-success {
+        color: $success;
+    }
+    &-warning {
+        color: $warning;
+    }
+    &-danger {
+        color: $danger;
+    }
+    &-grey {
+        color: $grey;
+    }
 
     @each $value in ('center', 'left', 'right', 'justify') {
         &-align-#{$value} {

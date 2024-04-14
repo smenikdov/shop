@@ -40,7 +40,9 @@ export default function Home() {
             />
             <Input />
 
-            <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>12321</Modal>
+            <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
+                12321
+            </Modal>
             <InputNumber />
         </main>
     );

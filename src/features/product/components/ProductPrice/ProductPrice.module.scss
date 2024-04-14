@@ -1,0 +1,31 @@
+@import '@/styles/abstracts';
+
+.container {}
+
+.price {
+    font-size: 25px;
+}
+
+.prevprice {
+    position: relative;
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:after {
+        content: '';
+        background-color: currentColor;
+        height: 1px;
+        left: 0;
+        position: absolute;
+        top: calc(50% - 1px);
+        transform: rotate(-2deg);
+        width: 100%;
+        z-index: 0;
+    }
+}
+
+.chip {
+    margin-left: 10px;
+}

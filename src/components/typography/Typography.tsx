@@ -39,7 +39,7 @@ const Typography = (props: TypographyProps<keyof JSX.IntrinsicElements>) => {
         className,
         children,
         style,
-        type,
+        color,
         align,
         family,
         ...otherProps
@@ -48,7 +48,7 @@ const Typography = (props: TypographyProps<keyof JSX.IntrinsicElements>) => {
     const mergedCls = classNames(
         'typography',
         { [`typography-align-${align}`]: align },
-        { [`typography-${type}`]: type },
+        { [`typography-${color}`]: color },
         { [plexSans.className]: family === 'plex-sans' },
         { [plexSerif.className]: family === 'plex-serif' },
         className

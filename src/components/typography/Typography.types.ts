@@ -7,7 +7,7 @@ export interface TypographyProps<C extends keyof JSX.IntrinsicElements>
     className?: string;
     style?: React.CSSProperties;
     children?: React.ReactNode;
-    type?: BaseColors;
+    color?: BaseColors;
     //
     align?: TextAlign;
     family?: FontFamily;
