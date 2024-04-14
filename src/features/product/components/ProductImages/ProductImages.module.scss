@@ -1,0 +1,43 @@
+@import '@/styles/abstracts';
+
+.container {
+    height: 500px;
+}
+
+.list {
+    display: none;
+    margin-right: 10px;
+}
+
+.item {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.selected {
+    border: 1px solid $primary;
+}
+
+.main {
+    position: relative;
+    flex: 1;
+
+    img {
+        object-fit: contain;
+        object-position: center;
+    }
+}
+
+@include xl() {
+    .list {
+        display: block;
+    }
+    .container {
+        height: 650px;
+    }
+    .main {
+        img {
+            object-position: left top;
+        }
+    }
+}
