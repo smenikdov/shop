@@ -19,11 +19,12 @@ import Input from '@/components/form/Field';
 import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
 import Flex from '@/components/Flex';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 import ProductPrice from '@/features/product/components/ProductPrice';
 import ProductAdvantagesList from '@/features/product/components/ProductAdvantagesList';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import ProductProperties from '@/features/product/components/ProductProperties';
+import ProductDescription from '@/features/product/components/ProductDescription';
 
 export const metadata: Metadata = {
     title: 'Моя первая страница',
@@ -32,8 +33,22 @@ export const metadata: Metadata = {
 
 const product = {
     title: 'Cookware Set',
-    description:
+    shortDescription:
         'This non‑alcoholic herbal tincture is crafted to help you wind down before bedtime. It is a blend of restorative herbs and nervines that have traditionally been known to calm restless minds and relax the central nervous system so you can gently slip into dreamland. Keep it by your bedside so you are always 2 dropperfuls away from a peaceful night of sleep.',
+    longDescription: `ФЕНОМЕН ШВЕДСКОГО КНИГОИЗДАНИЯ
+    «Кругом одни идиоты» побили все рекорды шведского книжного рынка!  Они стали одной из немногих скандинавских книг по популярной психологии, которая была переведена на 22 языка и продана общим тиражом 550 000 экземпляров! В течение двух лет книга держится в Топ-5 нехудожественных произведений среди всех скандинавских изданий и не собирается сдавать позиций. 
+    
+    В ЧЕМ СЕКРЕТ УСПЕХА
+    
+    В основе книги лежит несложная методика цветотипирования человеческих характеров. Шведский психолог Томас Эриксон делит всех людей на четыре типа: красный, желтый, зеленый, синий — и очень увлекательно, на узнаваемых примерах описывает логику поведения, темперамент, систему ценностей представителей каждого типа. Казалось бы, ничего нового. Подобный подход использовался психологами на протяжении десятилетий. Но Томасу Эриксону удалось придумать настолько удобную систему работы с известными инструментами, что сегодня книга «Кругом одни идиоты» лежит на столько каждого шведского руководителя, учителя и журналиста. 
+    
+    ЧЕМУ УЧИТ ЭТА КНИГА
+    
+    Прежде всего тому, как понимать тех, кого понять решительно невозможно — людей с максимально отличным от нашего образом мышления, темпераментом и системой ценностей. Эту книгу можно назвать универсальной отмычкой к личности любого человека. Томас Эриксон помогает не только понять, что происходит в чужой голове и душе, но и позволяет понять, как вас воспринимают окружающие. 
+    
+    ОБ АВТОРЕ
+    
+    Шведский психолог, бизнес-тренер, коуч, специалист по коммуникациям. Автор двух международных бестселлеров «Кругом одни идиоты» и «Кругом одни психопаты».`,
     id: 4325,
     rating: 4.3,
     price: 99.99,
@@ -95,9 +110,11 @@ export default function Home() {
     return (
         <main>
             <Container>
-                <Flex>
+                <Flex justify="space-between">
                     <Breadcrumbs />
-                    <div />
+                    <div>
+                        <Text color="grey">Код товара: {product.id}</Text>
+                    </div>
                 </Flex>
             </Container>
 
@@ -117,14 +134,17 @@ export default function Home() {
                                 discount={product.discount}
                             />
                             {/* <ProductAddButton/> */}
-                            <Paragraph>{product.description}</Paragraph>
+                            <Paragraph>{product.shortDescription}</Paragraph>
                             <ProductAdvantagesList advantages={product.advantages} />
                         </div>
                     </Col>
                 </Row>
             </Container>
 
-            <ProductProperties properties={product.properties} />
+            {product.longDescription && (
+                <ProductDescription description={product.longDescription} />
+            )}
+            {product.properties.length > 0 && <ProductProperties properties={product.properties} />}
 
             {/* Product */}
         </main>
