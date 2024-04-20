@@ -1,2 +1,2 @@
-import Divider from './Badge';
-export default Divider;
+import Badge from './Badge';
+export default Badge;

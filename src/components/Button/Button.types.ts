@@ -1,6 +1,5 @@
 import type React from 'react';
 import { BaseColors } from '@/typings';
-import { IconType } from 'react-icons';
 
 export type ButtonVariant = 'outlined' | 'filled' | 'dashed' | 'link' | 'text';
 export type ButtonShape = 'squre' | 'circle' | 'round';
@@ -8,7 +7,7 @@ export type ButtonHTMLType = 'submit' | 'button' | 'reset';
 
 export interface BaseButtonProps {
     variant?: ButtonVariant;
-    icon?: IconType;
+    icon?: React.ReactNode;
     shape?: ButtonShape;
     disabled?: boolean;
     loading?: boolean;

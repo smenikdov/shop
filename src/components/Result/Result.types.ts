@@ -1,9 +1,8 @@
 import type React from 'react';
 import { BaseColors } from '@/typings';
-import { IconType } from 'react-icons';
 
 export interface ResultProps {
-    icon?: IconType;
+    icon?: React.ReactNode;
     color?: BaseColors;
     title?: React.ReactNode;
     subTitle?: React.ReactNode;

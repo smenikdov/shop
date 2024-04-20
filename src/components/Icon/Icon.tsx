@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import type { IconProps } from './Icon.types';
 
 const Icon = (props: IconProps) => {
-    const { className, color, style, icon: Component, size } = props;
+    const { className, color, style, icon, size } = props;
 
     const mergedCls = classNames(
         'icon',
@@ -14,7 +14,16 @@ const Icon = (props: IconProps) => {
         className
     );
 
-    return <Component className={mergedCls} style={style} size={size} />;
+    // TODO size={size}
+    const mergedStyle = {
+        ...style,
+    };
+
+    return (
+        <div className={mergedCls} style={mergedStyle}>
+            {icon}
+        </div>
+    );
 };
 
 export default Icon;

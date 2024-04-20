@@ -9,7 +9,7 @@ import type { BreadcrumbsProps, BreadcrumbsItemProps } from './Breadcrumbs.types
 import Link from '@/components/typography/Link';
 import Icon from '@/components/Icon';
 import Flex from '@/components/Flex';
-import { FaHome } from 'react-icons/fa';
+import { MdOutlineHome } from 'react-icons/md';
 
 const BreadcrumbsItem = (props: BreadcrumbsItemProps) => {
     const { style, className, href, label, separator, ...otherProps } = props;
@@ -49,7 +49,7 @@ const Breadcrumbs = (props: BreadcrumbsProps) => {
         crumbs = (
             <React.Fragment>
                 <BreadcrumbsItem
-                    label={<Icon icon={FaHome} />}
+                    label={<Icon icon={<MdOutlineHome />} />}
                     href="/"
                     separator={pathNames.length > 0 && separator}
                 />

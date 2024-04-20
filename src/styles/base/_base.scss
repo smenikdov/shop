@@ -1,8 +1,14 @@
 body {
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
     color: $dark;
     font-size: 18px;
     line-height: 1.5em;
+}
+
+main {
+    flex: 1;
 }
 
 h1 {

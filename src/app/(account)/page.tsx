@@ -13,7 +13,6 @@ import Empty from '@/components/Empty';
 import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/Tooltip';
-import { FaBeer } from 'react-icons/fa';
 import styles from './page.module.css';
 import { useState } from 'react';
 import type { Metadata } from 'next';
@@ -33,7 +32,6 @@ export default function Home() {
     return (
         <main>
             <TextBlock
-                before={<Icon icon={FaBeer} />}
                 title="Working with small businesses and supporting our local economy"
                 description="We recognize the importance of the American small business community and support buying local whenever possible."
                 after={<Button onClick={() => setIsOpenModal(true)}>Купить</Button>}

@@ -1,6 +1,5 @@
-import type { Metadata } from 'next';
 import { plexSans } from '@/ui/fonts';
-import '../styles/index.scss';
+import '@/styles/index.scss';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
