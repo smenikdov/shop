@@ -12,7 +12,17 @@ import Image from '@/components/Image';
 import type { BannerBlockProps } from './BannerBlock.types';
 
 const BannerBlock = (props: BannerBlockProps) => {
-    const { title, children, image, style, className, reverse = false, ...othersProps } = props;
+    const {
+        title,
+        content,
+        image,
+        style,
+        className,
+        reverse = false,
+        before,
+        after,
+        ...othersProps
+    } = props;
 
     const mergedCls = classNames(styles.container, className);
 
@@ -25,9 +35,11 @@ const BannerBlock = (props: BannerBlockProps) => {
                     </Flex>
                 </Col>
                 <Col lg={6}>
-                    <Flex className={styles.content} direction="column" justify="center">
+                    <Flex className={styles.body} direction="column" justify="center">
+                        {before && <div className={styles.before}>{before} </div>}
                         {title && <Title className={styles.title}>{title}</Title>}
-                        {children && <div className={styles.body}>{children}</div>}
+                        {content && <div className={styles.content}>{content}</div>}
+                        {after && <div className={styles.after}>{after}</div>}
                     </Flex>
                 </Col>
             </Row>

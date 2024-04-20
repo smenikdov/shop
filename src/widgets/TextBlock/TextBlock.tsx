@@ -8,7 +8,7 @@ import Flex from '@/components/Flex';
 import type { TextBlockProps } from './TextBlock.types';
 
 const TextBlock = (props: TextBlockProps) => {
-    const { className, title, description, before, after, ...othersProps } = props;
+    const { className, title, content, before, after, ...othersProps } = props;
 
     const mergedCls = classNames(styles.container, className);
 
@@ -22,14 +22,14 @@ const TextBlock = (props: TextBlockProps) => {
                 )}
 
                 {title && (
-                    <Title className={styles.title} align="center">
+                    <Title className={styles.title} align="center" level={2}>
                         {title}
                     </Title>
                 )}
 
-                {description && (
-                    <Paragraph className={styles.description} align="center">
-                        {description}
+                {content && (
+                    <Paragraph className={styles.content} align="center">
+                        {content}
                     </Paragraph>
                 )}
 

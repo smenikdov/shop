@@ -33,7 +33,7 @@ export default function Home() {
         <main>
             <TextBlock
                 title="Working with small businesses and supporting our local economy"
-                description="We recognize the importance of the American small business community and support buying local whenever possible."
+                content="We recognize the importance of the American small business community and support buying local whenever possible."
                 after={<Button onClick={() => setIsOpenModal(true)}>Купить</Button>}
             />
             <Input />

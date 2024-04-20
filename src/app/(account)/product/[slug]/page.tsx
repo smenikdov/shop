@@ -156,10 +156,6 @@ export default function Home() {
                 <ProductDescription description={product.longDescription} />
             )}
             {product.properties.length > 0 && <ProductProperties properties={product.properties} />}
-
-            <BannerBlock title="123123" image={product.images[0]}>
-                213
-            </BannerBlock>
         </main>
     );
 }

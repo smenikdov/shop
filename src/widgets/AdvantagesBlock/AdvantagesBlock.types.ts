@@ -1,17 +1,15 @@
 import type React from 'react';
 
-export interface ImageType {
-    src: string;
-    alt?: string;
+export interface AdvantagesType {
+    content?: React.ReactNode;
+    image?: string;
 }
 
-export interface BannerBlockProps {
+export interface AdvantagesBlockProps {
     title?: React.ReactNode;
-    image: ImageType;
-    content?: React.ReactNode;
     before?: React.ReactNode;
     after?: React.ReactNode;
+    advantages?: Array<AdvantagesType>;
     style?: React.CSSProperties;
     className?: string;
-    reverse?: boolean;
 }
