@@ -1,6 +1,4 @@
 import type React from 'react';
+import type { FlexProps } from '@/components/Flex';
 
-export interface RowProps extends React.HTMLAttributes<HTMLElement> {
-    children: React.ReactNode;
-    component?: keyof JSX.IntrinsicElements;
-}
+export interface RowProps extends FlexProps {}
