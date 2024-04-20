@@ -13,11 +13,12 @@ import Tooltip from '@/components/Tooltip';
 import styles from './page.module.css';
 import type { Metadata } from 'next';
 import TextBlock from '@/widgets/TextBlock/TextBlock';
-import Input from '@/components/form/Field';
+import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
 import Flex from '@/components/Flex';
-import Breadcrumbs from '@/components/Breadcrumbs';
+
+import BannerBlock from '@/widgets/BannerBlock';
 
 export const metadata: Metadata = {
     title: 'Получить скидку',
@@ -26,9 +27,26 @@ export const metadata: Metadata = {
 export default function Contacts() {
     return (
         <main>
-            <Container>
-                <Breadcrumbs />
-            </Container>
+            <BannerBlock
+                image={{
+                    src: 'https://dummyimage.com/800x800/f4eee0/ab7c0d&text=1',
+                }}
+                title="Get 15% Off"
+                before={<Text>NEWSLETTER</Text>}
+                content={
+                    <div>
+                        <ol>
+                            <li>Subscribe below</li>
+                            <li>Receive an email with the 15% off code</li>
+                            <li>Order & enjoy the benefits of plant healing 🌿</li>
+                        </ol>
+                        <Input placeholder="Name" />
+                        <Input placeholder="Email" />
+                        <Button>JOIN</Button>
+                    </div>
+                }
+                reverse
+            />
         </main>
     );
 }

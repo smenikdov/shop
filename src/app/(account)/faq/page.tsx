@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -11,13 +13,12 @@ import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/Tooltip';
 import styles from './page.module.css';
-import type { Metadata } from 'next';
-import TextBlock from '@/widgets/TextBlock/TextBlock';
-import Input from '@/components/form/Field';
+import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
 import Flex from '@/components/Flex';
-import Breadcrumbs from '@/components/Breadcrumbs';
+
+import TextBlock from '@/widgets/TextBlock/TextBlock';
 
 export const metadata: Metadata = {
     title: 'Часто задаваемые вопросы',
@@ -26,9 +27,17 @@ export const metadata: Metadata = {
 export default function Contacts() {
     return (
         <main>
-            <Container>
-                <Breadcrumbs />
-            </Container>
+            <TextBlock
+                title="How can we help you?"
+                content="Search our FAQ and find your answers"
+                after={<Input placeholder="Search" />}
+            />
+
+            <TextBlock
+                title="Still looking for an answer?"
+                content="Shoot our team an email and we’ll get back to you ASAP (definitely within 24 hours)"
+                after={<Button>Send an email</Button>}
+            />
         </main>
     );
 }
