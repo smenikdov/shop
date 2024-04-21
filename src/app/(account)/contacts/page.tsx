@@ -20,6 +20,18 @@ import Flex from '@/components/Flex';
 
 import TextBlock from '@/widgets/TextBlock/TextBlock';
 import AdvantagesBlock from '@/widgets/AdvantagesBlock';
+import FaqBlock from '@/widgets/FaqBlock';
+
+const docsQuestions = [
+    {
+        question: 'Какие сопроводительные документы предоставляются на заказ?',
+        answer: 'После отгрузки заказа со склада на электронный адрес покупателя будут отправлены копии сопроводительных документов: счет-договор, универсальный передаточный документ(УПД) или Акт приема-передачи. Документы также будут доступны в личном кабинете.',
+    },
+    {
+        question: 'Мне нужны оригиналы сопроводительных документов',
+        answer: 'Если вам нужны оригиналы документов, отправьте в свободной форме запрос в нашу техническую поддержку с указанием номера заказа и адреса куда необходимо доставить документы (с индексом).',
+    },
+];
 
 export const metadata: Metadata = {
     title: 'Контакты',
@@ -81,6 +93,8 @@ export default function Contacts() {
                 content="Can’t find what you’re looking for? Our FAQs page may have a quick answer to your question. Otherwise, get in touch below."
                 after={<Button>Go to FAQs page</Button>}
             />
+
+            <FaqBlock title="Документооборот" questions={docsQuestions} />
 
             <Container></Container>
         </main>

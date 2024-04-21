@@ -18,6 +18,7 @@ import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
 import Flex from '@/components/Flex';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import Rating from '@/components/form/Rating';
 
 import ProductPrice from '@/features/product/components/ProductPrice';
 import ProductAdvantagesList from '@/features/product/components/ProductAdvantagesList';
@@ -135,10 +136,10 @@ export default function Home() {
                     <Col xl={5}>
                         <div>
                             <Title level={1}>{product.title}</Title>
-                            {/* <Rating
-                                value={rating}
-                                readonly
-                            /> */}
+                            <Flex>
+                                <Rating rating={product.rating} readonly />
+                                <Text color="grey">({product.rating})</Text>
+                            </Flex>
                             <ProductPrice
                                 price={product.price}
                                 prevPrice={product.prevPrice}
