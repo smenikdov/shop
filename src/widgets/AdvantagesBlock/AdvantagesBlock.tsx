@@ -12,7 +12,7 @@ import type { AdvantagesBlockProps } from './AdvantagesBlock.types';
 import Image from '@/components/Image';
 
 const AdvantagesBlock = (props: AdvantagesBlockProps) => {
-    const { className, title, advantages = [], before, after, ...othersProps } = props;
+    const { className, title, content, advantages = [], before, after, ...othersProps } = props;
 
     const mergedCls = classNames(styles.container, className);
 
@@ -31,6 +31,12 @@ const AdvantagesBlock = (props: AdvantagesBlockProps) => {
                     </Title>
                 )}
 
+                {content && (
+                    <Flex className={styles.content} justify="center">
+                        {content}
+                    </Flex>
+                )}
+
                 <Row>
                     {advantages.map((advantage, index) => (
                         <Col key={index} md={6} lg={3}>
@@ -43,7 +49,7 @@ const AdvantagesBlock = (props: AdvantagesBlockProps) => {
                                 />
                             )}
                             {advantage.content && (
-                                <div className={styles.content}>{advantage.content}</div>
+                                <div className={styles.label}>{advantage.content}</div>
                             )}
                         </Col>
                     ))}
