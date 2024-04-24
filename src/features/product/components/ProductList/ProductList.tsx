@@ -26,9 +26,9 @@ const ProductList = (props: ProductListProps) => {
                     <Col key={product.id} sm={6} md={4} lg={3}>
                         <div className={styles.product}>
                             <Chip></Chip>
-                            <Image src={product.image} alt={product.title} />
+                            <Image src={product.image} alt={product.name} />
                             <Flex justify="space-between">
-                                <Title level={3}>{product.title}</Title>
+                                <Title level={3}>{product.name}</Title>
                                 <div>
                                     <Icon icon={<MdStarRate />} />
                                     <Text>{product.rating}</Text>

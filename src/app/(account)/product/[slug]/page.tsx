@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 const product = {
-    title: 'Cookware Set',
+    name: 'Cookware Set',
     shortDescription:
         'This non‑alcoholic herbal tincture is crafted to help you wind down before bedtime. It is a blend of restorative herbs and nervines that have traditionally been known to calm restless minds and relax the central nervous system so you can gently slip into dreamland. Keep it by your bedside so you are always 2 dropperfuls away from a peaceful night of sleep.',
     longDescription: `ФЕНОМЕН ШВЕДСКОГО КНИГОИЗДАНИЯ
@@ -135,7 +135,7 @@ export default function Home() {
                     </Col>
                     <Col xl={5}>
                         <div>
-                            <Title level={1}>{product.title}</Title>
+                            <Title level={1}>{product.name}</Title>
                             <Flex>
                                 <Rating rating={product.rating} readonly />
                                 <Text color="grey">({product.rating})</Text>
