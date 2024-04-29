@@ -23,7 +23,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import BasketList from '@/features/basket/components/BasketList';
 import BasketTotalResult from '@/features/basket/components/BasketTotalResult';
 
-import { calcTotalResult } from '@/features/basket/utils/total';
+import { basketCalcTotalResult } from '@/features/basket/utils/basketCalcTotalResult';
 
 import styles from './page.module.css';
 
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 };
 
 export default function Basket() {
-    const totalResult = useMemo(() => calcTotalResult(products), [products]);
+    const totalResult = useMemo(() => basketCalcTotalResult(products), [products]);
 
     return (
         <main>

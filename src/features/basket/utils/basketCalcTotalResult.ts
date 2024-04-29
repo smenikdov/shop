@@ -1,7 +1,7 @@
 import type { ProductItem } from '@/typings';
 import type { TotalResult } from '@/features/basket/typings';
 
-export const calcTotalResult = (products: Array<ProductItem>): TotalResult => {
+export const basketCalcTotalResult = (products: Array<ProductItem>): TotalResult => {
     const result: TotalResult = {
         count: products.length,
         subtotal: 0,

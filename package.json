@@ -6,9 +6,15 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "prisma-seed": "npx prisma db seed",
+        "prisma-studio": "npx prisma studio"
+    },
+    "prisma": {
+        "seed": "tsx prisma/seed.ts"
     },
     "dependencies": {
+        "@prisma/client": "^5.13.0",
         "@reduxjs/toolkit": "^2.0.1",
         "classnames": "^2.5.1",
         "eslint-plugin-prettier": "^5.1.2",
@@ -31,7 +37,9 @@
         "eslint-config-next": "14.0.4",
         "eslint-config-prettier": "^9.1.0",
         "node-sass": "^9.0.0",
+        "prisma": "^5.13.0",
         "sass": "^1.71.1",
+        "tsx": "^4.7.3",
         "typescript": "^5"
     }
 }
