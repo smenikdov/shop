@@ -1,7 +1,7 @@
 export interface TotalResult {
-    count: number;
+    quantity: number;
     subtotal: number;
-    postage: number;
+    shipping: number;
     total: number;
-    discountValue: number;
+    discount: number;
 }

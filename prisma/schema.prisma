@@ -1,3 +1,23 @@
+//
+enum OrderStatuses {
+    PREPARATION
+    DELIVERY
+    WAITING
+    RECEIVED
+}
+
+enum UserRole {
+    USER
+    ADMIN
+}
+
+enum UserSex {
+    MALE
+    FEMALE
+}
+
+//  ============================================= GLOBAL =============================================
+
 generator client {
     provider = "prisma-client-js"
 }
@@ -7,60 +27,47 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int     @id @default(autoincrement())
-    title     String
-    content   String?
-    published Boolean @default(false)
-    author    User?   @relation(fields: [authorId], references: [id])
-    authorId  Int?
-}
-
-model Account {
-    id                 Int     @id @default(autoincrement())
-    userId             Int     @map("user_id")
-    type               String
-    provider           String
-    providerAccountId  String  @map("provider_account_id")
-    refresh_token      String?
-    access_token       String?
-    expires_at         Int?
-    token_type         String?
-    scope              String?
-    id_token           String?
-    session_state      String?
-    oauth_token_secret String?
-    oauth_token        String?
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@unique([provider, providerAccountId])
-    @@map("accounts")
-}
+//  ============================================= USERS =============================================
 
 model Session {
-    id           Int      @id @default(autoincrement())
-    sessionToken String   @unique @map("session_token")
-    userId       Int      @map("user_id")
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id              Int      @id @default(autoincrement())
+    accessToken     String   @unique @map("session_token")
+    refreshToken    String   @unique @map("refresh_token")
+    userId          Int      @map("user_id")
+    accessExpiresAt DateTime
+    refreshExpiresAt DateTime
+    // sessionMeta
+    user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@map("sessions")
 }
 
 model User {
-    id            Int       @id @default(autoincrement())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime? @map("email_verified")
-    image         String?
-    createdAt     DateTime  @default(now()) @map(name: "created_at")
-    updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-    posts         Post[]
-    accounts      Account[]
-    sessions      Session[]
+    id        Int       @id @default(autoincrement())
+    name      String?
+    email     String?   @unique
+    phone     String?   @unique
+    firstName String?
+    lastName  String?
+    birthday  DateTime?
+    sex       UserSex?
+    password  String
+
+    sessions Session[]
+    basket   Basket?
+    payments Payment[]
+    orders   Order[]
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "users")
+}
+
+model UserAddress {
+    id Int @id @default(autoincrement())
+
+    @@map(name: "useraddress")
 }
 
 model VerificationToken {
@@ -70,4 +77,104 @@ model VerificationToken {
 
     @@unique([identifier, token])
     @@map("verificationtokens")
+}
+
+//  ============================================= PRODUCTS =============================================
+model ProductCategory {
+    id          Int       @id @default(autoincrement())
+    name        String
+    description String?
+    createdAt   DateTime  @default(now()) @map(name: "created_at")
+    updatedAt   DateTime  @updatedAt @map(name: "updated_at")
+    products    Product[]
+
+    @@map(name: "productcategory")
+}
+
+model Product {
+    id               Int              @id @default(autoincrement())
+    name             String
+    price            Float
+    prevPrice        Float?           @map(name: "prev_price")
+    rating           Float            @default(0)
+    quantity         Int
+    shortDescription String           @map(name: "short_description")
+    longDescription  String?          @map(name: "long_description")
+    images           String[]
+    category         ProductCategory  @relation(fields: [categoryId], references: [id])
+    categoryId       Int              @map(name: "category_id")
+    discount         ProductDiscount? @relation(fields: [discountId], references: [id])
+    discountId       Int?
+    orderItems       OrderItem[]
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    // TODO advantages, properties, призовые очки,
+    @@map(name: "products")
+}
+
+model ProductDiscount {
+    id          Int       @id @default(autoincrement())
+    name        String
+    description String?
+    discount    Float     @default(0)
+    active      Boolean   @default(false)
+    products    Product[]
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "productdiscount")
+}
+
+//  ============================================= ORDER =============================================
+
+model Order {
+    id         Int           @id @default(autoincrement())
+    status     OrderStatuses
+    total      Float
+    orderItems OrderItem[]
+    payment    Payment?
+    userId     Int           @map(name: "user_id")
+    user       User          @relation(fields: [userId], references: [id])
+
+    @@map(name: "orders")
+}
+
+model OrderItem {
+    id        Int     @id @default(autoincrement())
+    quantity  Int     @default(1)
+    productId Int     @map(name: "product_id")
+    product   Product @relation(fields: [productId], references: [id])
+    orderId   Int     @map(name: "order_id")
+    order     Order   @relation(fields: [orderId], references: [id])
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "orderitems")
+}
+
+//  ============================================= BASKET =============================================
+model Basket {
+    id     Int  @id @default(autoincrement())
+    userId Int  @unique() @map(name: "user_id")
+    user   User @relation(fields: [userId], references: [id])
+    // TODO
+    // items OrderItem[]
+
+    @@map(name: "baskets")
+}
+
+//  ============================================= BASKET =============================================
+model Payment {
+    id      Int   @id @default(autoincrement())
+    userId  Int   @map(name: "user_id")
+    user    User  @relation(fields: [userId], references: [id])
+    order   Order @relation(fields: [orderId], references: [id])
+    orderId Int   @unique() @map(name: "order_id")
+    // TODO 
+
+    @@map(name: "payments")
 }

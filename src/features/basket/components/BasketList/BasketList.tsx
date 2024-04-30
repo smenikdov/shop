@@ -66,8 +66,8 @@ const BasketList = (props: BasketListProps) => {
                     <Col md={2}>
                         {/* <ProductCount
                             id={product.id}
-                            count={product.count}
-                            onChange={(newCount) => (product.count = newCount)}
+                            quantity={product.quantity}
+                            onChange={(newQuantity) => (product.quantity = newQuantity)}
                         /> */}
                     </Col>
                 </Row>

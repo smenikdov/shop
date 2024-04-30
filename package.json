@@ -16,8 +16,10 @@
     "dependencies": {
         "@prisma/client": "^5.13.0",
         "@reduxjs/toolkit": "^2.0.1",
+        "bcrypt": "^5.1.1",
         "classnames": "^2.5.1",
         "eslint-plugin-prettier": "^5.1.2",
+        "jose": "^5.2.4",
         "next": "14.0.4",
         "react": "^18",
         "react-dom": "^18",
@@ -28,6 +30,7 @@
         "winston": "^3.11.0"
     },
     "devDependencies": {
+        "@types/bcrypt": "^5.0.2",
         "@types/node": "^20",
         "@types/node-sass": "^4.11.7",
         "@types/react": "^18",

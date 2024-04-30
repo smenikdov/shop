@@ -1,70 +1,28 @@
-interface IValidResult {
-    isValid: boolean;
-    error?: string;
-}
+import type { ObjectFieldsVlidators } from './typings';
+import { NumberValidator } from './number';
+import { StringValidator } from './string';
+import { ObjectValidator } from './object';
 
-export class Validator {
-    private rules: Array<(value: string) => IValidResult>;
+export const string = () => new StringValidator();
+export const number = () => new NumberValidator();
+export const object = (fields: ObjectFieldsVlidators) => new ObjectValidator(fields);
 
-    constructor() {
-        this.rules = [];
-    }
+export const email = () =>
+    string()
+        .required()
+        .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Неверный адрес электронной почты');
 
-    addRule(validateFunction: (value: string) => boolean, error: string) {
-        this.rules.push((value: string) => {
-            const isValid = validateFunction(value);
-            if (isValid) {
-                return {
-                    isValid: false,
-                    error,
-                };
-            }
-            return {
-                isValid: true,
-            };
-        });
-    }
+export const phone = () =>
+    string()
+        .required()
+        .pattern(/^7\d\d\d\d\d\d\d\d\d\d$/, 'Неверный номер телефона');
 
-    required(error?: string) {
-        const validateFunction = (value: string) => !!value.trim();
-        this.addRule(validateFunction, error || 'Обязательно поле');
-        return this;
-    }
-
-    min(minLength: number, error?: string) {
-        const validateFunction = (value: string) => value.length >= minLength;
-        this.addRule(validateFunction, error || `Минимиальная длинна поля - ${minLength}`);
-        return this;
-    }
-
-    max(maxLength: number, error?: string) {
-        const validateFunction = (value: string) => value.length <= maxLength;
-        this.addRule(validateFunction, error || `Максимальная длинна поля - ${maxLength}`);
-        return this;
-    }
-
-    pattern(reg: RegExp, error?: string) {
-        const validateFunction = (value: string) => reg.test(value);
-        this.addRule(validateFunction, error || 'Неверное значение поля');
-        return this;
-    }
-
-    validate(value: string): IValidResult {
-        for (let rule of this.rules) {
-            const validResult = rule(value);
-            if (!validResult.isValid) {
-                return validResult;
-            }
-        }
-        return {
-            isValid: true,
-        };
-    }
-}
-
-export const EmailValidator = new Validator()
-    .required()
-    .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Неверный адрес электронной почты');
-
+export const password = () =>
+    string()
+        .required()
+        .min(8, 'Минимальный размер пароля - 8 символов')
+        .pattern(/[a-zA-Zа-яА-Я]/, 'Пароль должен содержать хотя бы одну букву')
+        .pattern(/[0-9]/, 'Пароль должен содержать хотя бы одну цифру')
+        .pattern(/^[\s].+$/, 'Пароль не должен содержать пробелов');
 // TODO
 // export const createValidatingSchema = () => {};

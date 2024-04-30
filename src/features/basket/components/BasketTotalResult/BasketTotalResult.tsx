@@ -19,14 +19,14 @@ import Divider from '@/components/Divider';
 import Button from '@/components/Button';
 
 const BasketTotalResult = ({ result }: BasketTotalResultProps) => {
-    const { count, subtotal, postage, total, discountValue } = result;
+    const { quantity, subtotal, shipping, total, discount } = result;
 
     return (
         <div>
             <Title level={2}>Итого</Title>
             <div>
                 <Text color="grey">
-                    {count} {declineWord(count, 'товар', 'товара', 'товаров')}
+                    {quantity} {declineWord(quantity, 'товар', 'товара', 'товаров')}
                 </Text>
             </div>
             <Flex justify="space-between">
@@ -34,14 +34,14 @@ const BasketTotalResult = ({ result }: BasketTotalResultProps) => {
                 <Text bold>{formatNumber(subtotal)}</Text>
             </Flex>
             <Flex justify="space-between">
-                <Text>Postage</Text>
-                <Text bold>{formatNumber(postage)}₽</Text>
+                <Text>Shipping</Text>
+                <Text bold>{formatNumber(shipping)}₽</Text>
             </Flex>
-            {discountValue && (
+            {discount && (
                 <Flex justify="space-between">
                     <Text>Discount</Text>
                     <Text color="danger" bold>
-                        -{formatNumber(discountValue)}₽
+                        -{formatNumber(discount)}₽
                     </Text>
                 </Flex>
             )}
