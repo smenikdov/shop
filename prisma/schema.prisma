@@ -36,7 +36,8 @@ model Session {
     userId          Int      @map("user_id")
     accessExpiresAt DateTime
     refreshExpiresAt DateTime
-    // sessionMeta
+    ip              String?
+    userAgent       String?   @map("user_agent")
     user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@map("sessions")
@@ -52,6 +53,7 @@ model User {
     birthday  DateTime?
     sex       UserSex?
     password  String
+    role      UserRole
 
     sessions Session[]
     basket   Basket?

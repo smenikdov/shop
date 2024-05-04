@@ -1,32 +1,60 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { decrypt } from '@/features/auth/utils/crypto';
-import { cookies } from 'next/headers';
+import { decrypt, encrypt } from '@/features/auth/utils/crypto';
+import { cookies as getCookies } from 'next/headers';
+import { UserRole } from '@prisma/client';
+import { updateSession } from './features/auth/services/authSession';
+import prisma from '@/lib/prisma';
 
-// TODO
-const protectedRoutes = ['/dashboard'];
-const publicRoutes = ['/login'];
+const userRoutes = ['/personal'];
+const adminRoutes = ['/dashboard'];
+const publicRoutes = ['/login', '/registration'];
 
 export default async function middleware(req: NextRequest) {
+    const cookies = getCookies();
+    const accessToken = cookies.get('accessToken')?.value;
+    const accessTokenData = await decrypt(accessToken);
+
     const path = req.nextUrl.pathname;
-    const isProtectedRoute = protectedRoutes.includes(path);
+    const isUserRoute = userRoutes.includes(path);
+    const isAdminRoute = adminRoutes.includes(path);
     const isPublicRoute = publicRoutes.includes(path);
 
-    const cookie = cookies().get('session')?.value;
-    const session = await decrypt(cookie);
-
-    if (isProtectedRoute && !session?.userId) {
-        return NextResponse.redirect(new URL('/login', req.nextUrl));
+    if (!accessTokenData || !accessTokenData.userId) {
+        if (isAdminRoute || isUserRoute) {
+            return NextResponse.redirect(new URL('/login', req.nextUrl));
+        } else {
+            return NextResponse.next();
+        }
     }
 
-    if (isPublicRoute && session?.userId) {
-        return NextResponse.redirect(new URL('/products', req.nextUrl));
+    const userRole = accessTokenData.userRole as UserRole;
+    const userId = Number(accessTokenData.userId);
+    const expiresAt = Number(accessTokenData.expiresAt);
+    const isTokenExpired = expiresAt <= Date.now();
+
+    if (isTokenExpired) {
+        const { isSuccess } = await updateSession();
+        if (!isSuccess) {
+            console.error('Ошибка при обновлении токена');
+            return NextResponse.redirect(new URL('/login', req.nextUrl));
+        }
+    }
+
+    if (isAdminRoute && userRole !== 'ADMIN') {
+        return NextResponse.redirect(new URL('/product', req.nextUrl));
+    }
+
+    if (isUserRoute && userRole !== 'USER') {
+        return NextResponse.redirect(new URL('/dashboard', req.nextUrl));
+    }
+
+    if (isPublicRoute) {
+        return NextResponse.redirect(new URL('/product', req.nextUrl));
     }
 
     return NextResponse.next();
 }
 
-// Routes Middleware should not run on
-// TODO CHECK FOR IT
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+    matcher: [...userRoutes, ...adminRoutes, ...publicRoutes],
 };

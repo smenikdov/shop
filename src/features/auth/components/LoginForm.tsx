@@ -1,3 +1,5 @@
+'use client';
+import { useFormState } from 'react-dom';
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -18,8 +20,10 @@ import Flex from '@/components/Flex';
 import { _authLoginWithEmail } from '@/features/auth/routes';
 
 export default function LoginForm() {
+    const [formState, formAction] = useFormState(_authLoginWithEmail, undefined);
+
     return (
-        <form action={_authLoginWithEmail}>
+        <form action={formAction}>
             <div>
                 <label htmlFor="email">Email</label>
                 <Input id="email" name="email" type="email" placeholder="Email" />

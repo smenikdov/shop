@@ -25,7 +25,7 @@ const BasketList = (props: BasketListProps) => {
         return (
             <div>
                 <Text>Воспользуйтесь поиском, чтобы найти всё, что нужно</Text>
-                <Button href="/products">Начать покупки</Button>
+                <Button href="/product">Начать покупки</Button>
             </div>
         );
     }

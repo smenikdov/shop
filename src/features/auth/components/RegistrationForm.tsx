@@ -1,3 +1,5 @@
+'use client';
+import { useFormState } from 'react-dom';
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -17,9 +19,21 @@ import Flex from '@/components/Flex';
 
 import { _authRegistrationWithEmail } from '@/features/auth/routes';
 
+async function test(_: any, formData: FormData) {
+    console.log(123);
+    const response = await _authRegistrationWithEmail(formData);
+    if (response && response.message) {
+        alert(response.message);
+    }
+    console.log(123, response);
+    return response;
+}
+
 export default function LoginForm() {
+    const [formState, formAction] = useFormState(test, undefined);
+
     return (
-        <form action={_authRegistrationWithEmail}>
+        <form action={formAction}>
             <div>
                 <label htmlFor="email">Email</label>
                 <Input id="email" name="email" placeholder="Email" />

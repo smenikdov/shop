@@ -1,22 +1,23 @@
 import 'server-only';
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+import { cookies as getCookies } from 'next/headers';
 import prisma from '@/lib/prisma';
+import { ServerErrorResponse, Response, SuccessResponse } from '@/utils/actions/responses';
+import { handleError } from '@/utils/actions/errors';
+import { deleteActiveSession } from './authSession';
 
-export async function authLogout() {
-    const refreshToken = cookies().get('refreshToken')?.value;
-    const accessToken = cookies().get('accessToken')?.value;
-
-    // Проверка на наличие токена?
-    const deletedSession = await prisma.session.delete({
-        where: {
-            accessToken,
-            refreshToken,
-        },
-    });
-
-    cookies().delete('refreshToken');
-    cookies().delete('accessToken');
-
-    redirect('/login');
+export async function authLogout(): Promise<Response> {
+    try {
+        const { isSuccess } = await deleteActiveSession();
+        if (isSuccess) {
+            return new SuccessResponse();
+        } else {
+            throw new Error('Ошибка при удалении сессии');
+        }
+    } catch (error) {
+        handleError(error);
+        return new ServerErrorResponse({
+            message: 'Произошла ошибка при выходе',
+        });
+    }
 }

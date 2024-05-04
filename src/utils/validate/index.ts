@@ -23,6 +23,9 @@ export const password = () =>
         .min(8, 'Минимальный размер пароля - 8 символов')
         .pattern(/[a-zA-Zа-яА-Я]/, 'Пароль должен содержать хотя бы одну букву')
         .pattern(/[0-9]/, 'Пароль должен содержать хотя бы одну цифру')
-        .pattern(/^[\s].+$/, 'Пароль не должен содержать пробелов');
+        .addRule({
+            validateFunction: (val: string) => !/\s/.test(val),
+            error: 'Пароль не должен содержать пробелов',
+        });
 // TODO
 // export const createValidatingSchema = () => {};
