@@ -1,0 +1,17 @@
+@import '@/styles/abstracts';
+
+.card {
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    border-radius: 12px;
+    background-color: #fff;
+    position: relative;
+    padding: 20px;
+    transition: 300ms;
+
+    &-clickable {
+        cursor: pointer;
+        &:hover {
+            box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+        }
+    }
+}

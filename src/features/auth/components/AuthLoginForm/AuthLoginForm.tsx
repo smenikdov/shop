@@ -17,16 +17,16 @@ import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 
-import { _authLoginWithEmail } from '@/features/auth/routes';
+import { _authLoginWithPhone } from '@/features/auth/routes';
 
-export default function LoginForm() {
-    const [formState, formAction] = useFormState(_authLoginWithEmail, undefined);
+export default function AuthLoginForm() {
+    const [formState, formAction] = useFormState(_authLoginWithPhone, undefined);
 
     return (
         <form action={formAction}>
             <div>
-                <label htmlFor="email">Email</label>
-                <Input id="email" name="email" type="email" placeholder="Email" />
+                <label htmlFor="phone">Phone</label>
+                <Input id="phone" name="phone" type="phone" placeholder="Phone" />
             </div>
             <div>
                 <label htmlFor="password">Password</label>

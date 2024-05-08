@@ -34,33 +34,3 @@ export async function authRegistrationWithPhone(object: {
         });
     }
 }
-
-export async function authRegistrationWithEmail(object: {
-    email: string;
-    password: string;
-}): Promise<Response> {
-    try {
-        const hashedPassword = await bcrypt.hash(object.password, 10);
-
-        const user = await prisma.user.create({
-            data: {
-                email: object.email,
-                password: hashedPassword,
-                role: 'USER',
-            },
-        });
-
-        const { isSuccess } = await createSession(user.id, user.role);
-        // TODO
-        if (isSuccess) {
-            redirect('/product');
-        } else {
-            redirect('/login');
-        }
-    } catch (error) {
-        handleError(error);
-        return new ServerErrorResponse({
-            message: 'Произошла ошибка при регистрации пользователя',
-        });
-    }
-}
