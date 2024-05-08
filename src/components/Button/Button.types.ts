@@ -15,7 +15,7 @@ export interface BaseButtonProps {
     color?: BaseColors;
     children?: React.ReactNode;
     href?: string;
-    htmlType?: ButtonHTMLType;
+    type?: ButtonHTMLType;
 }
 
 export type ButtonProps = BaseButtonProps &

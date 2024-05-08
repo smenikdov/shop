@@ -4,15 +4,15 @@ import React from 'react';
 import './Checkbox.scss';
 import classNames from 'classnames';
 import CheckboxContext from './Checkbox.context';
+import FormContext from '@/components/form/Form/Form.context';
 import { CheckboxProps } from './Checkbox.types';
 
 const Checkbox = (props: CheckboxProps) => {
     const { className, children, indeterminate = false, style, disabled, ...otherProps } = props;
     const checkboxContext = React.useContext(CheckboxContext);
+    const formContext = React.useContext(FormContext);
 
-    // TODO
-    // const contextDisabled = React.useContext(DisabledContext);
-    const mergedDisabled = checkboxContext?.disabled || disabled;
+    const mergedDisabled = formContext?.disabled || checkboxContext?.disabled || disabled;
 
     const medgedProps = { ...otherProps };
     if (checkboxContext) {

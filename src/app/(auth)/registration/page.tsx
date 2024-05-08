@@ -12,7 +12,7 @@ import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/Tooltip';
 import styles from './page.module.css';
-import Input from '@/components/form/Input';
+import Card from '@/components/Card';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 import type { Metadata } from 'next';
@@ -27,7 +27,11 @@ export default function Registration() {
     return (
         <main>
             <Container>
-                <AuthRegistrationForm />
+                <Flex justify="center">
+                    <Card>
+                        <AuthRegistrationForm />
+                    </Card>
+                </Flex>
             </Container>
         </main>
     );

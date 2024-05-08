@@ -1,0 +1,20 @@
+@import '@/styles/abstracts';
+
+.form-item {
+    &-reuired {
+        .form-item-label {
+            &:before {
+                content: "*";
+                display: inline-block;
+                color: $danger;
+                line-height: 1;
+                margin-right: 5px;
+            }
+        }
+    }
+    &-vertical {}
+    &-horizontal {}
+
+    &-label {}
+    &-control {}
+}

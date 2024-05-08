@@ -18,7 +18,7 @@ const Button = (props: ButtonProps) => {
         className,
         children,
         icon,
-        htmlType = 'button',
+        type = 'button',
         style,
         href,
         ...otherProps
@@ -78,7 +78,7 @@ const Button = (props: ButtonProps) => {
     return (
         <button
             {...otherProps}
-            type={htmlType}
+            type={type}
             className={mergedCls}
             style={style}
             disabled={disabled}

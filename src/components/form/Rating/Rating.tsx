@@ -8,6 +8,7 @@ import { useUncontrolledProp } from 'uncontrollable';
 import Icon from '@/components/Icon';
 import Flex from '@/components/Flex';
 import { MdStarRate, MdStarOutline } from 'react-icons/md';
+import FormContext from '@/components/form/Form/Form.context';
 
 const RatingItem = (props: RatingItemProps) => {
     const { ratingValue, itemValue, hoverValue, ...otherProps } = props;
@@ -47,9 +48,8 @@ const Rating = (props: RatingProps) => {
         ...otherProps
     } = props;
 
-    // TODO
-    // const contextDisabled = React.useContext(DisabledContext);
-    const mergedDisabled = disabled;
+    const formContext = React.useContext(FormContext);
+    const mergedDisabled = formContext?.disabled || disabled;
 
     const mergedCls = classNames(
         'rating',

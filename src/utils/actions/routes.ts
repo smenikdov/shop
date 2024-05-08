@@ -11,9 +11,9 @@ export function createRoute({ schema, handler }: RouteParams) {
     return async function (formData: FormData): Promise<Response> {
         const object = Object.fromEntries(formData.entries());
         if (schema) {
-            const schemaValidation = schema.validate(object);
-            if (!schemaValidation.isValid) {
-                const error = schemaValidation.errors;
+            const validationResult = schema.validate(object);
+            if (!validationResult.isValid) {
+                const error = validationResult.errors;
                 const response = new RequestErrorResponse({
                     message: 'Не валидно',
                     error,

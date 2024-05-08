@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import './Field.scss';
 import classNames from 'classnames';
+import FormContext from '@/components/form/Form/Form.context';
 import { FieldProps } from './Field.types';
 
 const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
@@ -21,9 +22,9 @@ const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
         ...otherProps
     } = props;
 
+    const formContext = React.useContext(FormContext);
     const [focused, setFocused] = useState(false);
-
-    const mergedDisabled = disabled;
+    const mergedDisabled = formContext?.disabled || disabled;
 
     const medgedProps = { ...otherProps };
 

@@ -1,5 +1,4 @@
 'use client';
-import { useFormState } from 'react-dom';
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -16,33 +15,29 @@ import styles from './page.module.css';
 import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
+import Form from '@/components/form/Form';
+import FormItem from '@/components/form/FormItem';
+import Card from '@/components/Card';
+import * as v from '@/utils/validate';
 
 import { _authRegistrationWithPhone } from '@/features/auth/routes';
 
-async function test(_: any, formData: FormData) {
-    console.log(123);
-    const response = await _authRegistrationWithPhone(formData);
-    if (response && response.message) {
-        alert(response.message);
-    }
-    console.log(123, response);
-    return response;
-}
-
 export default function AuthRegistrationForm() {
-    const [formState, formAction] = useFormState(test, undefined);
-
     return (
-        <form action={formAction}>
-            <div>
-                <label htmlFor="phone">Phone</label>
-                <Input id="phone" name="phone" placeholder="Phone" />
-            </div>
-            <div>
-                <label htmlFor="password">Password</label>
-                <Input id="password" name="password" type="password" />
-            </div>
-            <button type="submit">Sign Up</button>
-        </form>
+        <Form
+            action={_authRegistrationWithPhone}
+            schema={v.object({
+                password: v.password(),
+                phone: v.phone(),
+            })}
+        >
+            <FormItem label="Номер телефона">
+                <Input placeholder="+7 (___) __-__" name="phone" />
+            </FormItem>
+            <FormItem label="Пароль">
+                <Input type="password" name="password" />
+            </FormItem>
+            <Button type="submit">Зарегистрироваться</Button>
+        </Form>
     );
 }

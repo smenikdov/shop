@@ -4,15 +4,15 @@ import React from 'react';
 import './Radio.scss';
 import classNames from 'classnames';
 import RadioContext from './Radio.context';
+import FormContext from '@/components/form/Form/Form.context';
 import { RadioProps } from './Radio.types';
 
 const Radio = (props: RadioProps) => {
     const { className, children, style, disabled, ...otherProps } = props;
     const radioContext = React.useContext(RadioContext);
+    const formContext = React.useContext(FormContext);
 
-    // TODO
-    // const contextDisabled = React.useContext(DisabledContext);
-    const mergedDisabled = radioContext?.disabled || disabled;
+    const mergedDisabled = formContext?.disabled || radioContext?.disabled || disabled;
 
     const medgedProps = { ...otherProps };
     if (radioContext) {
