@@ -6,6 +6,7 @@ export type InputVariant = 'outlined' | 'filled' | 'borderless';
 export interface FieldProps<C extends keyof JSX.IntrinsicElements> {
     className?: string;
     disabled?: boolean;
+    readOnly?: boolean;
     color?: BaseColors;
     addonBefore?: React.ReactNode;
     addonAfter?: React.ReactNode;
@@ -14,5 +15,6 @@ export interface FieldProps<C extends keyof JSX.IntrinsicElements> {
     maxLength?: Number;
     onFocus?: (event: React.FocusEvent) => void;
     onBlur?: (event: React.FocusEvent) => void;
+    name?: string;
     component?: C;
 }

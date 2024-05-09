@@ -1,5 +1,4 @@
 'use client';
-import { useFormState } from 'react-dom';
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -12,27 +11,31 @@ import Empty from '@/components/Empty';
 import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/Tooltip';
-import styles from './page.module.css';
 import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
+import Form from '@/components/form/Form';
+import FormItem from '@/components/form/FormItem';
+import * as v from '@/utils/validate';
 
 import { _authLoginWithPhone } from '@/features/auth/routes';
 
 export default function AuthLoginForm() {
-    const [formState, formAction] = useFormState(_authLoginWithPhone, undefined);
-
     return (
-        <form action={formAction}>
-            <div>
-                <label htmlFor="phone">Phone</label>
-                <Input id="phone" name="phone" type="phone" placeholder="Phone" />
-            </div>
-            <div>
-                <label htmlFor="password">Password</label>
-                <Input id="password" name="password" type="password" />
-            </div>
-            <button type="submit">Sign Up</button>
-        </form>
+        <Form
+            action={_authLoginWithPhone}
+            schema={v.object({
+                password: v.password(),
+                phone: v.phone(),
+            })}
+        >
+            <FormItem name="phone" label="Номер телефона">
+                <Input placeholder="+7 (___) __-__" />
+            </FormItem>
+            <FormItem name="password" label="Пароль">
+                <Input type="password" />
+            </FormItem>
+            <Button type="submit">Войти</Button>
+        </Form>
     );
 }

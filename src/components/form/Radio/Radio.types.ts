@@ -7,6 +7,7 @@ export interface BaseRadioProps {
     checked?: boolean;
     style?: React.CSSProperties;
     disabled?: boolean;
+    readOnly?: boolean;
     onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
     value?: RadioValue;
     name?: string;
@@ -21,6 +22,7 @@ export interface RadioGroupContext {
     onChange: (value: RadioValue) => void;
     value: RadioValue | null;
     disabled: boolean;
+    readOnly: boolean;
 }
 
 export interface RadioOption {
@@ -28,6 +30,7 @@ export interface RadioOption {
     value: RadioValue;
     style?: React.CSSProperties;
     disabled?: boolean;
+    readOnly?: boolean;
     onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
@@ -35,6 +38,7 @@ export interface RadioGroupProps {
     className?: string;
     options?: RadioOption[];
     disabled?: boolean;
+    readOnly?: boolean;
     style?: React.CSSProperties;
     name?: string;
     value?: RadioValue | null;

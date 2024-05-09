@@ -7,26 +7,43 @@ export enum HttpStatusCode {
     INTERNAL_SERVER = 500,
 }
 
-export interface Response {
+type ErrorHttpStatusCodes =
+    | HttpStatusCode.BAD_REQUEST
+    | HttpStatusCode.UNAUTHENTICATED
+    | HttpStatusCode.ACCESS_DENIED
+    | HttpStatusCode.NOT_FOUND
+    | HttpStatusCode.INTERNAL_SERVER;
+
+type SuccessHttpStatusCodes = HttpStatusCode.OK;
+
+interface IErrorResponse {
+    error?: any;
     message?: string;
-    statusCode: HttpStatusCode;
-    isSuccess: boolean;
+    statusCode: ErrorHttpStatusCodes;
+    errorCode?: number;
+    isSuccess: false;
+}
+
+interface ISuccessResponse {
+    data?: any;
+    message?: string;
+    statusCode: SuccessHttpStatusCodes;
+    isSuccess: true;
 }
 
 /* ============= Response ============= */
-
-interface ResponsePayload {
+interface BaseResponsePayload {
     message?: string;
     statusCode: HttpStatusCode;
     isSuccess: boolean;
 }
 
-class BaseResponse implements Response {
+class BaseResponse {
     public readonly message?: string;
     public readonly statusCode: HttpStatusCode;
     public readonly isSuccess: boolean;
 
-    constructor({ message, statusCode, isSuccess }: ResponsePayload) {
+    constructor({ message, statusCode, isSuccess }: BaseResponsePayload) {
         this.message = message;
         this.statusCode = statusCode;
         this.isSuccess = isSuccess;
@@ -37,14 +54,16 @@ class BaseResponse implements Response {
 
 interface ErrorResponsePayload {
     message: string;
-    statusCode: HttpStatusCode;
+    statusCode: ErrorHttpStatusCodes;
     errorCode?: number;
     error?: any;
 }
 
-export class ErrorResponse extends BaseResponse {
+export class ErrorResponse extends BaseResponse implements IErrorResponse {
     public readonly errorCode?: number;
     public readonly error?: any;
+    public readonly statusCode!: ErrorHttpStatusCodes;
+    public readonly isSuccess!: false;
 
     constructor({
         message = 'Проищла ошибка',
@@ -52,11 +71,7 @@ export class ErrorResponse extends BaseResponse {
         errorCode,
         error,
     }: ErrorResponsePayload) {
-        super({
-            message,
-            statusCode,
-            isSuccess: false,
-        });
+        super({ message, statusCode, isSuccess: false });
 
         this.errorCode = errorCode;
         this.error = error;
@@ -70,16 +85,13 @@ interface SuccessResponsePaylaod {
     data?: any;
 }
 
-export class SuccessResponse extends BaseResponse {
+export class SuccessResponse extends BaseResponse implements ISuccessResponse {
     public readonly data?: any;
+    public readonly statusCode!: SuccessHttpStatusCodes;
+    public readonly isSuccess!: true;
 
     constructor({ message, data }: SuccessResponsePaylaod = {}) {
-        super({
-            message,
-            statusCode: HttpStatusCode.OK,
-            isSuccess: true,
-        });
-
+        super({ message, statusCode: HttpStatusCode.OK, isSuccess: true });
         this.data = data;
     }
 }
@@ -102,7 +114,7 @@ export class ServerErrorResponse extends ErrorResponse {
 /* ============= RequestErrorResponse ============= */
 
 interface RequestErrorResponsePayload {
-    message: string;
+    message?: string;
     error?: any;
 }
 
@@ -115,3 +127,5 @@ export class RequestErrorResponse extends ErrorResponse {
         });
     }
 }
+
+export type Response = IErrorResponse | ISuccessResponse;

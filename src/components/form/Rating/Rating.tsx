@@ -9,6 +9,7 @@ import Icon from '@/components/Icon';
 import Flex from '@/components/Flex';
 import { MdStarRate, MdStarOutline } from 'react-icons/md';
 import FormContext from '@/components/form/Form/Form.context';
+import FormItemContext from '@/components/form/FormItem/FormItem.context';
 
 const RatingItem = (props: RatingItemProps) => {
     const { ratingValue, itemValue, hoverValue, ...otherProps } = props;
@@ -40,7 +41,7 @@ const Rating = (props: RatingProps) => {
         className,
         style,
         disabled,
-        readonly,
+        readOnly,
         max = 5,
         rating,
         onChange,
@@ -49,13 +50,16 @@ const Rating = (props: RatingProps) => {
     } = props;
 
     const formContext = React.useContext(FormContext);
+    const formItemContext = React.useContext(FormItemContext);
+
     const mergedDisabled = formContext?.disabled || disabled;
+    const mergedReadOnly = formContext?.readOnly || readOnly;
 
     const mergedCls = classNames(
         'rating',
         {
             'rating-disabled': mergedDisabled,
-            'rating-readonly': readonly,
+            'rating-readonly': mergedReadOnly,
         },
         className
     );
@@ -89,7 +93,7 @@ const Rating = (props: RatingProps) => {
                 };
                 const itemValue = index + 1;
 
-                if (!mergedDisabled && !readonly) {
+                if (!mergedDisabled && !mergedReadOnly) {
                     eventListeners.onClick = () => handleClick(itemValue);
                     eventListeners.onMouseEnter = () => handleMouseEnter(itemValue);
                     eventListeners.onMouseLeave = () => handleMouseLeave(itemValue);

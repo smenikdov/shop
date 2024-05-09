@@ -16,6 +16,7 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
         onChange,
         value,
         disabled = false,
+        readOnly = false,
         name,
         ...otherProps
     } = props;
@@ -44,8 +45,9 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
     const context = {
         onChange: toggleOption,
         value: controlledValue,
-        disabled: disabled,
-        name: name,
+        disabled,
+        readOnly,
+        name,
     };
     return (
         <div className={className} style={style} {...otherProps}>

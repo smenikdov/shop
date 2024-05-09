@@ -11,7 +11,6 @@ import Empty from '@/components/Empty';
 import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/Tooltip';
-import styles from './page.module.css';
 import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
@@ -31,11 +30,11 @@ export default function AuthRegistrationForm() {
                 phone: v.phone(),
             })}
         >
-            <FormItem label="Номер телефона">
-                <Input placeholder="+7 (___) __-__" name="phone" />
+            <FormItem name="phone" label="Номер телефона">
+                <Input placeholder="+7 (___) __-__" />
             </FormItem>
-            <FormItem label="Пароль">
-                <Input type="password" name="password" />
+            <FormItem name="password" label="Пароль">
+                <Input type="password" />
             </FormItem>
             <Button type="submit">Зарегистрироваться</Button>
         </Form>

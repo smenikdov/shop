@@ -4,7 +4,7 @@ export interface RatingProps {
     className?: string;
     style?: React.CSSProperties;
     disabled?: boolean;
-    readonly?: boolean;
+    readOnly?: boolean;
     max?: number;
     defaultRating?: number;
     rating?: number;

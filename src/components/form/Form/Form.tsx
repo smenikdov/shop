@@ -3,9 +3,10 @@ import React from 'react';
 import './Form.scss';
 import classNames from 'classnames';
 import { useFormState } from 'react-dom';
-import type { Response } from '@/utils/actions/responses';
+import { RequestErrorResponse, type Response } from '@/utils/actions/responses';
 import type { FormProps } from './Form.types';
 import FormContext from './Form.context';
+import { getCurrentDate } from '@/utils/date';
 
 const Form = (props: FormProps) => {
     const {
@@ -13,33 +14,71 @@ const Form = (props: FormProps) => {
         style,
         children,
         disabled = false,
-        readonly = false,
-        action,
+        readOnly = false,
+        action: propsAction,
         schema,
         ...othersProps
     } = props;
 
-    const handleAction = async (_: any, formData: FormData): Promise<Response> => {
-        const response = await action(formData);
-        console.log('RESPONSE:', response);
-        if (response && response.message) {
-            alert(response.message);
+    const logResponse = (response: Response) => {
+        let logInfo = `%c${getCurrentDate('hh:mm')} | request end with status ${response.statusCode}`;
+        let logStyle = '';
+
+        if (response.isSuccess) {
+            logStyle =
+                'background: #D5FFCA; font-weight: bold; color: black; font-size: 14px; padding: 3px 12px;';
+            console.log(logInfo, logStyle);
+            console.log('DATA', response.data);
+        } else {
+            logStyle =
+                'background: #FFCACA; font-weight: bold; color: black; font-size: 14px; padding: 3px 12px;';
+            console.log(logInfo, logStyle);
+            console.log('ERROR', response.error);
         }
+    };
+
+    const handleAction = async (_: any, formData: FormData): Promise<Response> => {
+        if (schema) {
+            const object = Object.fromEntries(formData.entries());
+            const validationResult = schema.validate(object);
+            if (!validationResult.isValid) {
+                const error = validationResult.errors;
+                const response = new RequestErrorResponse({ error });
+                return response;
+            }
+        }
+
+        const response = await propsAction(formData);
+        logResponse(response);
+
+        if (!response) {
+            return response;
+        }
+
+        if (!response.isSuccess) {
+            if (response.message) {
+                alert(response.message);
+            }
+            if (response.error) {
+                alert(response.error);
+            }
+        } else {
+            if (response.message) {
+                alert(response.message);
+            }
+        }
+
         return response;
     };
 
-    const [formState, formAction] = useFormState(handleAction, undefined);
+    const [response, action] = useFormState(handleAction, undefined);
 
     const mergedCls = classNames(className, 'form');
 
-    const formContext = {
-        disabled: disabled,
-        readonly: readonly,
-        schema: schema,
-    };
+    const formContext = { disabled, readOnly, schema, response };
 
     return (
-        <form className={mergedCls} style={style} action={formAction} {...othersProps}>
+        <form className={mergedCls} style={style} action={action} {...othersProps}>
             <FormContext.Provider value={formContext}>{children}</FormContext.Provider>
         </form>
     );

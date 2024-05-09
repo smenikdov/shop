@@ -7,6 +7,7 @@ export interface BaseCheckboxProps {
     checked?: boolean;
     style?: React.CSSProperties;
     disabled?: boolean;
+    readOnly?: boolean;
     onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
     value?: CheckboxValue;
     name?: string;
@@ -22,6 +23,7 @@ export interface CheckboxGroupContext {
     onChange: (value: CheckboxValue) => void;
     value: Array<CheckboxValue>;
     disabled: boolean;
+    readOnly: boolean;
 }
 
 export interface CheckboxOption {
@@ -29,6 +31,7 @@ export interface CheckboxOption {
     value: CheckboxValue;
     style?: React.CSSProperties;
     disabled?: boolean;
+    readOnly?: boolean;
     onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
@@ -36,6 +39,7 @@ export interface CheckboxGroupProps {
     className?: string;
     options?: CheckboxOption[];
     disabled?: boolean;
+    readOnly?: boolean;
     style?: React.CSSProperties;
     name?: string;
     value?: CheckboxValue[];

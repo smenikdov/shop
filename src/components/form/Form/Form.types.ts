@@ -7,13 +7,14 @@ export interface FormProps extends React.HTMLAttributes<HTMLFormElement> {
     className?: string;
     style?: React.CSSProperties;
     disabled?: boolean;
-    readonly?: boolean;
+    readOnly?: boolean;
     action: (formData: FormData) => Promise<Response>;
     schema?: IObjectValidator;
 }
 
 export interface FormContext {
     schema?: IObjectValidator;
+    response?: Response;
     disabled: boolean;
-    readonly: boolean;
+    readOnly: boolean;
 }

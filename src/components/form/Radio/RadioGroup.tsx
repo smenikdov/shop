@@ -15,6 +15,7 @@ const RadioGroup = (props: RadioGroupProps) => {
         onChange,
         value,
         disabled = false,
+        readOnly = false,
         name,
         ...otherProps
     } = props;
@@ -32,9 +33,11 @@ const RadioGroup = (props: RadioGroupProps) => {
     const radioContext = {
         onChange: onControlledChange,
         value: controlledValue,
-        disabled: disabled,
-        name: name,
+        disabled,
+        readOnly,
+        name,
     };
+
     return (
         <div className={className} style={style} {...otherProps}>
             <RadioContext.Provider value={radioContext}>{childrenNode}</RadioContext.Provider>
