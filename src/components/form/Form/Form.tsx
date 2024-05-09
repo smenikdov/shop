@@ -7,6 +7,7 @@ import { RequestErrorResponse, type Response } from '@/utils/actions/responses';
 import type { FormProps } from './Form.types';
 import FormContext from './Form.context';
 import { getCurrentDate } from '@/utils/date';
+import useNotification from '@/features/notification/hooks/useNotification';
 
 const Form = (props: FormProps) => {
     const {
@@ -19,6 +20,8 @@ const Form = (props: FormProps) => {
         schema,
         ...othersProps
     } = props;
+
+    const { notifyError, notifySuccess } = useNotification();
 
     const logResponse = (response: Response) => {
         let logInfo = `%c${getCurrentDate('hh:mm')} | request end with status ${response.statusCode}`;
@@ -57,14 +60,11 @@ const Form = (props: FormProps) => {
 
         if (!response.isSuccess) {
             if (response.message) {
-                alert(response.message);
-            }
-            if (response.error) {
-                alert(response.error);
+                notifyError(response.message);
             }
         } else {
             if (response.message) {
-                alert(response.message);
+                notifySuccess(response.message);
             }
         }
 

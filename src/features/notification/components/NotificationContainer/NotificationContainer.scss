@@ -1,0 +1,9 @@
+@import '@/styles/abstracts';
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 10px;
+    max-width: 95%;
+    width: 360px;
+}
