@@ -45,9 +45,9 @@ model Session {
 
 model User {
     id        Int       @id @default(autoincrement())
-    name      String?
     email     String?   @unique
     phone     String?   @unique
+    name      String?
     firstName String?
     lastName  String?
     birthday  DateTime?

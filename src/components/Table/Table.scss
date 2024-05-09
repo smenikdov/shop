@@ -1,0 +1,13 @@
+.table {
+    width: 100%;
+
+    &-head {}
+
+    &-body {}
+
+    &-row {}
+    
+    &-cell {
+        text-align: center;
+    }
+}
