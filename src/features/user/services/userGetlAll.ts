@@ -9,7 +9,6 @@ import {
 import { Handler } from '@/utils/actions/routes';
 
 export const userGetAllHandler = new Handler({
-    access: ['ADMIN'], // TODO
     name: 'Получение списка всех пользователей',
     defaultError: 'Ошибка при получении списка всех пользователей',
 

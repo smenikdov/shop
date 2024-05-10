@@ -8,7 +8,6 @@ import Title from '@/components/typography/Title';
 import Link from '@/components/typography/Link';
 import Icon from '@/components/Icon';
 import Empty from '@/components/Empty';
-import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/Tooltip';
 import Input from '@/components/form/Input';

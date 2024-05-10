@@ -9,5 +9,6 @@ export const _userGetAll = createRoute({
     //     password: v.password(),
     //     phone: v.phone(),
     // }),
+    access: ['ADMIN'],
     handler: userGetAllHandler,
 });

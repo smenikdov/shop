@@ -1,5 +1,3 @@
-'use client';
-import { useFormState } from 'react-dom';
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -9,17 +7,20 @@ import Title from '@/components/typography/Title';
 import Link from '@/components/typography/Link';
 import Icon from '@/components/Icon';
 import Empty from '@/components/Empty';
-import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/Tooltip';
-import styles from './page.module.css';
 import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
+import Result from '@/components/Result';
+import { _authGetAllSessions } from '@/features/auth/routes';
 
-export default function AuthRegistrationForm() {
+export default async function AuthSessionsList() {
+    const response = await _authGetAllSessions();
+    if (!response.isSuccess) {
+        return <Result response={response} />;
+    }
+    const sessions = response.data;
 
-    return (
-        123
-    );
+    return JSON.stringify(sessions);
 }

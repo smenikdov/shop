@@ -1,13 +1,16 @@
 import 'server-only';
+import { cookies as getCookies, headers as getHeaders } from 'next/headers';
+import { decrypt } from '@/features/auth/utils/crypto';
 import { IObjectValidator } from '@/utils/validate/typings';
 import { deepClone } from '@/utils/helpers';
 import logger from '@/lib/logger';
+import { UserRole } from '@prisma/client';
 
 import {
     ServerErrorResponse,
     RequestErrorResponse,
     Response,
-    SuccessResponse,
+    AccessDeniedResponse,
 } from '@/utils/actions/responses';
 
 interface HandlerParams<RequestArgs extends any[]> {
@@ -43,13 +46,25 @@ export class Handler<RequestArgs extends any[]> {
 
 interface RouteParams {
     schema?: IObjectValidator;
+    access?: Array<UserRole>;
     handler: {
         execute: (...args: any[]) => Promise<Response>;
     };
 }
 
-export function createRoute({ schema, handler }: RouteParams) {
+export function createRoute({ schema, access, handler }: RouteParams) {
     return async function (formData?: FormData): Promise<Response> {
+        const cookies = getCookies();
+        const accessToken = cookies.get('accessToken')?.value;
+        const accessTokenData = await decrypt(accessToken);
+
+        if (access) {
+            const userRole = accessTokenData?.userRole as UserRole | undefined;
+            if (!userRole || !access.includes(userRole)) {
+                return new AccessDeniedResponse();
+            }
+        }
+
         if (!formData) {
             const response = await handler.execute();
             return deepClone(response);

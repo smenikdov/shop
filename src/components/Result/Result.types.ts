@@ -1,12 +1,8 @@
 import type React from 'react';
-import { BaseColors } from '@/typings';
+import type { Response } from '@/utils/actions/responses';
 
 export interface ResultProps {
-    icon?: React.ReactNode;
-    color?: BaseColors;
-    title?: React.ReactNode;
-    subTitle?: React.ReactNode;
+    response: Response;
     className?: string;
     style?: React.CSSProperties;
-    children?: React.ReactNode;
 }

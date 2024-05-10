@@ -8,7 +8,6 @@ import Title from '@/components/typography/Title';
 import Link from '@/components/typography/Link';
 import Icon from '@/components/Icon';
 import Empty from '@/components/Empty';
-import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/Tooltip';
 import styles from './page.module.css';
@@ -18,6 +17,7 @@ import Flex from '@/components/Flex';
 import Table from '@/components/Table';
 import { formatPhoneNumber } from '@/utils/text';
 import { _userGetAll } from '../../routes';
+import Result from '@/components/Result';
 
 const columns = [
     {
@@ -44,7 +44,7 @@ const columns = [
 export default async function UsersList() {
     const response = await _userGetAll();
     if (!response.isSuccess) {
-        throw new Error();
+        return <Result response={response} />;
     }
     const users = response.data;
 

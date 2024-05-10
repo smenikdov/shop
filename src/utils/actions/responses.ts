@@ -1,7 +1,6 @@
 export enum HttpStatusCode {
     OK = 200,
     BAD_REQUEST = 400,
-    UNAUTHENTICATED = 401,
     ACCESS_DENIED = 403,
     NOT_FOUND = 404,
     INTERNAL_SERVER = 500,
@@ -9,7 +8,6 @@ export enum HttpStatusCode {
 
 type ErrorHttpStatusCodes =
     | HttpStatusCode.BAD_REQUEST
-    | HttpStatusCode.UNAUTHENTICATED
     | HttpStatusCode.ACCESS_DENIED
     | HttpStatusCode.NOT_FOUND
     | HttpStatusCode.INTERNAL_SERVER;
@@ -123,6 +121,23 @@ export class RequestErrorResponse extends ErrorResponse {
         super({
             message,
             statusCode: HttpStatusCode.BAD_REQUEST,
+            error,
+        });
+    }
+}
+
+/* ============= AccessDeniedResponse ============= */
+
+interface AccessDeniedResponsePayload {
+    message?: string;
+    error?: any;
+}
+
+export class AccessDeniedResponse extends ErrorResponse {
+    constructor({ message = 'Нет доступа', error }: AccessDeniedResponsePayload = {}) {
+        super({
+            message,
+            statusCode: HttpStatusCode.ACCESS_DENIED,
             error,
         });
     }

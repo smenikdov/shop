@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 const seed = async (prisma: PrismaClient) => {
     console.log('Start user seeding');
-    const hashedPassword = await bcrypt.hash('1234', 10);
+    const hashedPassword = await bcrypt.hash('1234qwer', 10);
 
     const users: Prisma.UserCreateInput[] = [
         {

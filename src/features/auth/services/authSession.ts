@@ -104,3 +104,17 @@ export const authDeleteAllSessionsHandler = new Handler({
         return new SuccessResponse();
     },
 });
+
+export const authGetAllSessionsHandler = new Handler({
+    name: 'Получение всех сессий пользователя',
+    defaultError: 'Ошибка при получении сессий пользователя',
+
+    async request(userId: number) {
+        const sessions = await prisma.session.findMany({
+            where: {
+                userId,
+            },
+        });
+        return new SuccessResponse({ data: sessions });
+    },
+});
