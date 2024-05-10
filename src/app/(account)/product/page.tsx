@@ -27,7 +27,6 @@ export const metadata: Metadata = {
 };
 export default async function Product() {
     const response = await productGetAll();
-    console.log(1234, response);
 
     return (
         <main>

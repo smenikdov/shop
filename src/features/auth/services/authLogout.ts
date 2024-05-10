@@ -3,21 +3,19 @@ import { redirect } from 'next/navigation';
 import { cookies as getCookies } from 'next/headers';
 import prisma from '@/lib/prisma';
 import { ServerErrorResponse, Response, SuccessResponse } from '@/utils/actions/responses';
-import { handleError } from '@/utils/actions/errors';
-import { deleteActiveSession } from './authSession';
+import { Handler } from '@/utils/actions/routes';
+import { authDeleteActiveSessionHandler } from './authSession';
 
-export async function authLogout(): Promise<Response> {
-    try {
-        const { isSuccess } = await deleteActiveSession();
+export const authLogoutHandler = new Handler({
+    name: 'Выход из аккаунта',
+    defaultError: 'Произошла ошибка при выходе из аккаунта',
+
+    async request() {
+        const { isSuccess } = await authDeleteActiveSessionHandler.execute();
         if (isSuccess) {
             return new SuccessResponse();
         } else {
             throw new Error('Ошибка при удалении сессии');
         }
-    } catch (error) {
-        handleError(error);
-        return new ServerErrorResponse({
-            message: 'Произошла ошибка при выходе',
-        });
-    }
-}
+    },
+});

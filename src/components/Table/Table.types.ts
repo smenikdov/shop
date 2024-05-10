@@ -4,7 +4,7 @@ import type { AnyObject } from '@/typings';
 export interface TableColumn<DataType extends AnyObject = AnyObject> {
     title: React.ReactNode;
     name: string;
-    render?: (value: any) => React.ReactNode;
+    render?: (value: any, data: DataType) => React.ReactNode;
 }
 
 export interface TableProps<DataType extends AnyObject = AnyObject>

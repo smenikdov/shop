@@ -1,8 +1,8 @@
 'use server';
 import 'server-only';
-import { authLoginWithPhone } from '@/features/auth/services/authLogin';
-import { authRegistrationWithPhone } from '@/features/auth/services/authRegistration';
-import { authLogout } from '@/features/auth/services/authLogout';
+import { authLoginWithPhoneHandler } from '@/features/auth/services/authLogin';
+import { authRegistrationWithPhoneHandler } from '@/features/auth/services/authRegistration';
+import { authLogoutHandler } from '@/features/auth/services/authLogout';
 import { createRoute } from '@/utils/actions/routes';
 import * as v from '@/utils/validate';
 
@@ -11,7 +11,7 @@ export const _authLoginWithPhone = createRoute({
         password: v.password(),
         phone: v.phone(),
     }),
-    handler: authLoginWithPhone,
+    handler: authLoginWithPhoneHandler,
 });
 
 export const _authRegistrationWithPhone = createRoute({
@@ -19,9 +19,9 @@ export const _authRegistrationWithPhone = createRoute({
         password: v.password(),
         phone: v.phone(),
     }),
-    handler: authRegistrationWithPhone,
+    handler: authRegistrationWithPhoneHandler,
 });
 
 export const _authLogout = createRoute({
-    handler: authLogout,
+    handler: authLogoutHandler,
 });

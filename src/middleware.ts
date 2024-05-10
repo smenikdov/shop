@@ -2,12 +2,60 @@ import { NextRequest, NextResponse } from 'next/server';
 import { decrypt, encrypt } from '@/features/auth/utils/crypto';
 import { cookies as getCookies } from 'next/headers';
 import { UserRole } from '@prisma/client';
-import { updateSession } from './features/auth/services/authSession';
 import prisma from '@/lib/prisma';
 
 const userRoutes = ['/personal'];
 const adminRoutes = ['/dashboard'];
 const publicRoutes = ['/login', '/registration'];
+
+const ttlAccess = Number(process.env.TTL_ACCESS);
+
+async function updateSession(): Promise<{ isSuccess: boolean }> {
+    const cookies = getCookies();
+
+    try {
+        const refreshToken = cookies.get('refreshToken')?.value;
+        const accessToken = cookies.get('accessToken')?.value;
+        const accessTokenData = await decrypt(accessToken);
+
+        if (!accessTokenData) {
+            throw new Error('Попытка обновления токена без авторизации');
+        }
+
+        const accessExpiresAt = new Date(Date.now() + ttlAccess * 1000);
+        const newAccessTokenData = {
+            userId: Number(accessTokenData.userId),
+            userRole: accessTokenData.userRole as UserRole,
+            expiresAt: accessExpiresAt,
+        };
+        const newAccessToken = await encrypt(newAccessTokenData);
+
+        const updatedSession = await prisma.session.update({
+            where: {
+                refreshToken,
+                accessToken,
+            },
+            data: {
+                accessToken: newAccessToken,
+            },
+        });
+
+        cookies.set('accessToken', newAccessToken, {
+            httpOnly: true,
+            secure: true,
+            expires: accessExpiresAt,
+            sameSite: 'lax',
+            path: '/',
+        });
+        return { isSuccess: true };
+    } catch (error) {
+        console.error('Произошла ошибка обновлении сессии');
+        console.error(error);
+        cookies.delete('refreshToken');
+        cookies.delete('accessToken');
+        return { isSuccess: false };
+    }
+}
 
 export default async function middleware(req: NextRequest) {
     const cookies = getCookies();

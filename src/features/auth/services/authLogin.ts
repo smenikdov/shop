@@ -2,20 +2,20 @@ import 'server-only';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcrypt';
 import { redirect } from 'next/navigation';
-import { createSession } from '@/features/auth/services/authSession';
+import { authCreateSessionHandler } from '@/features/auth/services/authSession';
 import {
     ServerErrorResponse,
     RequestErrorResponse,
     Response,
     SuccessResponse,
 } from '@/utils/actions/responses';
-import { handleError } from '@/utils/actions/errors';
+import { Handler } from '@/utils/actions/routes';
 
-export async function authLoginWithPhone(object: {
-    phone: string;
-    password: string;
-}): Promise<Response> {
-    try {
+export const authLoginWithPhoneHandler = new Handler({
+    name: 'Вход по номеру телефона',
+    defaultError: 'Произошла ошибка при входе по номеру телефона',
+
+    async request(object: { phone: string; password: string }) {
         const user = await prisma.user.findUnique({
             where: { phone: object.phone },
         });
@@ -26,16 +26,11 @@ export async function authLoginWithPhone(object: {
             });
         }
 
-        const { isSuccess } = await createSession(user.id, user.role);
+        const { isSuccess } = await authCreateSessionHandler.execute(user.id, user.role);
         if (isSuccess) {
             return new SuccessResponse();
         } else {
             throw new Error('Ошибка при создании сессии');
         }
-    } catch (error) {
-        handleError(error);
-        return new ServerErrorResponse({
-            message: 'Произошла ошибка при входе',
-        });
-    }
-}
+    },
+});

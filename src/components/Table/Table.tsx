@@ -30,7 +30,7 @@ const TableBody = (props: TableBodyProps) => {
                     {columns.map((column, columnIndex) => (
                         <td key={column.name} className="table-cell">
                             {column.render
-                                ? column.render(data[column.name])
+                                ? column.render(data[column.name], data)
                                 : data[column.name] || '—'}
                         </td>
                     ))}

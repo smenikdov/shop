@@ -3,15 +3,22 @@ import prisma from '@/lib/prisma';
 import { cookies as getCookies, headers as getHeaders } from 'next/headers';
 import { decrypt, encrypt, generateRefreshToken } from '@/features/auth/utils/crypto';
 import type { UserRole } from '@prisma/client';
+import {
+    ServerErrorResponse,
+    RequestErrorResponse,
+    Response,
+    SuccessResponse,
+} from '@/utils/actions/responses';
+import { Handler } from '@/utils/actions/routes';
 
 const ttlAccess = Number(process.env.TTL_ACCESS);
 const ttlRefresh = Number(process.env.TTL_REFRESH);
 
-export async function createSession(
-    userId: number,
-    userRole: UserRole
-): Promise<{ isSuccess: boolean }> {
-    try {
+export const authCreateSessionHandler = new Handler({
+    name: 'Создание сессии',
+    defaultError: 'Ошибка при создании сессии',
+
+    async request(userId: number, userRole: UserRole) {
         const headers = getHeaders();
         const cookies = getCookies();
         // TODO проверка на максимальное количество сессий
@@ -60,61 +67,15 @@ export async function createSession(
             sameSite: 'lax',
             path: '/',
         });
-        return { isSuccess: true };
-    } catch (error) {
-        console.error('Произошла ошибка создании сессии');
-        console.error(error);
-        return { isSuccess: false };
-    }
-}
+        return new SuccessResponse();
+    },
+});
 
-export async function updateSession(): Promise<{ isSuccess: boolean }> {
-    try {
-        const cookies = getCookies();
-        const refreshToken = cookies.get('refreshToken')?.value;
-        const accessToken = cookies.get('accessToken')?.value;
-        const accessTokenData = await decrypt(accessToken);
+export const authDeleteActiveSessionHandler = new Handler({
+    name: 'Удаление сессии',
+    defaultError: 'Ошибка при удалении сессии',
 
-        if (!accessTokenData) {
-            throw new Error('Попытка обновления токена без авторизации');
-        }
-
-        const accessExpiresAt = new Date(Date.now() + ttlAccess * 1000);
-        const newAccessTokenData = {
-            userId: Number(accessTokenData.userId),
-            userRole: accessTokenData.userRole as UserRole,
-            expiresAt: accessExpiresAt,
-        };
-        const newAccessToken = await encrypt(newAccessTokenData);
-
-        const updatedSession = await prisma.session.update({
-            where: {
-                refreshToken,
-                accessToken,
-            },
-            data: {
-                accessToken: newAccessToken,
-            },
-        });
-
-        cookies.set('accessToken', newAccessToken, {
-            httpOnly: true,
-            secure: true,
-            expires: accessExpiresAt,
-            sameSite: 'lax',
-            path: '/',
-        });
-        return { isSuccess: true };
-    } catch (error) {
-        console.error('Произошла ошибка обновлении сессии');
-        console.error(error);
-        await deleteActiveSession();
-        return { isSuccess: false };
-    }
-}
-
-export async function deleteActiveSession(): Promise<{ isSuccess: boolean }> {
-    try {
+    async request() {
         const cookies = getCookies();
         const refreshToken = cookies.get('refreshToken')?.value;
         const accessToken = cookies.get('accessToken')?.value;
@@ -126,25 +87,20 @@ export async function deleteActiveSession(): Promise<{ isSuccess: boolean }> {
         });
         cookies.delete('refreshToken');
         cookies.delete('accessToken');
-        return { isSuccess: true };
-    } catch (error) {
-        console.error('Произошла ошибка при удалении активной сессии');
-        console.error(error);
-        return { isSuccess: false };
-    }
-}
+        return new SuccessResponse();
+    },
+});
 
-export async function deleteAllSessions(userId: number): Promise<{ isSuccess: boolean }> {
-    try {
+export const authDeleteAllSessionsHandler = new Handler({
+    name: 'Удаление всех сессий пользователя',
+    defaultError: 'Ошибка при удалении сессий пользователя',
+
+    async request(userId: number) {
         const deletedSessions = await prisma.session.deleteMany({
             where: {
                 userId,
             },
         });
-        return { isSuccess: true };
-    } catch (error) {
-        console.error('Ошибка при удалении сессий');
-        console.error(error);
-        return { isSuccess: false };
-    }
-}
+        return new SuccessResponse();
+    },
+});

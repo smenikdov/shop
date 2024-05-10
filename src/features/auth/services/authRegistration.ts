@@ -2,17 +2,16 @@ import 'server-only';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcrypt';
 import { redirect } from 'next/navigation';
-import { createSession } from '@/features/auth/services/authSession';
+import { authCreateSessionHandler } from '@/features/auth/services/authSession';
 import { ServerErrorResponse, RequestErrorResponse, Response } from '@/utils/actions/responses';
-import { handleError } from '@/utils/actions/errors';
+import { Handler } from '@/utils/actions/routes';
 
-export async function authRegistrationWithPhone(object: {
-    phone: string;
-    password: string;
-}): Promise<Response> {
-    try {
+export const authRegistrationWithPhoneHandler = new Handler({
+    name: 'Регистрация по номеру телефона',
+    defaultError: 'Произошла ошибка при регистрации пользователя',
+
+    async request(object: { phone: string; password: string }) {
         const hashedPassword = await bcrypt.hash(object.password, 10);
-
         const user = await prisma.user.create({
             data: {
                 phone: object.phone,
@@ -20,17 +19,12 @@ export async function authRegistrationWithPhone(object: {
                 role: 'USER',
             },
         });
-        const { isSuccess } = await createSession(user.id, user.role);
+        const { isSuccess } = await authCreateSessionHandler.execute(user.id, user.role);
         // TODO
         if (isSuccess) {
             redirect('/product');
         } else {
             redirect('/login');
         }
-    } catch (error) {
-        handleError(error);
-        return new ServerErrorResponse({
-            message: 'Произошла ошибка при регистрации пользователя',
-        });
-    }
-}
+    },
+});
