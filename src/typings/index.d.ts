@@ -3,13 +3,3 @@ export type BaseColors = 'primary' | 'secondary' | 'success' | 'warning' | 'dang
 export type FontFamily = 'plex-serif' | 'plex-sans';
 
 export type AnyObject = Record<PropertyKey, any>;
-
-export interface ProductItem {
-    id: number;
-    name: string;
-    price: number;
-    prevPrice: number;
-    discount: number;
-    image: string;
-    rating: number;
-}

@@ -17,9 +17,9 @@ export const userGetAllHandler = new Handler({
         const users = await prisma.user.findMany({
             select: {
                 id: true,
-                name: true,
-                firstName: true,
                 lastName: true,
+                firstName: true,
+                patronymic: true,
                 email: true,
                 phone: true,
             },
@@ -29,7 +29,7 @@ export const userGetAllHandler = new Handler({
             id: user.id,
             email: user.email,
             phone: user.phone,
-            fio: [user.name, user.lastName, user.firstName].join(' ').trim(),
+            fio: [user.lastName, user.firstName, user.patronymic].join(' ').trim(),
         }));
 
         return new SuccessResponse({ data: formatUsers });

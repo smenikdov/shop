@@ -1,4 +1,4 @@
-import type { ProductItem } from '@/typings';
+import type { ProductItem } from '@/features/product/typings';
 import type { TotalResult } from '@/features/basket/typings';
 
 export const basketCalcTotalResult = (products: Array<ProductItem>): TotalResult => {

@@ -26,7 +26,12 @@ const ProductList = (props: ProductListProps) => {
                     <Col key={product.id} sm={6} md={4} lg={3}>
                         <div className={styles.product}>
                             <Chip></Chip>
-                            <Image src={product.image} alt={product.name} />
+                            <Image
+                                src={product.images[0]}
+                                alt={product.name}
+                                width={200}
+                                height={200}
+                            />
                             <Flex justify="space-between">
                                 <Title level={3}>{product.name}</Title>
                                 <div>
@@ -34,11 +39,7 @@ const ProductList = (props: ProductListProps) => {
                                     <Text>{product.rating}</Text>
                                 </div>
                             </Flex>
-                            <ProductPrice
-                                price={product.price}
-                                prevPrice={product.prevPrice}
-                                discount={product.discount}
-                            />
+                            <ProductPrice price={product.price} offer={product.offer} />
                         </div>
                     </Col>
                 ))}

@@ -37,7 +37,7 @@ const BasketList = (props: BasketListProps) => {
                     <Col md={7}>
                         <Flex wrap="nowrap">
                             <Image
-                                src={product.image}
+                                src={product.images[0]}
                                 alt={product.name}
                                 width={100}
                                 height={100}
@@ -57,11 +57,7 @@ const BasketList = (props: BasketListProps) => {
                         </Flex>
                     </Col>
                     <Col md={3}>
-                        <ProductPrice
-                            price={product.price}
-                            prevPrice={product.prevPrice}
-                            discount={product.discount}
-                        />
+                        <ProductPrice price={product.price} offer={product.offer} />
                     </Col>
                     <Col md={2}>
                         {/* <ProductCount

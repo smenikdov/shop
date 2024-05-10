@@ -32,9 +32,8 @@ const products = [
         id: 1,
         name: 'Мистическое яйцо динозавра',
         price: 999,
-        prevPrice: 1320,
         discount: 20,
-        image: 'https://dummyimage.com/800x800/f4eee0/ab7c0d&text=1',
+        images: ['https://dummyimage.com/800x800/f4eee0/ab7c0d&text=1'],
         rating: 4.8,
     },
 ];

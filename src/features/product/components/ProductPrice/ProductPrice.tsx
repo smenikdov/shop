@@ -4,23 +4,32 @@ import Text from '@/components/typography/Text';
 import Chip from '@/components/Chip';
 import styles from './ProductPrice.module.scss';
 import { formatNumber } from '@/utils/number';
+import { getProductPrice } from '@/features/product/utils';
 
 import type { ProductPriceProps } from './ProductPrice.types';
 
 const ProductPrice = (props: ProductPriceProps) => {
-    const { price, prevPrice, discount } = props;
+    const { price, offer } = props;
 
     return (
         <div>
-            <Flex className={styles.container} align="center">
-                <Text className={styles.price} color="primary" bold>
-                    {formatNumber(price)}₽
-                </Text>
-                <Text className={styles.prevprice} color="grey">
-                    {formatNumber(prevPrice)}₽
-                </Text>
-                <Chip className={styles.chip}>Скидка {formatNumber(discount)}%</Chip>
-            </Flex>
+            {offer ? (
+                <Flex className={styles.container} align="center">
+                    <Text className={styles.price} color="primary" bold>
+                        {formatNumber(getProductPrice({ price, discount: offer.discount }))}₽
+                    </Text>
+                    <Text className={styles.prevprice} color="grey">
+                        {formatNumber(price)}₽
+                    </Text>
+                    <Chip className={styles.chip}>Скидка {formatNumber(offer.discount)}%</Chip>
+                </Flex>
+            ) : (
+                <Flex className={styles.container} align="center">
+                    <Text className={styles.price} color="primary" bold>
+                        {formatNumber(price)}₽
+                    </Text>
+                </Flex>
+            )}
         </div>
     );
 };

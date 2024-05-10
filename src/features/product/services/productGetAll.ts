@@ -6,26 +6,32 @@ import {
     Response,
     SuccessResponse,
 } from '@/utils/actions/responses';
-import { handleError } from '@/utils/actions/errors';
+import { Handler } from '@/utils/actions/routes';
 
-export const productGetAll = async (): Promise<Response> => {
-    try {
+export const productGetAllHandler = new Handler({
+    name: 'Получение списка товаров',
+    defaultError: 'Ошибка при получении списка товаров',
+
+    async request() {
         const products = await prisma.product.findMany({
             select: {
                 id: true,
                 name: true,
                 price: true,
-                prevPrice: true,
-                discount: true,
+                offer: {
+                    select: {
+                        id: true,
+                        discount: true,
+                    },
+                    where: {
+                        active: true,
+                    },
+                },
                 images: true,
                 rating: true,
             },
         });
-        return new SuccessResponse({
-            data: products,
-        });
-    } catch (error) {
-        handleError(error);
-        return new ServerErrorResponse({ message: 'Ошибка при получении списка проектов' });
-    }
-};
+
+        return new SuccessResponse({ data: products });
+    },
+});

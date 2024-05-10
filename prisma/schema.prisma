@@ -44,16 +44,16 @@ model Session {
 }
 
 model User {
-    id        Int       @id @default(autoincrement())
-    email     String?   @unique
-    phone     String?   @unique
-    name      String?
-    firstName String?
-    lastName  String?
-    birthday  DateTime?
-    sex       UserSex?
-    password  String
-    role      UserRole
+    id         Int       @id @default(autoincrement())
+    email      String?   @unique
+    phone      String?   @unique
+    lastName   String?   @map(name: "last_name")
+    firstName  String?   @map(name: "first_name")
+    patronymic String?
+    birthday   DateTime?
+    sex        UserSex?
+    password   String
+    role       UserRole
 
     sessions Session[]
     basket   Basket?
@@ -97,7 +97,6 @@ model Product {
     id               Int              @id @default(autoincrement())
     name             String
     price            Float
-    prevPrice        Float?           @map(name: "prev_price")
     rating           Float            @default(0)
     quantity         Int
     shortDescription String           @map(name: "short_description")
@@ -105,8 +104,8 @@ model Product {
     images           String[]
     category         ProductCategory  @relation(fields: [categoryId], references: [id])
     categoryId       Int              @map(name: "category_id")
-    discount         ProductDiscount? @relation(fields: [discountId], references: [id])
-    discountId       Int?
+    offer            ProductOffer?    @relation(fields: [offerId], references: [id])
+    offerId          Int?
     orderItems       OrderItem[]
 
     createdAt DateTime @default(now()) @map(name: "created_at")
@@ -116,7 +115,7 @@ model Product {
     @@map(name: "products")
 }
 
-model ProductDiscount {
+model ProductOffer {
     id          Int       @id @default(autoincrement())
     name        String
     description String?
@@ -127,7 +126,7 @@ model ProductDiscount {
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-    @@map(name: "productdiscount")
+    @@map(name: "productoffers")
 }
 
 //  ============================================= ORDER =============================================

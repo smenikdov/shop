@@ -54,8 +54,6 @@ const product = {
     id: 4325,
     rating: 4.3,
     price: 99.99,
-    prevPrice: 125,
-    discount: 20.2,
     advantages: [
         {
             header: 'Size',
@@ -114,6 +112,7 @@ const product = {
         { src: 'https://dummyimage.com/800x800/f4eee0/ab7c0d&text=5', alt: 'my image' },
         { src: 'https://dummyimage.com/800x800/f4eee0/ab7c0d&text=6', alt: 'my image' },
     ],
+    offer: undefined,
 };
 
 export default function Home() {
@@ -137,14 +136,10 @@ export default function Home() {
                         <div>
                             <Title level={1}>{product.name}</Title>
                             <Flex>
-                                <Rating rating={product.rating} readonly />
+                                <Rating rating={product.rating} readOnly />
                                 <Text color="grey">({product.rating})</Text>
                             </Flex>
-                            <ProductPrice
-                                price={product.price}
-                                prevPrice={product.prevPrice}
-                                discount={product.discount}
-                            />
+                            <ProductPrice price={product.price} offer={product.offer} />
                             {/* <ProductAddButton/> */}
                             <Paragraph>{product.shortDescription}</Paragraph>
                             <ProductAdvantagesList advantages={product.advantages} />
