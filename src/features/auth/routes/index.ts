@@ -1,20 +1,23 @@
 'use server';
 import 'server-only';
+
+import { createRoute } from '@/utils/actions/routes';
+import { RouteData } from '@/utils/actions/routes';
+import { AccessDeniedResponse } from '@/utils/actions/responses';
+
 import { authLoginWithPhoneHandler } from '@/features/auth/services/authLogin';
 import { authRegistrationWithPhoneHandler } from '@/features/auth/services/authRegistration';
 import { authLogoutHandler } from '@/features/auth/services/authLogout';
 import { authGetAllSessionsHandler } from '@/features/auth/services/authSession';
-import { createRoute } from '@/utils/actions/routes';
-import { AccessDeniedResponse } from '@/utils/actions/responses';
 
-export const authLoginWithPhone = createRoute<{ phone: string; password: string }>({
-    async handler({ payload }) {
+export const authLoginWithPhone = createRoute({
+    async handler({ payload }: RouteData<{ phone: string; password: string }>) {
         return authLoginWithPhoneHandler.execute(payload);
     },
 });
 
-export const authRegistrationWithPhone = createRoute<{ phone: string; password: string }>({
-    async handler({ payload }) {
+export const authRegistrationWithPhone = createRoute({
+    async handler({ payload }: RouteData<{ phone: string; password: string }>) {
         return authRegistrationWithPhoneHandler.execute(payload);
     },
 });
@@ -27,7 +30,7 @@ export const authLogout = createRoute({
 });
 
 export const authGetAllSessions = createRoute({
-    async handler({ accessTokenData }) {
+    async handler({ accessTokenData }: RouteData) {
         if (accessTokenData?.userId) {
             return authGetAllSessionsHandler.execute({ userId: accessTokenData.userId });
         } else {

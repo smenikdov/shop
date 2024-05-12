@@ -7,7 +7,7 @@ import { ServerErrorResponse, RequestErrorResponse, Response } from '@/utils/act
 import { Handler } from '@/utils/actions/routes';
 import * as v from '@/utils/validate';
 
-export const authRegistrationWithPhoneHandler = new Handler<{ phone: string; password: string }>({
+export const authRegistrationWithPhoneHandler = new Handler({
     name: 'Регистрация по номеру телефона',
     defaultError: 'Произошла ошибка при регистрации пользователя',
     schema: v.object({
@@ -15,7 +15,7 @@ export const authRegistrationWithPhoneHandler = new Handler<{ phone: string; pas
         phone: v.phone(),
     }),
 
-    async request(payload) {
+    async request(payload: { phone: string; password: string }) {
         const hashedPassword = await bcrypt.hash(payload.password, 10);
         const user = await prisma.user.create({
             data: {

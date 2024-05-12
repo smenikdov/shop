@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 
 export default async function Product({ params }: { params: { id: number } }) {
     const response = await productGetSingle({ productId: Number(params.id) });
-    if (!response.isSuccess) {
+    if (!response.isSuccess || !response.data) {
         return (
             <main>
                 <Result response={response} />{' '}

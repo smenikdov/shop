@@ -20,7 +20,7 @@ import { formatDate } from '@/utils/date';
 
 export default async function AuthSessionsList() {
     const response = await authGetAllSessions({});
-    if (!response.isSuccess) {
+    if (!response.isSuccess || !response.data) {
         return <Result response={response} />;
     }
     const sessions = response.data;

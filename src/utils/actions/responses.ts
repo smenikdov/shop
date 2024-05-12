@@ -78,17 +78,20 @@ export class ErrorResponse extends BaseResponse implements IErrorResponse {
 
 /* ============= SuccessResponse ============= */
 
-interface SuccessResponsePaylaod {
+interface SuccessResponsePaylaod<DataType extends any> {
     message?: string;
-    data?: any;
+    data?: DataType;
 }
 
-export class SuccessResponse extends BaseResponse implements ISuccessResponse {
-    public readonly data?: any;
+export class SuccessResponse<DataType extends any>
+    extends BaseResponse
+    implements ISuccessResponse
+{
+    public readonly data?: DataType;
     public readonly statusCode!: SuccessHttpStatusCodes;
     public readonly isSuccess!: true;
 
-    constructor({ message, data }: SuccessResponsePaylaod = {}) {
+    constructor({ message, data }: SuccessResponsePaylaod<DataType> = {}) {
         super({ message, statusCode: HttpStatusCode.OK, isSuccess: true });
         this.data = data;
     }

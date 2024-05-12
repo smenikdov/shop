@@ -16,11 +16,11 @@ import Bowser from 'bowser';
 const ttlAccess = Number(process.env.TTL_ACCESS);
 const ttlRefresh = Number(process.env.TTL_REFRESH);
 
-export const authCreateSessionHandler = new Handler<{ userId: number; userRole: UserRole }>({
+export const authCreateSessionHandler = new Handler({
     name: 'Создание сессии',
     defaultError: 'Ошибка при создании сессии',
 
-    async request(payload) {
+    async request(payload: { userId: number; userRole: UserRole }) {
         const { userId, userRole } = payload;
         const headers = getHeaders();
         const cookies = getCookies();
@@ -94,11 +94,11 @@ export const authDeleteActiveSessionHandler = new Handler({
     },
 });
 
-export const authDeleteAllSessionsHandler = new Handler<{ userId: number }>({
+export const authDeleteAllSessionsHandler = new Handler({
     name: 'Удаление всех сессий пользователя',
     defaultError: 'Ошибка при удалении сессий пользователя',
 
-    async request(payload) {
+    async request(payload: { userId: number }) {
         const deletedSessions = await prisma.session.deleteMany({
             where: {
                 userId: payload.userId,
@@ -108,11 +108,11 @@ export const authDeleteAllSessionsHandler = new Handler<{ userId: number }>({
     },
 });
 
-export const authGetAllSessionsHandler = new Handler<{ userId: number }>({
+export const authGetAllSessionsHandler = new Handler({
     name: 'Получение всех сессий пользователя',
     defaultError: 'Ошибка при получении сессий пользователя',
 
-    async request(payload) {
+    async request(payload: { userId: number }) {
         const sessions = await prisma.session.findMany({
             select: {
                 id: true,

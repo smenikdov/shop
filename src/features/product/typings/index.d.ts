@@ -2,10 +2,10 @@ export interface ProductItem {
     id: number;
     name: string;
     price: number;
-    offer?: {
+    rating: number;
+    images: Array<string>;
+    offer: {
         id: number;
         discount: number;
-    };
-    images: Array<string>;
-    rating: number;
+    } | null;
 }
