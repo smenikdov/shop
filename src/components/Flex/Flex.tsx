@@ -1,6 +1,7 @@
 import React from 'react';
 import './Flex.scss';
 import classNames from 'classnames';
+import { BaseSizes } from '@/typings';
 
 import type { FlexProps } from './Flex.types';
 
@@ -8,7 +9,8 @@ const Flex = (props: FlexProps) => {
     const {
         className,
         style,
-        gap,
+        gapX = 'none',
+        gapY = 'none',
         children,
         direction = 'row',
         wrap = 'wrap',
@@ -24,14 +26,12 @@ const Flex = (props: FlexProps) => {
         `flex-direction-${direction}`,
         `flex-wrap-${wrap}`,
         `flex-justify-${justify}`,
-        `flex-align-${align}`
+        `flex-align-${align}`,
+        `flex-gap-x-${gapX}`,
+        `flex-gap-y-${gapY}`
     );
 
-    const mergedStyle: React.CSSProperties = { ...style };
-
-    if (gap) {
-        mergedStyle.gap = gap;
-    }
+    const mergedStyle = { ...style };
 
     return (
         <Component className={mergedCls} style={mergedStyle} {...othersProps}>

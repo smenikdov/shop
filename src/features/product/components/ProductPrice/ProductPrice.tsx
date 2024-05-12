@@ -4,7 +4,7 @@ import Text from '@/components/typography/Text';
 import Chip from '@/components/Chip';
 import styles from './ProductPrice.module.scss';
 import { formatNumber } from '@/utils/number';
-import { getProductPrice } from '@/features/product/utils';
+import { getProductPriceWithDiscount } from '@/features/product/utils';
 
 import type { ProductPriceProps } from './ProductPrice.types';
 
@@ -16,7 +16,10 @@ const ProductPrice = (props: ProductPriceProps) => {
             {offer ? (
                 <Flex className={styles.container} align="center">
                     <Text className={styles.price} color="primary" bold>
-                        {formatNumber(getProductPrice({ price, discount: offer.discount }))}₽
+                        {formatNumber(
+                            getProductPriceWithDiscount({ price, discount: offer.discount })
+                        )}
+                        ₽
                     </Text>
                     <Text className={styles.prevprice} color="grey">
                         {formatNumber(price)}₽

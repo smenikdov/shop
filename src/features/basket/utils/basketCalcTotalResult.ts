@@ -1,5 +1,6 @@
 import type { ProductItem } from '@/features/product/typings';
 import type { TotalResult } from '@/features/basket/typings';
+import { getProductDiscountValue } from '@/features/product/utils';
 
 export const basketCalcTotalResult = (products: Array<ProductItem>): TotalResult => {
     const result: TotalResult = {
@@ -11,11 +12,13 @@ export const basketCalcTotalResult = (products: Array<ProductItem>): TotalResult
     };
 
     for (let product of products) {
-        if (product.discount) {
-            result.subtotal += product.prevPrice;
-            result.discount += product.prevPrice - product.price;
-        } else {
-            result.subtotal += product.price;
+        result.subtotal += product.price;
+
+        if (product.offer) {
+            result.discount += getProductDiscountValue({
+                price: product.price,
+                discount: product.offer.discount,
+            });
         }
     }
 

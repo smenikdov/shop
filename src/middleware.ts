@@ -5,7 +5,7 @@ import { UserRole } from '@prisma/client';
 import prisma from '@/lib/prisma';
 
 const userRoutes = ['/my'];
-const adminRoutes = ['/dashboard'];
+const adminRoutes = ['/admin'];
 const publicRoutes = ['/login', '/registration'];
 
 const ttlAccess = Number(process.env.TTL_ACCESS);

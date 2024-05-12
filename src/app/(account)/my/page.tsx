@@ -28,7 +28,7 @@ export default function Contacts() {
     return (
         <main>
             <Container>
-                <Row>
+                <Row gapY="md">
                     <Col md={4}>
                         <Link href="/my/details">
                             <Card clickable>

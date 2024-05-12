@@ -1,3 +1,5 @@
+@import '@/styles/abstracts';
+
 .flex {
     display: flex;
 
@@ -14,6 +16,26 @@
         }
     }
 
+    @each $name, $value in $sizes {
+        &-gap-x-#{$name} {
+            margin-right: calc($value * -0.5);
+            margin-left: calc($value * -0.5);
+            & > * {
+                padding-right: calc($value * 0.5);
+                padding-left: calc($value * 0.5);
+            }
+        }
+    }
+
+    @each $name, $value in $sizes {
+        &-gap-y-#{$name} {
+            margin-top: calc($value * -1);
+            & > * {
+                margin-top: $value;
+            }
+        }
+    }
+    
     @include apply-styles('direction', 'flex-direction', $flex-direction);
     @include apply-styles('justify', 'justify-content', $justify-content);
     @include apply-styles('align', 'align-items', $align-items);
