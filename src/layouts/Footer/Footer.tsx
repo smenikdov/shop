@@ -1,5 +1,5 @@
 import React from 'react';
-import './Footer.scss';
+import styles from './Footer.module.scss';
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
