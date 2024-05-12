@@ -16,22 +16,22 @@
         }
     }
 
-    @each $name, $value in $sizes {
-        &-gap-x-#{$name} {
-            margin-right: calc($value * -0.5);
-            margin-left: calc($value * -0.5);
+    @each $sizeName, $sizeValue in $sizes {
+        &-gap-x-#{$sizeName} {
+            margin-right: calc($sizeValue * -0.5);
+            margin-left: calc($sizeValue * -0.5);
             & > * {
-                padding-right: calc($value * 0.5);
-                padding-left: calc($value * 0.5);
+                padding-right: calc($sizeValue * 0.5);
+                padding-left: calc($sizeValue * 0.5);
             }
         }
     }
 
-    @each $name, $value in $sizes {
-        &-gap-y-#{$name} {
-            margin-top: calc($value * -1);
+    @each $sizeName, $sizeValue in $sizes {
+        &-gap-y-#{$sizeName} {
+            margin-top: calc($sizeValue * -1);
             & > * {
-                margin-top: $value;
+                margin-top: $sizeValue;
             }
         }
     }

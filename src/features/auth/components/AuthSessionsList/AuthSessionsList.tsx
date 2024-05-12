@@ -26,23 +26,31 @@ export default async function AuthSessionsList() {
     const sessions = response.data;
 
     return (
-        <div>
+        <Flex gapY="md" direction="column">
             {sessions.map((session) => (
                 <Card key={session.id}>
-                    <div>
+                    <Flex gapX="sm" align="center">
                         {session.operatingSystem && <Text>{session.operatingSystem}</Text>}
-                        {session.operatingSystem && session.browserName && <Divider vertical />}
+                        {session.operatingSystem && session.browserName && (
+                            <div>
+                                <Divider vertical />
+                            </div>
+                        )}
                         {session.browserName && <Text>Бразер {session.browserName}</Text>}
-                    </div>
-                    <div>
+                    </Flex>
+                    <Flex gapX="sm" align="center">
                         {session.createdAt && (
                             <Text color="grey">{formatDate(new Date(session.createdAt))}</Text>
                         )}
-                        {session.createdAt && session.ip && <Divider vertical />}
+                        {session.createdAt && session.ip && (
+                            <div>
+                                <Divider vertical />
+                            </div>
+                        )}
                         {session.ip && <Text color="grey">{session.ip}</Text>}
-                    </div>
+                    </Flex>
                 </Card>
             ))}
-        </div>
+        </Flex>
     );
 }

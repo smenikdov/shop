@@ -1,3 +1,36 @@
 @import 'abstracts';
 @import 'base';
-@import 'utilities';
+
+@each $sizeName, $sizeValue in $sizes {
+    @each $spaceAbbr, $spaceProp in ('m': 'margin', 'p': 'padding') {
+        .#{$spaceAbbr}t-#{$sizeName} {
+            #{$spaceProp}-top: $sizeValue;
+        }
+
+        .#{$spaceAbbr}b-#{$sizeName} {
+            #{$spaceProp}-bottom: $sizeValue;
+        }
+
+        .#{$spaceAbbr}l-#{$sizeName} {
+            #{$spaceProp}-left: $sizeValue;
+        }
+
+        .#{$spaceAbbr}r-#{$sizeName} {
+            #{$spaceProp}-right: $sizeValue;
+        }
+
+        .#{$spaceAbbr}a-#{$sizeName} {
+            #{$spaceProp}: $sizeValue;
+        }
+
+        .#{$spaceAbbr}x-#{$sizeName} {
+            #{$spaceProp}-right: $sizeValue;
+            #{$spaceProp}-left: $sizeValue;
+        }
+
+        .#{$spaceAbbr}y-#{$sizeName} {
+            #{$spaceProp}-bottom: $sizeValue;
+            #{$spaceProp}-top: $sizeValue;
+        }
+    }
+}

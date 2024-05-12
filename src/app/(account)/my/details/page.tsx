@@ -34,7 +34,7 @@ export default function Contacts() {
         <main>
             <Container>
                 <Breadcrumbs />
-                <Card>
+                <Card className="mb-lg">
                     <Title level={2}>Учётные данные</Title>
                     <div>
                         <Text color="grey">
