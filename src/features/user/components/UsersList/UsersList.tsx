@@ -16,7 +16,7 @@ import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 import Table from '@/components/Table';
 import { formatPhoneNumber } from '@/utils/text';
-import { _userGetAll } from '../../routes';
+import { userGetAll } from '@/features/user/routes';
 import Result from '@/components/Result';
 
 const columns = [
@@ -42,7 +42,7 @@ const columns = [
 ];
 
 export default async function UsersList() {
-    const response = await _userGetAll();
+    const response = await userGetAll({});
     if (!response.isSuccess) {
         return <Result response={response} />;
     }

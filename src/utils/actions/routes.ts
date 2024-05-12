@@ -5,6 +5,8 @@ import { IObjectValidator } from '@/utils/validate/typings';
 import { deepClone } from '@/utils/helpers';
 import logger from '@/lib/logger';
 import { UserRole } from '@prisma/client';
+import type { AnyObject } from '@/typings';
+import type { AccessTokenPayload } from '@/features/auth/typings';
 
 import {
     ServerErrorResponse,
@@ -13,28 +15,56 @@ import {
     AccessDeniedResponse,
 } from '@/utils/actions/responses';
 
-interface HandlerParams<RequestArgs extends any[]> {
+interface HandlerParams<RequestPayload extends AnyObject = {}> {
     name: string;
     description?: string;
     defaultError: string;
-    request: (...args: RequestArgs) => Promise<Response>;
+    schema?: IObjectValidator;
+    request: (payload: RequestPayload) => Promise<Response>;
 }
-export class Handler<RequestArgs extends any[]> {
+export class Handler<RequestPayload extends AnyObject = {}> {
     public readonly name: string;
-    public readonly defaultError: string;
     public readonly description: string | null;
-    public readonly request: (...args: RequestArgs) => Promise<Response>;
+    public readonly defaultError: string;
+    public readonly schema?: IObjectValidator;
+    public readonly request: (payload: RequestPayload) => Promise<Response>;
 
-    constructor({ name, description, defaultError, request }: HandlerParams<RequestArgs>) {
+    constructor({
+        name,
+        description,
+        defaultError,
+        schema,
+        request,
+    }: HandlerParams<RequestPayload>) {
         this.name = name;
         this.description = description || null;
         this.defaultError = defaultError;
+        this.schema = schema;
         this.request = request;
     }
 
-    async execute(...args: RequestArgs) {
+    async execute(payload: RequestPayload) {
         try {
-            return this.request(...args);
+            if (this.schema) {
+                if (!payload) {
+                    const response = new RequestErrorResponse({
+                        message: 'Сервер не получил данные',
+                    });
+                    return response;
+                }
+                const validationResult = this.schema.validate(payload);
+                if (!validationResult.isValid) {
+                    const error = validationResult.errors;
+                    const response = new RequestErrorResponse({
+                        message:
+                            'Сервер понял запрос, но отказался его выполнять. Причина: передан некоректный запрос',
+                        error,
+                    });
+                    return response;
+                }
+            }
+
+            return this.request(payload);
         } catch (error) {
             logger.error(this.name, error);
             // await sendMailToAdminIfCritical();
@@ -44,45 +74,35 @@ export class Handler<RequestArgs extends any[]> {
     }
 }
 
-interface RouteParams {
-    schema?: IObjectValidator;
+interface RouteParams<RoutePayload extends AnyObject = {}> {
     access?: Array<UserRole>;
-    handler: {
-        execute: (...args: any[]) => Promise<Response>;
-    };
+    handler: (object: {
+        payload: RoutePayload;
+        accessTokenData?: AccessTokenPayload;
+    }) => Promise<Response>;
 }
 
-export function createRoute({ schema, access, handler }: RouteParams) {
-    return async function (formData?: FormData): Promise<Response> {
+export function createRoute<RoutePayload extends AnyObject = {}>({
+    access,
+    handler,
+}: RouteParams<RoutePayload>) {
+    return async function (payload: RoutePayload | FormData): Promise<Response> {
         const cookies = getCookies();
         const accessToken = cookies.get('accessToken')?.value;
         const accessTokenData = await decrypt(accessToken);
-
         if (access) {
             const userRole = accessTokenData?.userRole as UserRole | undefined;
             if (!userRole || !access.includes(userRole)) {
                 return new AccessDeniedResponse();
             }
         }
-
-        if (!formData) {
-            const response = await handler.execute();
-            return deepClone(response);
+        if (payload && payload instanceof FormData) {
+            payload = Object.fromEntries(payload.entries()) as RoutePayload;
         }
-
-        const object = Object.fromEntries(formData.entries());
-        if (schema) {
-            const validationResult = schema.validate(object);
-            if (!validationResult.isValid) {
-                const error = validationResult.errors;
-                const response = new RequestErrorResponse({
-                    message: 'Не валидно',
-                    error,
-                });
-                return deepClone(response);
-            }
-        }
-        const response = await handler.execute(object);
+        const response = await handler({
+            payload,
+            accessTokenData: accessTokenData as AccessTokenPayload | undefined,
+        });
         return deepClone(response);
     };
 }

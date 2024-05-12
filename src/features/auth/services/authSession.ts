@@ -10,15 +10,17 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
+import type { AccessTokenPayload } from '@/features/auth/typings';
 
 const ttlAccess = Number(process.env.TTL_ACCESS);
 const ttlRefresh = Number(process.env.TTL_REFRESH);
 
-export const authCreateSessionHandler = new Handler({
+export const authCreateSessionHandler = new Handler<{ userId: number; userRole: UserRole }>({
     name: 'Создание сессии',
     defaultError: 'Ошибка при создании сессии',
 
-    async request(userId: number, userRole: UserRole) {
+    async request(payload) {
+        const { userId, userRole } = payload;
         const headers = getHeaders();
         const cookies = getCookies();
         // TODO проверка на максимальное количество сессий
@@ -91,28 +93,28 @@ export const authDeleteActiveSessionHandler = new Handler({
     },
 });
 
-export const authDeleteAllSessionsHandler = new Handler({
+export const authDeleteAllSessionsHandler = new Handler<{ userId: number }>({
     name: 'Удаление всех сессий пользователя',
     defaultError: 'Ошибка при удалении сессий пользователя',
 
-    async request(userId: number) {
+    async request(payload) {
         const deletedSessions = await prisma.session.deleteMany({
             where: {
-                userId,
+                userId: payload.userId,
             },
         });
         return new SuccessResponse();
     },
 });
 
-export const authGetAllSessionsHandler = new Handler({
+export const authGetAllSessionsHandler = new Handler<{ userId: number }>({
     name: 'Получение всех сессий пользователя',
     defaultError: 'Ошибка при получении сессий пользователя',
 
-    async request(userId: number) {
+    async request(payload) {
         const sessions = await prisma.session.findMany({
             where: {
-                userId,
+                userId: payload.userId,
             },
         });
         return new SuccessResponse({ data: sessions });

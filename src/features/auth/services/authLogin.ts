@@ -10,23 +10,31 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
+import * as v from '@/utils/validate';
 
-export const authLoginWithPhoneHandler = new Handler({
+export const authLoginWithPhoneHandler = new Handler<{ phone: string; password: string }>({
     name: 'Вход по номеру телефона',
     defaultError: 'Произошла ошибка при входе по номеру телефона',
+    schema: v.object({
+        password: v.password(),
+        phone: v.phone(),
+    }),
 
-    async request(object: { phone: string; password: string }) {
+    async request({ phone, password }) {
         const user = await prisma.user.findUnique({
-            where: { phone: object.phone },
+            where: { phone },
         });
 
-        if (!user || !bcrypt.compareSync(object.password, user.password)) {
+        if (!user || !bcrypt.compareSync(password, user.password)) {
             return new RequestErrorResponse({
                 message: 'Неверный номер телефона или пароль',
             });
         }
 
-        const { isSuccess } = await authCreateSessionHandler.execute(user.id, user.role);
+        const { isSuccess } = await authCreateSessionHandler.execute({
+            userId: user.id,
+            userRole: user.role,
+        });
         if (isSuccess) {
             return new SuccessResponse();
         } else {

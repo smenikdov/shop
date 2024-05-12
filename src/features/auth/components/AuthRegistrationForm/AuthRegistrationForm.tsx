@@ -18,12 +18,12 @@ import FormItem from '@/components/form/FormItem';
 import Card from '@/components/Card';
 import * as v from '@/utils/validate';
 
-import { _authRegistrationWithPhone } from '@/features/auth/routes';
+import { authRegistrationWithPhone } from '@/features/auth/routes';
 
 export default function AuthRegistrationForm() {
     return (
         <Form
-            action={_authRegistrationWithPhone}
+            action={authRegistrationWithPhone}
             schema={v.object({
                 password: v.password(),
                 phone: v.phone(),

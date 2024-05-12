@@ -11,7 +11,7 @@ export const authLogoutHandler = new Handler({
     defaultError: 'Произошла ошибка при выходе из аккаунта',
 
     async request() {
-        const { isSuccess } = await authDeleteActiveSessionHandler.execute();
+        const { isSuccess } = await authDeleteActiveSessionHandler.execute({});
         if (isSuccess) {
             return new SuccessResponse();
         } else {

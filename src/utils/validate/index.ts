@@ -27,5 +27,5 @@ export const password = () =>
             validateFunction: (val: string) => !/\s/.test(val),
             error: 'Пароль не должен содержать пробелов',
         });
-// TODO
-// export const createValidatingSchema = () => {};
+
+export const id = () => number().integer().min(0);

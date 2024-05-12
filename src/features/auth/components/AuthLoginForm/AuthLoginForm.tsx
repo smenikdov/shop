@@ -17,12 +17,12 @@ import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 import * as v from '@/utils/validate';
 
-import { _authLoginWithPhone } from '@/features/auth/routes';
+import { authLoginWithPhone } from '@/features/auth/routes';
 
 export default function AuthLoginForm() {
     return (
         <Form
-            action={_authLoginWithPhone}
+            action={authLoginWithPhone}
             schema={v.object({
                 password: v.password(),
                 phone: v.phone(),

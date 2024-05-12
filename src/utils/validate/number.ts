@@ -34,4 +34,11 @@ export class NumberValidator extends Validator implements INumberValidator {
             error: error || `Максимальное значение - ${maxValue}`,
         });
     }
+
+    integer(error?: string) {
+        return this.addRule({
+            validateFunction: (value: number) => Number.isInteger(value),
+            error: error || 'Значение должно быть целым числом',
+        });
+    }
 }

@@ -5,30 +5,33 @@ import { authRegistrationWithPhoneHandler } from '@/features/auth/services/authR
 import { authLogoutHandler } from '@/features/auth/services/authLogout';
 import { authGetAllSessionsHandler } from '@/features/auth/services/authSession';
 import { createRoute } from '@/utils/actions/routes';
-import * as v from '@/utils/validate';
+import { AccessDeniedResponse } from '@/utils/actions/responses';
 
-export const _authLoginWithPhone = createRoute({
-    schema: v.object({
-        password: v.password(),
-        phone: v.phone(),
-    }),
-    handler: authLoginWithPhoneHandler,
+export const authLoginWithPhone = createRoute<{ phone: string; password: string }>({
+    async handler({ payload }) {
+        return authLoginWithPhoneHandler.execute(payload);
+    },
 });
 
-export const _authRegistrationWithPhone = createRoute({
-    schema: v.object({
-        password: v.password(),
-        phone: v.phone(),
-    }),
-    handler: authRegistrationWithPhoneHandler,
+export const authRegistrationWithPhone = createRoute<{ phone: string; password: string }>({
+    async handler({ payload }) {
+        return authRegistrationWithPhoneHandler.execute(payload);
+    },
 });
 
-export const _authLogout = createRoute({
+export const authLogout = createRoute({
     access: ['USER'],
-    handler: authLogoutHandler,
+    async handler() {
+        return authLogoutHandler.execute({});
+    },
 });
 
-export const _authGetAllSessions = createRoute({
-    access: ['USER'],
-    handler: authGetAllSessionsHandler,
+export const authGetAllSessions = createRoute({
+    async handler({ accessTokenData }) {
+        if (accessTokenData?.userId) {
+            return authGetAllSessionsHandler.execute({ userId: accessTokenData.userId });
+        } else {
+            return new AccessDeniedResponse();
+        }
+    },
 });

@@ -22,21 +22,25 @@ const Result = (props: ResultProps) => {
         content = 'Отлично, мы сделали все операции!';
     } else {
         icon = <Icon icon={<MdErrorOutline />} />;
-        switch (response.statusCode) {
-            case HttpStatusCode.BAD_REQUEST:
-                content = 'Что-то пошло не так';
-                break;
-            case HttpStatusCode.ACCESS_DENIED:
-                content = 'Отказано в доступе';
-                break;
-            case HttpStatusCode.NOT_FOUND:
-                content = 'Страница не найдена';
-                break;
-            case HttpStatusCode.INTERNAL_SERVER:
-                content = 'Что-то пошло не так';
-                break;
-            default:
-                content = 'Что-то пошло не так';
+        if (response.message) {
+            content = response.message;
+        } else {
+            switch (response.statusCode) {
+                case HttpStatusCode.BAD_REQUEST:
+                    content = 'Что-то пошло не так';
+                    break;
+                case HttpStatusCode.ACCESS_DENIED:
+                    content = 'Отказано в доступе';
+                    break;
+                case HttpStatusCode.NOT_FOUND:
+                    content = 'Страница не найдена';
+                    break;
+                case HttpStatusCode.INTERNAL_SERVER:
+                    content = 'Что-то пошло не так';
+                    break;
+                default:
+                    content = 'Что-то пошло не так';
+            }
         }
     }
 

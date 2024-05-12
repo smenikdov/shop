@@ -13,10 +13,10 @@ import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 import Result from '@/components/Result';
-import { _authGetAllSessions } from '@/features/auth/routes';
+import { authGetAllSessions } from '@/features/auth/routes';
 
 export default async function AuthSessionsList() {
-    const response = await _authGetAllSessions();
+    const response = await authGetAllSessions({});
     if (!response.isSuccess) {
         return <Result response={response} />;
     }
