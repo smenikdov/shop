@@ -4,3 +4,12 @@ export interface AccessTokenPayload {
     expiresAt: Date;
     userRole: UserRole;
 }
+
+export interface SessionListItem {
+    id: number;
+    ip: string | null;
+    platform: string | null;
+    browserName: string | null;
+    operatingSystem: string | null;
+    createdAt: string;
+}

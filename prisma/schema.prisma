@@ -30,15 +30,18 @@ datasource db {
 //  ============================================= USERS =============================================
 
 model Session {
-    id              Int      @id @default(autoincrement())
-    accessToken     String   @unique @map("session_token")
-    refreshToken    String   @unique @map("refresh_token")
-    userId          Int      @map("user_id")
-    accessExpiresAt DateTime
+    id               Int      @id @default(autoincrement())
+    accessToken      String   @unique @map("session_token")
+    refreshToken     String   @unique @map("refresh_token")
+    userId           Int      @map("user_id")
+    accessExpiresAt  DateTime
     refreshExpiresAt DateTime
-    ip              String?
-    userAgent       String?   @map("user_agent")
-    user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    ip               String?
+    userAgent        String?  @map("user_agent")
+    user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map("sessions")
 }
@@ -94,17 +97,17 @@ model ProductCategory {
 }
 
 model Product {
-    id               Int              @id @default(autoincrement())
+    id               Int             @id @default(autoincrement())
     name             String
     price            Float
-    rating           Float            @default(0)
+    rating           Float           @default(0)
     quantity         Int
-    shortDescription String           @map(name: "short_description")
-    longDescription  String?          @map(name: "long_description")
+    shortDescription String          @map(name: "short_description")
+    longDescription  String?         @map(name: "long_description")
     images           String[]
-    category         ProductCategory  @relation(fields: [categoryId], references: [id])
-    categoryId       Int              @map(name: "category_id")
-    offer            ProductOffer?    @relation(fields: [offerId], references: [id])
+    category         ProductCategory @relation(fields: [categoryId], references: [id])
+    categoryId       Int             @map(name: "category_id")
+    offer            ProductOffer?   @relation(fields: [offerId], references: [id])
     offerId          Int?
     orderItems       OrderItem[]
 

@@ -6,7 +6,7 @@ import { useFormState } from 'react-dom';
 import { RequestErrorResponse, type Response } from '@/utils/actions/responses';
 import type { FormProps } from './Form.types';
 import FormContext from './Form.context';
-import { getCurrentDate } from '@/utils/date';
+import { formatDate } from '@/utils/date';
 import useNotification from '@/features/notification/hooks/useNotification';
 
 const Form = (props: FormProps) => {
@@ -24,7 +24,7 @@ const Form = (props: FormProps) => {
     const { notifyError, notifySuccess } = useNotification();
 
     const logResponse = (response: Response) => {
-        let logInfo = `%c${getCurrentDate('hh:mm')} | request end with status ${response.statusCode}`;
+        let logInfo = `%c${formatDate(new Date(), 'hh:mm')} | request end with status ${response.statusCode}`;
         let logStyle = '';
 
         if (response.isSuccess) {

@@ -9,8 +9,9 @@ import {
     Response,
     SuccessResponse,
 } from '@/utils/actions/responses';
+import type { SessionListItem, AccessTokenPayload } from '@/features/auth/typings';
 import { Handler } from '@/utils/actions/routes';
-import type { AccessTokenPayload } from '@/features/auth/typings';
+import Bowser from 'bowser';
 
 const ttlAccess = Number(process.env.TTL_ACCESS);
 const ttlRefresh = Number(process.env.TTL_REFRESH);
@@ -113,10 +114,35 @@ export const authGetAllSessionsHandler = new Handler<{ userId: number }>({
 
     async request(payload) {
         const sessions = await prisma.session.findMany({
+            select: {
+                id: true,
+                ip: true,
+                userAgent: true,
+                createdAt: true,
+            },
             where: {
                 userId: payload.userId,
             },
         });
-        return new SuccessResponse({ data: sessions });
+
+        const formatSessions = sessions.map((session) => {
+            const fromatSession: SessionListItem = {
+                id: session.id,
+                ip: session.ip,
+                platform: null,
+                browserName: null,
+                operatingSystem: null,
+                createdAt: session.createdAt,
+            };
+            if (session.userAgent) {
+                const userAgentParsed = Bowser.getParser(session.userAgent, true);
+                fromatSession.platform = userAgentParsed.getPlatformType();
+                fromatSession.browserName = userAgentParsed.getBrowserName();
+                fromatSession.operatingSystem = userAgentParsed.getOSName();
+            }
+            return fromatSession;
+        });
+
+        return new SuccessResponse({ data: formatSessions });
     },
 });
