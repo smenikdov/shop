@@ -28,7 +28,7 @@ import ProductImages from '@/features/product/components/ProductImages';
 
 import BannerBlock from '@/widgets/BannerBlock';
 
-import { productGetSingle } from '@/features/product/routes';
+import { productGetOne } from '@/features/product/routes';
 
 export const metadata: Metadata = {
     title: 'Страница товара',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Product({ params }: { params: { id: number } }) {
-    const response = await productGetSingle({ productId: Number(params.id) });
+    const response = await productGetOne({ productId: Number(params.id) });
     if (!response.isSuccess || !response.data) {
         return (
             <main>

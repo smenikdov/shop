@@ -5,7 +5,7 @@ import { createRoute } from '@/utils/actions/routes';
 import { RouteData } from '@/utils/actions/routes';
 
 import { productGetAllHandler } from '@/features/product/services/productGetAll';
-import { productGetSingleHandler } from '@/features/product/services/productGetSingle';
+import { productGetOneHandler } from '@/features/product/services/productGetOne';
 
 export const productGetAll = createRoute({
     async handler() {
@@ -13,8 +13,8 @@ export const productGetAll = createRoute({
     },
 });
 
-export const productGetSingle = createRoute({
+export const productGetOne = createRoute({
     async handler({ payload }: RouteData<{ productId: number }>) {
-        return productGetSingleHandler.execute(payload);
+        return productGetOneHandler.execute(payload);
     },
 });

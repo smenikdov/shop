@@ -8,8 +8,9 @@ import {
 } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
 import * as v from '@/utils/validate';
+import { baseProductScheme } from '@/features/product/utils';
 
-export const productGetSingleHandler = new Handler({
+export const productGetOneHandler = new Handler({
     name: 'Получение деталей товара',
     defaultError: 'Ошибка при получении деталей товара',
     schema: v.object({
@@ -21,24 +22,7 @@ export const productGetSingleHandler = new Handler({
             where: {
                 id: payload.productId,
             },
-            select: {
-                id: true,
-                name: true,
-                price: true,
-                shortDescription: true,
-                longDescription: true,
-                offer: {
-                    select: {
-                        id: true,
-                        discount: true,
-                    },
-                    where: {
-                        active: true,
-                    },
-                },
-                images: true,
-                rating: true,
-            },
+            select: baseProductScheme,
         });
         return new SuccessResponse({ data: product });
     },

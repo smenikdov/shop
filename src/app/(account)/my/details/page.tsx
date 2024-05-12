@@ -23,6 +23,7 @@ import TextBlock from '@/widgets/TextBlock/TextBlock';
 import FaqBlock from '@/widgets/FaqBlock';
 
 import AuthSessionsList from '@/features/auth/components/AuthSessionsList';
+import UserDataForm from '@/features/user/components/UserDataForm';
 
 export const metadata: Metadata = {
     title: 'Мои данные',
@@ -36,15 +37,16 @@ export default function Contacts() {
                 <Breadcrumbs />
                 <Card className="mb-lg">
                     <Title level={2}>Учётные данные</Title>
-                    <div>
+                    <div className="mb-md">
                         <Text color="grey">
                             Здесь вы можете отредактировать информацию о себе и добавить недостающую
                         </Text>
                     </div>
+                    <UserDataForm />
                 </Card>
                 <Card>
                     <Title level={2}>Активные сеансы</Title>
-                    <div>
+                    <div className="mb-md">
                         <Text color="grey">Вы уже заходили в профиль на этих устройствах</Text>
                     </div>
                     <AuthSessionsList />

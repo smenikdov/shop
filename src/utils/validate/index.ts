@@ -29,3 +29,4 @@ export const password = () =>
         });
 
 export const id = () => number().integer().min(0);
+export const quantity = () => number().integer().min(0);

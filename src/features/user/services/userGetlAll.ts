@@ -1,12 +1,12 @@
 import 'server-only';
 import prisma from '@/lib/prisma';
+import { Handler } from '@/utils/actions/routes';
 import {
     ServerErrorResponse,
     RequestErrorResponse,
     Response,
     SuccessResponse,
 } from '@/utils/actions/responses';
-import { Handler } from '@/utils/actions/routes';
 
 export const userGetAllHandler = new Handler({
     name: 'Получение списка всех пользователей',

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import type { TypographyProps } from './Typography.types';
 import './Typography.scss';
 import { plexSerif, plexSans } from '@/ui/fonts';
+import NextLink from 'next/link';
 
 function wrapperDecorations(
     props: TypographyProps<keyof JSX.IntrinsicElements>,

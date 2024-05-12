@@ -26,7 +26,7 @@ export default async function AuthSessionsList() {
     const sessions = response.data;
 
     return (
-        <Flex gapY="md" direction="column">
+        <Flex gapY="sm" direction="column">
             {sessions.map((session) => (
                 <Card key={session.id}>
                     <Flex gapX="sm" align="center">
