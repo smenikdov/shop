@@ -1,10 +1,12 @@
 import type { ObjectFieldsVlidators } from './typings';
 import { NumberValidator } from './number';
 import { StringValidator } from './string';
+import { DateValidator } from './date';
 import { ObjectValidator } from './object';
 
 export const string = () => new StringValidator();
 export const number = () => new NumberValidator();
+export const date = () => new DateValidator();
 export const object = (fields: ObjectFieldsVlidators) => new ObjectValidator(fields);
 
 export const email = () =>
@@ -28,5 +30,5 @@ export const password = () =>
             error: 'Пароль не должен содержать пробелов',
         });
 
-export const id = () => number().integer().min(0);
-export const quantity = () => number().integer().min(0);
+export const id = () => number().integer().gte(0);
+export const quantity = () => number().integer().gte(0);

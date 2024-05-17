@@ -5,11 +5,13 @@ interface ValidPrimitiveErrorResult {
     isValid: false;
     error: string;
 }
+
+interface ValidObjectError {
+    [key: string]: string | ValidObjectError;
+}
 interface ValidObjectErrorResult {
     isValid: false;
-    errors?: {
-        [key: string]: string;
-    };
+    error: ValidObjectError;
 }
 export type ValidPrimitiveResult = ValidSuccesResult | ValidPrimitiveErrorResult;
 export type ValidObjectResult = ValidSuccesResult | ValidObjectErrorResult;
@@ -21,20 +23,21 @@ export interface ValidationRule {
 
 export interface INumberValidator {
     validate(value: number): ValidPrimitiveResult;
-    // safeParse: (object: any) => ValidPrimitiveResult;
 }
 
 export interface IStringValidator {
     validate(value: string): ValidPrimitiveResult;
-    // safeParse: (object: any) => ValidPrimitiveResult;
+}
+
+export interface IDateValidator {
+    validate(value: Date): ValidPrimitiveResult;
 }
 
 export interface IObjectValidator {
     validate(value: object): ValidObjectResult;
-    // safeParse: (object: object) => ValidObjectResult;
 }
 
-export type AnyValidator = INumberValidator | IStringValidator;
+export type AnyValidator = INumberValidator | IStringValidator | IDateValidator | IObjectValidator;
 
 export interface ObjectFieldsVlidators {
     [key: string]: AnyValidator;

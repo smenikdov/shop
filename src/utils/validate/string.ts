@@ -10,13 +10,6 @@ export class StringValidator extends Validator implements IStringValidator {
         return super.validate(value);
     }
 
-    safeParse(value: any): ValidPrimitiveResult {
-        if (typeof value !== 'string') {
-            value = String(value);
-        }
-        return super.validate(value);
-    }
-
     addRule(rule: ValidationRule) {
         return new StringValidator([...this.rules, rule]);
     }

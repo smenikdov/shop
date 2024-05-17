@@ -10,28 +10,35 @@ export class NumberValidator extends Validator implements INumberValidator {
         return super.validate(value);
     }
 
-    safeParse(value: any): ValidPrimitiveResult {
-        if (typeof value !== 'number') {
-            value = Number(value);
-        }
-        return super.validate(value);
-    }
-
     addRule(rule: ValidationRule) {
         return new NumberValidator([...this.rules, rule]);
     }
 
-    min(minValue: number, error?: string) {
+    gt(option: number, error?: string) {
         return this.addRule({
-            validateFunction: (value: number) => value >= minValue,
-            error: error || `Минимальное значение - ${minValue}`,
+            validateFunction: (value: number) => value > option,
+            error: error || `Число должно быть больше, чем ${option}`,
         });
     }
 
-    max(maxValue: number, error?: string) {
+    gte(option: number, error?: string) {
         return this.addRule({
-            validateFunction: (value: number) => value <= maxValue,
-            error: error || `Максимальное значение - ${maxValue}`,
+            validateFunction: (value: number) => value >= option,
+            error: error || `Число должно быть больше или равно - ${option}`,
+        });
+    }
+
+    lt(option: number, error?: string) {
+        return this.addRule({
+            validateFunction: (value: number) => value < option,
+            error: error || `Число должно быть меньше, чем ${option}`,
+        });
+    }
+
+    lte(option: number, error?: string) {
+        return this.addRule({
+            validateFunction: (value: number) => value <= option,
+            error: error || `Число должно быть меньше или равно - ${option}`,
         });
     }
 

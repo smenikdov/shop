@@ -4,6 +4,7 @@ import {
     ValidPrimitiveResult,
     IObjectValidator,
     AnyValidator,
+    ValidObjectError,
     ObjectFieldsVlidators,
 } from '@/utils/validate/typings';
 
@@ -15,9 +16,7 @@ export class ObjectValidator implements IObjectValidator {
     }
 
     validate(object: object): ValidObjectResult {
-        const allErrors: {
-            [key: string]: string;
-        } = {};
+        const allErrors: ValidObjectError = {};
         let isAllValid = true;
         for (let fieldKey of Object.keys(this.fieldsValidators)) {
             const validator = this.fieldsValidators[fieldKey];
@@ -30,9 +29,6 @@ export class ObjectValidator implements IObjectValidator {
                     if ('error' in validationResult) {
                         allErrors[fieldKey] = validationResult.error;
                     }
-                    // if ('errors' in validationResult) {
-                    //     allErrors[fieldKey] = validationResult.errors;
-                    // }
                 }
             } else {
                 allErrors[fieldKey] = 'Обязательное поле';
@@ -41,7 +37,7 @@ export class ObjectValidator implements IObjectValidator {
         }
         return {
             isValid: isAllValid,
-            errors: allErrors,
+            error: allErrors,
         };
     }
 }
