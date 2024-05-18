@@ -1,12 +1,14 @@
 import type React from 'react';
-import { BaseColors } from '@/typings';
+import { BaseColors, BaseSizes } from '@/typings';
 
-export type ButtonVariant = 'outlined' | 'filled' | 'dashed' | 'link' | 'text';
+export type ButtonVariant = 'outlined' | 'filled' | 'text' | 'link';
 export type ButtonShape = 'squre' | 'circle' | 'round';
 export type ButtonHTMLType = 'submit' | 'button' | 'reset';
+export type ButtonSize = BaseSizes;
 
 export interface BaseButtonProps {
     variant?: ButtonVariant;
+    size?: ButtonSize;
     icon?: React.ReactNode;
     shape?: ButtonShape;
     disabled?: boolean;

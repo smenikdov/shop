@@ -52,7 +52,7 @@ export default async function Product({ params }: { params: { id: number } }) {
                 <Flex justify="space-between">
                     <Breadcrumbs />
                     <div>
-                        <Text color="grey">Код товара: {product.id}</Text>
+                        <Text color="muted">Код товара: {product.id}</Text>
                     </div>
                 </Flex>
             </Container>
@@ -67,7 +67,7 @@ export default async function Product({ params }: { params: { id: number } }) {
                             <Title level={1}>{product.name}</Title>
                             <Flex>
                                 <Rating rating={product.rating} readOnly />
-                                <Text color="grey">({product.rating})</Text>
+                                <Text color="muted">({product.rating})</Text>
                             </Flex>
                             <ProductPrice price={product.price} offer={product.offer} />
                             {/* <ProductAddButton/> */}

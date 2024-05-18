@@ -38,7 +38,7 @@ export default function Contacts() {
                 <Card className="mb-lg">
                     <Title level={2}>Учётные данные</Title>
                     <div className="mb-md">
-                        <Text color="grey">
+                        <Text color="muted">
                             Здесь вы можете отредактировать информацию о себе и добавить недостающую
                         </Text>
                     </div>
@@ -47,14 +47,14 @@ export default function Contacts() {
                 <Card>
                     <Title level={2}>Активные сеансы</Title>
                     <div className="mb-md">
-                        <Text color="grey">Вы уже заходили в профиль на этих устройствах</Text>
+                        <Text color="muted">Вы уже заходили в профиль на этих устройствах</Text>
                     </div>
                     <AuthSessionsList />
                 </Card>
                 {/* <Card>
                     <Title level={2}>Удаление аккаунта</Title>
                     <div>
-                        <Text color="grey">Вместе с аккаунтом все ваши данные будут удалены</Text>
+                        <Text color="muted">Вместе с аккаунтом все ваши данные будут удалены</Text>
                     </div>
                     <Button>Удалить аккаунт</Button>
                 </Card> */}

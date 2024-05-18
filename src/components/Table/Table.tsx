@@ -26,7 +26,7 @@ const TableBody = (props: TableBodyProps) => {
     return (
         <tbody className="table-body">
             {data.map((data, dataIndex) => (
-                <tr key={dataIndex} className="table-header">
+                <tr key={dataIndex} className="table-row">
                     {columns.map((column, columnIndex) => (
                         <td key={column.name} className="table-cell">
                             {column.render

@@ -13,7 +13,8 @@ const Button = (props: ButtonProps) => {
         loading = false,
         variant = 'filled',
         color = 'primary',
-        shape = 'squre',
+        shape = 'round',
+        size = 'md',
         disabled = false,
         className,
         children,
@@ -40,6 +41,7 @@ const Button = (props: ButtonProps) => {
         `button-${color}`,
         `button-${shape}`,
         `button-${variant}`,
+        `button-${size}`,
         {
             [`button-disabled`]: disabled,
             [`button-icon-only`]: !children && children !== 0 && !!icon,

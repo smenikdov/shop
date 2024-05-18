@@ -1,23 +1,147 @@
 @import '@/styles/abstracts';
 
+@mixin button-color($color, $filled-text-color: white) {
+    --button-color: #{$color};
+    --button-hover-color: #{lighten($color, 10)};
+    --button-active-color: #{darken($color, 10)};
+    --button-filled-text-color: #{$filled-text-color};
+    --button-text-hover-background: #{lighten($color, 50)};
+    --button-text-active-background: #{lighten($color, 40)};
+}
+
 .button {
-    &-primary {}
-    &-secondary {}
-    &-success {}
-    &-warning {}
-    &-danger {}
+    $root-selector: &;
+    
+    outline: none;
+    position: relative;
+    display: inline-block;
+    font-weight: 500;
+    white-space: nowrap;
+    text-align: center;
+    background-image: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 300ms;
+    user-select: none;
+    touch-action: manipulation;
+    color: $dark;
+    line-height: 150%;
 
-    &-squre {}
-    &-round {}
-    &-circle {}
+    &-primary {
+        @include button-color($primary);
+    }
+    &-secondary {
+        @include button-color($secondary);
+    }
+    &-success {
+        @include button-color($success);
+    }
+    &-warning {
+        @include button-color($warning);
+    }
+    &-danger {
+        @include button-color($danger);
+    }
+    &-info {
+        @include button-color($info);
+    }
+    &-light {
+        @include button-color($light, $dark);
+    }
+    &-dark {
+        @include button-color($dark);
+    }
+    &-muted {
+        @include button-color($muted);
+    }
 
-    &-outlined {}
-    &-filled {}
-    &-dashed {}
-    &-link {}
-    &-text {}
+    @each $sizeName, $sizeValue in $sizes {
+        &-#{$sizeName} {
+            font-size: $sizeValue;
+            padding: $sizeValue / 3 $sizeValue / 1.5;
+        }
+    }
 
-    &-disabled {}
+    &-filled {
+        border: none;
+    }
+    &-outlined {
+        border-width: 1px;
+        border-style: solid;
+    }
+    &-text {
+        border: none;
+    }
+    &-link {
+        border: none;
+    }
+    &-filled {
+        color: var(--button-filled-text-color);
+        background: var(--button-color);
+        &:not(#{$root-selector}-disabled) {
+            &:hover {
+                background: var(--button-hover-color);
+            }
+            &:active {
+                background: var(--button-active-color);
+            }
+        }
+    }
+    &-outlined {
+        color: var(--button-color);
+        border-color: var(--button-color);
+        &:not(#{$root-selector}-disabled) {
+            &:hover {
+                color: var(--button-hover-color);
+                border-color: var(--button-hover-color);
+            }
+            &:active {
+                color: var(--button-active-color);
+                border-color: var(--button-active-color);
+            }
+        }
+    }
+    &-text {
+        color: var(--button-color);
+        background: rgba(0, 0, 0, 0);
+        &:not(#{$root-selector}-disabled) {
+            &:hover {
+                color: var(--button-hover-color);
+                background: var(--button-text-hover-background);
+            }
+            &:active {
+                color: var(--button-active-color);
+                background: var(--button-text-active-background);
+            }
+        }
+    }
+    &-link {
+        color: var(--button-color);
+        &:not(#{$root-selector}-disabled) {
+            &:hover {
+                text-decoration: underline;
+                color: var(--button-hover-color);
+            }
+            &:active {
+                color: var(--button-active-color);
+            }
+        }
+    }
+
+    &-squre {
+        border-radius: 0px;
+    }
+    &-round {
+        border-radius: 0.33em;
+    }
+    &-circle {
+        border-radius: 50%;
+    }
+
+    &-disabled {
+        filter: opacity(0.6);
+        cursor: not-allowed;
+    }
     &-loading {}
     &-icon-only {}
 }

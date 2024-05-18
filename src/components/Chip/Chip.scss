@@ -1,9 +1,48 @@
 @import '@/styles/abstracts';
 
+@mixin chip-color($color) {
+    --chip-color: #{$color};
+    --chip-background: #{lighten($color, 50)};
+}
+
 .chip {
-    &-primary {}
-    &-secondary {}
-    &-success {}
-    &-warning {}
-    &-danger {}
+    box-sizing: border-box;
+    font-size: 12px;
+    line-height: 150%;
+    display: inline-block;
+    height: auto;
+    padding-inline: 5px;
+    background: var(--chip-background);
+    white-space: nowrap;
+    border: 1px solid var(--chip-color);
+    color: var(--chip-color);
+    border-radius: 4px;
+    opacity: 1;
+    transition: all 300ms;
+    position: relative;
+
+    &-primary {
+        @include chip-color($primary);
+    }
+    &-secondary {
+        @include chip-color($secondary);
+    }
+    &-success {
+        @include chip-color($success);
+    }
+    &-warning {
+        @include chip-color($warning);
+    }
+    &-danger {
+        @include chip-color($danger);
+    }
+    &-info {
+        @include chip-color($info);
+    }
+    &-dark {
+        @include chip-color($dark);
+    }
+    &-muted {
+        @include chip-color($muted);
+    }
 }

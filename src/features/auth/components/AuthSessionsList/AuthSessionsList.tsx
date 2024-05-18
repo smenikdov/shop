@@ -40,14 +40,14 @@ export default async function AuthSessionsList() {
                     </Flex>
                     <Flex gapX="sm" align="center">
                         {session.createdAt && (
-                            <Text color="grey">{formatDate(new Date(session.createdAt))}</Text>
+                            <Text color="muted">{formatDate(new Date(session.createdAt))}</Text>
                         )}
                         {session.createdAt && session.ip && (
                             <div>
                                 <Divider vertical />
                             </div>
                         )}
-                        {session.ip && <Text color="grey">{session.ip}</Text>}
+                        {session.ip && <Text color="muted">{session.ip}</Text>}
                     </Flex>
                 </Card>
             ))}
