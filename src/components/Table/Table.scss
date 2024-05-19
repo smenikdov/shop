@@ -3,7 +3,7 @@
 .table {
     $root-selector: &;
 
-    border: 1px solid lighten($muted, 35);
+    border: 1px solid $light-muted;
     border-radius: 10px;
     display: table;
     width: 100%;
@@ -14,9 +14,9 @@
     &-head {
         #{$root-selector}-cell {
             font-weight: 600;
-            background-color: lighten($muted, 40);
+            background-color: $light;
             &:not(:last-child) {
-                border-right: 1px solid lighten($muted, 35);
+                border-right: 1px solid $light-muted;
             }
         }
     }
@@ -24,7 +24,7 @@
     &-body {
         #{$root-selector}-row {
             &:hover {
-                background-color: lighten($muted, 40);
+                background-color: $light;
             }
             &:last-child {
                 #{$root-selector}-cell {
@@ -44,6 +44,6 @@
         position: relative;
         padding: 12px;
         overflow-wrap: break-word;
-        border-bottom: 1px solid lighten($muted, 35);
+        border-bottom: 1px solid $light-muted;
     }
 }

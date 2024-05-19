@@ -68,18 +68,18 @@ const socialLinks = [
 
 const Footer = () => {
     return (
-        <footer className="footer">
+        <footer className={styles.footer}>
             <Container>
                 <Row align="center">
                     <Col lg={8}>
-                        <FooterLogo className="footer-logo" />
+                        <FooterLogo className={styles.logo} />
                         <Flex>
                             {linksSections.map((section, index) => (
-                                <div key={index} className="footer-links-section">
+                                <div key={index} className={styles.linksSection}>
                                     {section.links.map((link) => (
                                         <Link
                                             key={link.href}
-                                            className="footer-link"
+                                            className={styles.link}
                                             href={link.href}
                                         >
                                             {link.label}
@@ -90,12 +90,7 @@ const Footer = () => {
                         </Flex>
                         <Flex>
                             {socialLinks.map((link) => (
-                                <Button
-                                    key={link.href}
-                                    className="footer-social-button"
-                                    href={link.href}
-                                    icon={link.icon}
-                                />
+                                <Button key={link.href} href={link.href} icon={link.icon} />
                             ))}
                         </Flex>
                     </Col>

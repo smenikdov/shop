@@ -1,6 +1,12 @@
 @import '@/styles/abstracts';
 
 .typography {
+    &[href] {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     &-primary {
         color: $primary;
     }

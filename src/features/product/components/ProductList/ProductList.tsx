@@ -27,7 +27,7 @@ const ProductList = (props: ProductListProps) => {
                     <Col key={product.id} sm={6} md={4} lg={3}>
                         <Link href={`/product/${product.id}`}>
                             <div className={styles.product}>
-                                <Chip></Chip>
+                                {/* <Chip>скидка 33%</Chip> */}
                                 <Image
                                     src={product.images[0]}
                                     alt={product.name}

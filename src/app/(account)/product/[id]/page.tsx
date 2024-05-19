@@ -48,7 +48,7 @@ export default async function Product({ params }: { params: { id: number } }) {
 
     return (
         <main>
-            <Container>
+            <Container className="mt-xl mb-xs">
                 <Flex justify="space-between">
                     <Breadcrumbs />
                     <div>

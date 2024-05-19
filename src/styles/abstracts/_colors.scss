@@ -1,19 +1,18 @@
-$primary: #8c6e50;
+// BASE
+$primary: #C4AA73;
 $secondary: #26A69A;
-$success: #7FD1AE;
-$danger: #FF8960;
+
+// STATUS
+$success: #74C481;
+$danger: #C47474;
 $warning: #b0ba21;
-$info: #7fa3d1;
-$muted: #929292;
-$light: #FFF;
-$dark: #322D27;
+$info: #74A5C4;
 
-// #FCF8F3
-
-// https://mycolor.space/?hex=%23F5EEE6&sub=1
-// SHADES
-// #F5EEE6
-// #C0B9B2
-// #8D8780
-// #5E5851
-// #322D27
+// GREY
+$white: #FFF;
+$light: #EEEADF;
+$light-muted: #D3CEC3;
+$muted: #9B978D;
+$dark-muted: #625F58;
+$dark: #232220;
+$black: #000;

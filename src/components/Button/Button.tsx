@@ -12,7 +12,7 @@ const Button = (props: ButtonProps) => {
     const {
         loading = false,
         variant = 'filled',
-        color = 'primary',
+        color = 'dark',
         shape = 'round',
         size = 'md',
         disabled = false,

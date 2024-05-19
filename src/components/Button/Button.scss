@@ -26,6 +26,8 @@
     touch-action: manipulation;
     color: $dark;
     line-height: 150%;
+    font-size: var(--button-size);
+    padding: calc(var(--button-size) / 3) calc(var(--button-size) / 1.5);
 
     &-primary {
         @include button-color($primary);
@@ -57,25 +59,12 @@
 
     @each $sizeName, $sizeValue in $sizes {
         &-#{$sizeName} {
-            font-size: $sizeValue;
-            padding: $sizeValue / 3 $sizeValue / 1.5;
+            --button-size: #{$sizeValue};
         }
     }
 
     &-filled {
         border: none;
-    }
-    &-outlined {
-        border-width: 1px;
-        border-style: solid;
-    }
-    &-text {
-        border: none;
-    }
-    &-link {
-        border: none;
-    }
-    &-filled {
         color: var(--button-filled-text-color);
         background: var(--button-color);
         &:not(#{$root-selector}-disabled) {
@@ -87,7 +76,10 @@
             }
         }
     }
+
     &-outlined {
+        border-width: 1px;
+        border-style: solid;
         color: var(--button-color);
         border-color: var(--button-color);
         &:not(#{$root-selector}-disabled) {
@@ -101,9 +93,11 @@
             }
         }
     }
+
     &-text {
         color: var(--button-color);
         background: rgba(0, 0, 0, 0);
+        border: none;
         &:not(#{$root-selector}-disabled) {
             &:hover {
                 color: var(--button-hover-color);
@@ -115,8 +109,12 @@
             }
         }
     }
+
     &-link {
         color: var(--button-color);
+        border: none;
+        padding: 0;
+
         &:not(#{$root-selector}-disabled) {
             &:hover {
                 text-decoration: underline;
@@ -131,9 +129,11 @@
     &-squre {
         border-radius: 0px;
     }
+
     &-round {
         border-radius: 0.33em;
     }
+
     &-circle {
         border-radius: 50%;
     }
@@ -142,6 +142,14 @@
         filter: opacity(0.6);
         cursor: not-allowed;
     }
+
     &-loading {}
-    &-icon-only {}
+
+    &-icon-only {
+        padding: calc(var(--button-size) / 6) calc(var(--button-size) / 6);
+        .icon {
+            height: 1.5em;
+            width: 1.5em;
+        }
+    }
 }

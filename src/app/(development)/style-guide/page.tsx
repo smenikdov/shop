@@ -91,29 +91,28 @@ export default function Login() {
                         <div className={styles.title}>buttons</div>
                         <div className={styles.subtitle}>Variant</div>
                         <div>
-                            <Button color="primary" variant="outlined" className="mx-sm">
+                            <Button variant="outlined" className="mx-sm">
                                 outlined
                             </Button>
-                            <Button color="primary" variant="filled" className="mx-sm">
+                            <Button variant="filled" className="mx-sm">
                                 filled
                             </Button>
-                            <Button color="primary" variant="text" className="mx-sm">
+                            <Button variant="text" className="mx-sm">
                                 text
                             </Button>
-                            <Button color="primary" variant="link" className="mx-sm">
+                            <Button variant="link" className="mx-sm">
                                 link
                             </Button>
                         </div>
                         <div className={styles.subtitle}>Shape</div>
                         <div>
-                            <Button color="primary" shape="squre" className="mx-sm">
+                            <Button shape="squre" className="mx-sm">
                                 squre
                             </Button>
-                            <Button color="primary" shape="round" className="mx-sm">
+                            <Button shape="round" className="mx-sm">
                                 round
                             </Button>
                             <Button
-                                color="primary"
                                 shape="circle"
                                 className="mx-sm"
                                 icon={<MdOutlineAccountCircle />}
@@ -121,11 +120,11 @@ export default function Login() {
                         </div>
                         <div className={styles.subtitle}>Color</div>
                         <div>
+                            <Button color="dark" className="mx-sm">
+                                dark
+                            </Button>
                             <Button color="primary" className="mx-sm">
                                 primary
-                            </Button>
-                            <Button color="secondary" className="mx-sm">
-                                secondary
                             </Button>
                             <Button color="success" className="mx-sm">
                                 success

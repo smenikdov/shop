@@ -34,7 +34,7 @@ export default function Contacts() {
     return (
         <main>
             <Container>
-                <Breadcrumbs />
+                <Breadcrumbs className="mt-xl mb-xs" />
                 <Card className="mb-lg">
                     <Title level={2}>Учётные данные</Title>
                     <div className="mb-md">

@@ -27,7 +27,7 @@ export default function Contacts() {
     return (
         <main>
             <Container>
-                <Breadcrumbs />
+                <Breadcrumbs className="mt-xl mb-xs" />
             </Container>
         </main>
     );
