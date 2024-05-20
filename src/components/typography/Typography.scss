@@ -1,6 +1,12 @@
 @import '@/styles/abstracts';
 
 .typography {
+    &[href] {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     &-primary {
         color: $primary;
     }
@@ -16,8 +22,8 @@
     &-danger {
         color: $danger;
     }
-    &-grey {
-        color: $grey;
+    &-muted {
+        color: $muted;
     }
 
     @each $value in ('center', 'left', 'right', 'justify') {

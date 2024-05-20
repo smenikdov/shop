@@ -56,11 +56,15 @@ const Header = () => {
                         <Flex justify="flex-end">
                             <Button
                                 href="/login"
+                                shape="circle"
+                                variant="text"
                                 className={styles.loginButton}
                                 icon={<MdOutlineAccountCircle />}
                             />
                             <Button
                                 href="/basket"
+                                shape="circle"
+                                variant="text"
                                 className={styles.loginBasket}
                                 icon={<MdOutlineShoppingBasket />}
                             />

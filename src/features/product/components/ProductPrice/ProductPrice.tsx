@@ -21,7 +21,7 @@ const ProductPrice = (props: ProductPriceProps) => {
                         )}
                         ₽
                     </Text>
-                    <Text className={styles.prevprice} color="grey">
+                    <Text className={styles.prevprice} color="muted">
                         {formatNumber(price)}₽
                     </Text>
                     <Chip className={styles.chip}>Скидка {formatNumber(offer.discount)}%</Chip>

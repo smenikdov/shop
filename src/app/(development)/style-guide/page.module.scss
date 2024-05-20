@@ -1,0 +1,76 @@
+@import '@/styles/abstracts';
+
+.container {
+    margin: 20px 0;
+    border: 1px solid $primary;
+    display: grid;
+    grid: repeat(5, fit-content(300px)) / repeat(4, 1fr);
+    grid-template-areas:
+        "colors typography typography typography"
+        "colors buttons buttons links"
+        "inputs inputs inputs inputs"
+        "chips tooltips alerts alerts"
+        "loading tooltips alerts alerts"
+        "table table table table";
+}
+
+.section {
+    position: relative;
+    border: 1px solid $primary;
+    padding: 20px;
+}
+
+.title {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    padding: 0 10px;
+    background: white;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: $muted;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.colors {
+    grid-area: colors;
+}
+
+.typography {
+    grid-area: typography;
+}
+
+.buttons {
+    grid-area: buttons;
+}
+
+.links {
+    grid-area: links;
+}
+
+.inputs {
+    grid-area: inputs;
+}
+
+.chips {
+    grid-area: chips;
+}
+
+.tooltips {
+    grid-area: tooltips;
+}
+
+.alerts {
+    grid-area: alerts;
+}
+
+.loading {
+    grid-area: loading;
+}
+
+.table {
+    grid-area: table;
+}

@@ -35,7 +35,7 @@ export default async function Product() {
 
     return (
         <main>
-            <Container>
+            <Container className="mt-xl mb-xs">
                 <Breadcrumbs />
             </Container>
             <ProductList products={products} />

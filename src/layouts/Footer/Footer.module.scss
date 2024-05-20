@@ -1,14 +1,14 @@
 @import '@/styles/abstracts';
 
 .footer {
-    background: $light;
+    margin-top: 40px;
+    background: $dark;
+    color: $white;
 }
 
 .logo {}
 
-.social-button {}
-
-.links-section {
+.linksSection {
     margin-right: 40px;
 }
 

@@ -11,7 +11,7 @@ import Text from '@/components/typography/Text';
 import classNames from 'classnames';
 
 const NotificationElement = (props: NotificationElementProps) => {
-    const { title, message, color = 'grey' } = props;
+    const { title, message, color = 'muted' } = props;
 
     const mergedCls = classNames('notification', `notification-${color}`);
 

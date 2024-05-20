@@ -1,0 +1,67 @@
+@use 'sass:color';
+@import '@/styles/abstracts';
+
+@mixin paletteStyles($color) {
+    .mainColor {
+        background-color: $color;
+    }
+    
+    .color {
+        &:nth-child(1) {
+            background-color: lighten($color, 30);
+        }
+        &:nth-child(2) {
+            background-color: lighten($color, 15);
+        }
+        &:nth-child(3) {
+            background-color: $color;
+        }
+        &:nth-child(4) {
+            background-color: darken($color, 15);
+        }
+        &:nth-child(5) {
+            background-color: darken($color, 20);
+        }
+    }
+}
+
+.container {}
+
+.colors {
+    &-primary {
+        @include paletteStyles($primary);
+    }
+    &-secondary {
+        @include paletteStyles($secondary);
+    }
+    &-success {
+        @include paletteStyles($success);
+    }
+    &-danger {
+        @include paletteStyles($danger);
+    }
+    &-warning {
+        @include paletteStyles($warning);
+    }
+    &-info {
+        @include paletteStyles($info);
+    }
+    &-muted {
+        @include paletteStyles($muted);
+    }
+    &-light {
+        @include paletteStyles($light);
+    }
+    &-dark {
+        @include paletteStyles($dark);
+    }
+}
+
+.mainColor {
+    height: 100px;
+}
+
+.color {
+    height: 50px;
+    width: 20%;
+}

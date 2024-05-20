@@ -37,6 +37,8 @@ const Header = () => {
                             <Button
                                 href="/my"
                                 className={styles.loginButton}
+                                shape="circle"
+                                variant="text"
                                 icon={<MdOutlineAccountCircle />}
                             />
                         </Flex>

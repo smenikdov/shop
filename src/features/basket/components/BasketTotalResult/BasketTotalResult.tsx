@@ -25,7 +25,7 @@ const BasketTotalResult = ({ result }: BasketTotalResultProps) => {
         <div>
             <Title level={2}>Итого</Title>
             <div>
-                <Text color="grey">
+                <Text color="muted">
                     {quantity} {declineWord(quantity, 'товар', 'товара', 'товаров')}
                 </Text>
             </div>
@@ -53,7 +53,7 @@ const BasketTotalResult = ({ result }: BasketTotalResultProps) => {
             <div>
                 <Button href="/checkout">Перейти к оформлению</Button>
             </div>
-            <Text color="grey">Способ оплата и доставки можно выбрать при оформление заказа</Text>
+            <Text color="muted">Способ оплата и доставки можно выбрать при оформление заказа</Text>
         </div>
     );
 };

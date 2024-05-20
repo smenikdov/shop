@@ -19,7 +19,7 @@ export default function Home() {
     return (
         <main>
             <Container>
-                <Breadcrumbs />
+                <Breadcrumbs className="mt-xl mb-xs" />
                 <Title>4234fsd</Title>
                 <Button>asdasd</Button>
             </Container>

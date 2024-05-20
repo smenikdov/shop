@@ -11,6 +11,13 @@ import Icon from '@/components/Icon';
 import Flex from '@/components/Flex';
 import { MdOutlineHome } from 'react-icons/md';
 
+const PAGE_NAMES: {
+    [key: string]: string;
+} = {
+    product: 'Каталог',
+    my: 'Личный кабинет',
+};
+
 const BreadcrumbsItem = (props: BreadcrumbsItemProps) => {
     const { style, className, href, label, separator, ...otherProps } = props;
     const mergedCls = classNames('breadcrumbs-item', className);
@@ -26,7 +33,14 @@ const BreadcrumbsItem = (props: BreadcrumbsItemProps) => {
 };
 
 const Breadcrumbs = (props: BreadcrumbsProps) => {
-    const { separator = '/', style, className, children, items, ...otherProps } = props;
+    const {
+        separator = <div className="px-xs">/</div>,
+        style,
+        className,
+        children,
+        items,
+        ...otherProps
+    } = props;
 
     const paths = usePathname();
 
@@ -58,7 +72,7 @@ const Breadcrumbs = (props: BreadcrumbsProps) => {
                     return (
                         <BreadcrumbsItem
                             key={index}
-                            label={link}
+                            label={PAGE_NAMES[link] || link}
                             href={href}
                             separator={pathNames.length !== index + 1 && separator}
                         />
