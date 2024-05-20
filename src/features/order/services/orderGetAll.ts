@@ -9,7 +9,7 @@ interface PayloadFilters {
     id: number;
 }
 
-export const orderGetAll = new Handler({
+export const orderGetAllHandler = new Handler({
     name: 'Получение списка всех заказов',
     defaultError: 'Ошибка при получении списка всех заказов',
     schema: v.object({

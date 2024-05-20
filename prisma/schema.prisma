@@ -131,7 +131,7 @@ model ProductOffer {
     name        String
     description String?
     discount    Float     @default(0)
-    active      Boolean   @default(false)
+    isActive    Boolean   @default(false)
     products    Product[]
 
     createdAt DateTime @default(now()) @map(name: "created_at")
@@ -214,4 +214,30 @@ model Payment {
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "payments")
+}
+
+//  ============================================= CODES =============================================
+model SmsCodes {
+    id         Int   @id @default(autoincrement())
+    phone      String
+    code       String
+    isActive   Boolean @default(false)
+    expiresAt  DateTime
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "sms_codes")
+}
+model EmailCodes {
+    id         Int   @id @default(autoincrement())
+    email      String
+    code       String
+    isActive   Boolean @default(false)
+    expiresAt  DateTime
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "email_codes")
 }

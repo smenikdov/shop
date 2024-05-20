@@ -10,7 +10,7 @@ export const baseProductScheme = {
             discount: true,
         },
         where: {
-            active: true,
+            isActive: true,
         },
     },
     images: true,

@@ -38,3 +38,8 @@ export const formatNumber = (number: number, options: FormatNumberOptions = {}) 
 
     return output.join('');
 };
+
+export const getRandomNumber = (min: number, max: number): number => {
+    const randomNumber = Math.random() * (max - min) + min;
+    return Math.round(randomNumber);
+};

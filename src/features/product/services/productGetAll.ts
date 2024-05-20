@@ -24,7 +24,7 @@ export const productGetAllHandler = new Handler({
                         discount: true,
                     },
                     where: {
-                        active: true,
+                        isActive: true,
                     },
                 },
                 images: true,

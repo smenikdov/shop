@@ -9,7 +9,7 @@ interface PayloadFilters {
     id: number;
 }
 
-export const paymentGetAll = new Handler({
+export const paymentGetAllHandler = new Handler({
     name: 'Получение списка всех финансовых операций',
     defaultError: 'Ошибка при получении списка всех финансовых операций',
     schema: v.object({
