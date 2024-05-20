@@ -8,7 +8,7 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { baseProductScheme } from '@/features/product/utils';
+import { baseProductScheme } from '@/utils/prisma';
 
 export const favoriteGetAllItemsHandler = new Handler({
     name: 'Получение избранных товаров',

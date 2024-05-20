@@ -6,6 +6,10 @@ enum OrderStatuses {
     RECEIVED
 }
 
+enum PaymentStatuses {
+    SUCCESS
+}
+
 enum UserRole {
     USER
     ADMIN
@@ -203,7 +207,11 @@ model Payment {
     user    User  @relation(fields: [userId], references: [id])
     order   Order @relation(fields: [orderId], references: [id])
     orderId Int   @unique() @map(name: "order_id")
+    status     PaymentStatuses
     // TODO 
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "payments")
 }

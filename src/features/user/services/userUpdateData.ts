@@ -14,7 +14,7 @@ export const userGetData = new Handler({
     name: 'Сохранение данных пользователя',
     defaultError: 'Ошибка при сохранении данных пользователя',
     schema: v.object({
-        userId: v.id(),
+        id: v.id(),
         userData: v.object({
             email: v.email(),
             phone: v.phone(),
@@ -26,11 +26,11 @@ export const userGetData = new Handler({
         }),
     }),
 
-    async request(payload: { userId: number; userData: UserData }) {
+    async request(payload: { id: number; userData: UserData }) {
         await prisma.user.update({
             data: payload.userData,
             where: {
-                id: payload.userId,
+                id: payload.id,
             },
         });
         return new SuccessResponse();

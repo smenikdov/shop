@@ -13,13 +13,13 @@ export const userGetData = new Handler({
     name: 'Получение детализации по пользователю',
     defaultError: 'Ошибка при получении данных пользователя',
     schema: v.object({
-        userId: v.id(),
+        id: v.id(),
     }),
 
-    async request(payload: { userId: number }) {
+    async request(payload: { id: number }) {
         const userData = await prisma.user.findUnique({
             where: {
-                id: payload.userId,
+                id: payload.id,
             },
             select: {
                 id: true,
