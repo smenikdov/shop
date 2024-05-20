@@ -7,6 +7,7 @@ import Link from '@/components/typography/Link';
 import Flex from '@/components/Flex';
 import Button from '@/components/Button';
 import Icon from '@/components/Icon';
+import { cookies as getCookies } from 'next/headers';
 
 import { MdOutlineAccountCircle, MdOutlineShoppingBasket } from 'react-icons/md';
 
@@ -32,6 +33,9 @@ const links = [
 ];
 
 const Header = () => {
+    const cookies = getCookies();
+    const accessToken = cookies.get('accessToken')?.value;
+
     return (
         <header className={styles.header}>
             <Container>
@@ -55,7 +59,7 @@ const Header = () => {
                     <Col lg={3}>
                         <Flex justify="flex-end">
                             <Button
-                                href="/login"
+                                href={accessToken ? '/my' : '/login'}
                                 shape="circle"
                                 variant="text"
                                 className={styles.loginButton}

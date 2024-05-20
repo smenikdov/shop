@@ -108,7 +108,7 @@ export const authDeleteAllSessionsHandler = new Handler({
     },
 });
 
-export const authGetAllSessionsHandler = new Handler({
+export const authGetMySessionsHandler = new Handler({
     name: 'Получение всех сессий пользователя',
     defaultError: 'Ошибка при получении сессий пользователя',
 

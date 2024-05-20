@@ -8,7 +8,7 @@ import { AccessDeniedResponse } from '@/utils/actions/responses';
 import { authLoginWithPhoneHandler } from '@/features/auth/services/authLogin';
 import { authRegistrationWithPhoneHandler } from '@/features/auth/services/authRegistration';
 import { authLogoutHandler } from '@/features/auth/services/authLogout';
-import { authGetAllSessionsHandler } from '@/features/auth/services/authSession';
+import { authGetMySessionsHandler } from '@/features/auth/services/authSession';
 
 export const authLoginWithPhone = createRoute({
     async handler({ payload }: RouteData<{ phone: string; password: string }>) {
@@ -17,7 +17,7 @@ export const authLoginWithPhone = createRoute({
 });
 
 export const authRegistrationWithPhone = createRoute({
-    async handler({ payload }: RouteData<{ phone: string; password: string }>) {
+    async handler({ payload }: RouteData<{ phone: string; password: string; code: string }>) {
         return authRegistrationWithPhoneHandler.execute(payload);
     },
 });
@@ -29,10 +29,10 @@ export const authLogout = createRoute({
     },
 });
 
-export const authGetAllSessions = createRoute({
+export const authGetMySessions = createRoute({
     async handler({ accessTokenData }: RouteData) {
         if (accessTokenData?.userId) {
-            return authGetAllSessionsHandler.execute({ userId: accessTokenData.userId });
+            return authGetMySessionsHandler.execute({ userId: accessTokenData.userId });
         } else {
             return new AccessDeniedResponse();
         }

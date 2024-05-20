@@ -15,11 +15,11 @@ import Flex from '@/components/Flex';
 import Result from '@/components/Result';
 import Divider from '@/components/Divider';
 import Card from '@/components/Card';
-import { authGetAllSessions } from '@/features/auth/routes';
+import { authGetMySessions } from '@/features/auth/routes';
 import { formatDate } from '@/utils/date';
 
 export default async function AuthSessionsList() {
-    const response = await authGetAllSessions({});
+    const response = await authGetMySessions({});
     if (!response.isSuccess || !response.data) {
         return <Result response={response} />;
     }

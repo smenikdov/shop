@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { postSendSmsHandler } from './postSendsms';
+import { postSendSmsHandler } from './postSendSms';
 import { getRandomNumber } from '@/utils/number';
 
 const isTestSms = true;

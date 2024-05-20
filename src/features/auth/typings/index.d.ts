@@ -11,5 +11,5 @@ export interface SessionListItem {
     platform: string | null;
     browserName: string | null;
     operatingSystem: string | null;
-    createdAt: string;
+    createdAt: Date;
 }
