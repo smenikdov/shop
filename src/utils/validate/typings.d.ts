@@ -33,11 +33,19 @@ export interface IDateValidator {
     validate(value: Date): ValidPrimitiveResult;
 }
 
+export interface IFileValidator {
+    validate(value: File): ValidPrimitiveResult;
+}
 export interface IObjectValidator {
     validate(value: object): ValidObjectResult;
 }
 
-export type AnyValidator = INumberValidator | IStringValidator | IDateValidator | IObjectValidator;
+export type AnyValidator =
+    | INumberValidator
+    | IStringValidator
+    | IDateValidator
+    | IFileValidator
+    | IObjectValidator;
 
 export interface ObjectFieldsVlidators {
     [key: string]: AnyValidator;

@@ -3,10 +3,12 @@ import { NumberValidator } from './number';
 import { StringValidator } from './string';
 import { DateValidator } from './date';
 import { ObjectValidator } from './object';
+import { FileValidator } from './file';
 
 export const string = () => new StringValidator();
 export const number = () => new NumberValidator();
 export const date = () => new DateValidator();
+export const file = () => new FileValidator();
 export const object = (fields: ObjectFieldsVlidators) => new ObjectValidator(fields);
 
 export const email = () =>

@@ -1,0 +1,53 @@
+services:
+    postgres:
+        container_name: postgres
+        image: postgres:13.3
+        env_file:
+            - .env
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER:-postgres}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+            PGDATA: /var/lib/postgresql/data
+        ports:
+        - '5432:5432'
+        # networks:
+        #     - backend
+        volumes:
+            - postgres-db-volume:/var/lib/postgresql/data
+    
+    shop:
+        container_name: shop
+        build: ..
+        env_file:
+            - .env
+        volumes:
+            - ..:/code
+        ports:
+            - '3000:3000'
+        command: next dev
+    
+    migrations:
+        container_name: migrations
+        build: ..
+        volumes:
+            - ..:/code
+        env_file:
+            - .env
+        command: npx prisma migrate dev
+    
+    prisma:
+        container_name: prisma
+        build: ..
+        volumes:
+            - ..:/code
+        env_file:
+            - .env
+        ports:
+            - '5555:5555'
+        command: npx prisma studio
+
+
+
+volumes:
+  postgres-db-volume:
