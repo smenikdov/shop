@@ -3,13 +3,13 @@ import prisma from '@/lib/prisma';
 import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { postSendSmsHandler } from './postSendSms';
+import { postSendPhoneMessageHandler } from './postSendPhoneMessage';
 import { getRandomNumber } from '@/utils/number';
 
 const isTestSms = true;
 const ttlSms = Number(process.env.TTL_SMS);
 
-export const postSendSmsCodeHandler = new Handler({
+export const postSendPhoneCodeHandler = new Handler({
     name: 'Отправка кода по номеру телефон',
     defaultError: 'Ошибка при отправке кода по номеру телефон',
     schema: v.object({
@@ -22,7 +22,7 @@ export const postSendSmsCodeHandler = new Handler({
             code = '1234';
         } else {
             code = getRandomNumber(1000, 9999).toString();
-            const { isSuccess } = await postSendSmsHandler.execute({
+            const { isSuccess } = await postSendPhoneMessageHandler.execute({
                 phone: payload.phone,
                 message: `Пароль для регистрации: ${code}`,
             });

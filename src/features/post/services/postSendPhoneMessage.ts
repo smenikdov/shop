@@ -5,7 +5,7 @@ import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 import axios from 'axios';
 
-export const postSendSmsHandler = new Handler({
+export const postSendPhoneMessageHandler = new Handler({
     name: 'Отправка СМС по номеру телефон',
     defaultError: 'Ошибка при отправке СМС по номеру телефон',
     schema: v.object({
