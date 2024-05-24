@@ -1,2 +1,2 @@
-import NotificationContainer from './NotificationContainer';
-export default NotificationContainer;
+import MessageContainer from './MessageContainer';
+export default MessageContainer;

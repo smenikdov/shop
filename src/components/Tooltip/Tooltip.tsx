@@ -1,8 +1,21 @@
-import React, { useMemo } from 'react';
+'use client';
+import React, { useMemo, useState } from 'react';
 import './Tooltip.scss';
 import classNames from 'classnames';
 import { useUncontrolledProp } from 'uncontrollable';
 import type { TooltipProps } from './Tooltip.types';
+import {
+    useFloating,
+    autoUpdate,
+    offset as floatingOffset,
+    flip as floatingFlip,
+    shift as floatingShift,
+    useHover,
+    useFocus,
+    useDismiss,
+    useRole,
+    useInteractions,
+} from '@floating-ui/react';
 
 const Tooltip = (props: TooltipProps) => {
     const {
@@ -10,14 +23,11 @@ const Tooltip = (props: TooltipProps) => {
         color = 'primary',
         style,
         arrow,
-        disable,
+        disabled,
         children,
-        enterDelay = 0,
-        leaveDelay = 0,
         onChange,
         open,
-        placement,
-        title,
+        content,
         offset = [0, 0],
         trigger = 'hover',
         ...otherProps
@@ -25,67 +35,59 @@ const Tooltip = (props: TooltipProps) => {
 
     const [controlledValue, onControlledChange] = useUncontrolledProp(open, false, onChange);
 
-    const mergedCls = classNames(
-        'tooltip',
-        `tooltip-${color}`,
-        { 'tooltip-hidden': !controlledValue },
-        { 'tooltip-visible': controlledValue },
-        className
-    );
+    const { refs, floatingStyles, context } = useFloating({
+        open: controlledValue,
+        onOpenChange: onControlledChange,
+        middleware: [floatingOffset(0), floatingFlip(), floatingShift()],
+        whileElementsMounted: autoUpdate,
+    });
+
+    const mergedCls = classNames('tooltip', `tooltip-${color}`, className);
 
     const mergedStyle = useMemo<React.CSSProperties>(() => {
-        const offsetStyle: React.CSSProperties = { marginLeft: offset[0], marginTop: offset[1] };
-        return { ...offsetStyle, ...style };
-    }, [offset, style]);
+        // const offsetStyle: React.CSSProperties = { marginLeft: offset[0], marginTop: offset[1] };
+        return { ...floatingStyles, ...style };
+    }, [floatingStyles, style]);
 
-    let enterTimer: ReturnType<typeof setTimeout>;
-    let leaveTimer: ReturnType<typeof setTimeout>;
+    const hover = useHover(context, { move: false });
+    const focus = useFocus(context);
+    const dismiss = useDismiss(context);
+    const role = useRole(context, { role: 'tooltip' });
 
-    const handleEnterEvent = () => {
-        clearTimeout(leaveTimer);
-        if (enterDelay) {
-            enterTimer = setTimeout(() => {
-                onControlledChange(true);
-            }, enterDelay);
-        } else {
-            onControlledChange(true);
-        }
-    };
-
-    const handleLeaveEvent = () => {
-        clearTimeout(enterTimer);
-        if (leaveDelay) {
-            leaveTimer = setTimeout(() => {
-                onControlledChange(false);
-            }, leaveDelay);
-        } else {
-            onControlledChange(false);
-        }
-    };
-
-    const interactiveListeners: {
-        onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
-        onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
-        onFocus?: (event: React.FocusEvent<HTMLElement>) => void;
-        onBlur?: (event: React.FocusEvent<HTMLElement>) => void;
-    } = {};
+    const interactions = [dismiss, role];
 
     if (trigger === 'hover') {
-        interactiveListeners.onMouseOver = handleEnterEvent;
-        interactiveListeners.onMouseLeave = handleLeaveEvent;
+        interactions.push(hover);
     }
     if (trigger === 'focus') {
-        interactiveListeners.onFocus = handleEnterEvent;
-        interactiveListeners.onBlur = handleLeaveEvent;
+        interactions.push(focus);
     }
 
+    const { getReferenceProps, getFloatingProps } = useInteractions(interactions);
+
     return (
-        <div {...otherProps} {...interactiveListeners}>
-            {children}
-            <div className={mergedCls} style={mergedStyle}>
-                {title}
+        <>
+            <div
+                className="tooltip-container"
+                ref={refs.setReference}
+                {...getReferenceProps()}
+                aria-disabled={disabled}
+            >
+                {children}
             </div>
-        </div>
+
+            {controlledValue && (
+                <div
+                    ref={refs.setFloating}
+                    className={mergedCls}
+                    style={mergedStyle}
+                    {...getFloatingProps()}
+                    {...otherProps}
+                >
+                    {content}
+                </div>
+            )}
+        </>
     );
 };
 

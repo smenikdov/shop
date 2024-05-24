@@ -35,7 +35,9 @@ export default function AuthRegistrationForm() {
             <FormItem name="password" label="Пароль">
                 <Input type="password" />
             </FormItem>
-            <Button type="submit">Зарегистрироваться</Button>
+            <Tooltip content="gi">
+                <Button type="submit">Зарегистрироваться</Button>
+            </Tooltip>
         </Form>
     );
 }

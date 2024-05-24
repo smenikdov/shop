@@ -43,7 +43,7 @@ const columns = [
 
 export default async function UsersList() {
     const response = await userGetAll({});
-    if (!response.isSuccess) {
+    if (!response.isSuccess || !response.data) {
         return <Result response={response} />;
     }
     const users = response.data;

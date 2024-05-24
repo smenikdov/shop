@@ -8,26 +8,11 @@ export interface TooltipProps {
     color?: BaseColors;
     style?: React.CSSProperties;
     arrow?: boolean;
-    disable?: boolean;
+    disabled?: boolean;
     children: React.ReactNode;
-    enterDelay?: number;
-    leaveDelay?: number;
     onChange?: (newValue: boolean) => void;
     open?: boolean;
-    placement?:
-        | 'bottom-end'
-        | 'bottom-start'
-        | 'bottom'
-        | 'left-end'
-        | 'left-start'
-        | 'left'
-        | 'right-end'
-        | 'right-start'
-        | 'right'
-        | 'top-end'
-        | 'top-start'
-        | 'top';
-    title: React.ReactNode;
+    content: React.ReactNode;
     offset?: [number | string, number | string];
     trigger?: ActionType;
 }

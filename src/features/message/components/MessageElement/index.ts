@@ -1,2 +1,2 @@
-import NotificationElement from './NotificationElement';
-export default NotificationElement;
+import MessageElement from './MessageElement';
+export default MessageElement;
