@@ -1,7 +1,21 @@
 import type React from 'react';
 import { BaseColors } from '@/typings';
 
-export type ActionType = 'hover' | 'focus'; // TODO: 'click' | 'dbclick' | 'contextMenu'
+export type Trigger = 'hover' | 'click';
+
+export type Placement =
+    | 'top'
+    | 'top-start'
+    | 'top-end'
+    | 'right'
+    | 'right-start'
+    | 'right-end'
+    | 'bottom'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'left'
+    | 'left-start'
+    | 'left-end';
 
 export interface TooltipProps {
     className?: string;
@@ -13,6 +27,7 @@ export interface TooltipProps {
     onChange?: (newValue: boolean) => void;
     open?: boolean;
     content: React.ReactNode;
-    offset?: [number | string, number | string];
-    trigger?: ActionType;
+    offset?: number;
+    triggers?: Array<Trigger>;
+    placement?: Placement;
 }

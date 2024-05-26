@@ -9,7 +9,7 @@ import Icon from '@/components/Icon';
 import Empty from '@/components/Empty';
 import Result from '@/components/Result';
 import Button from '@/components/Button';
-import Tooltip from '@/components/Tooltip';
+import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import type { Metadata } from 'next';
 import TextBlock from '@/widgets/TextBlock/TextBlock';

@@ -1,7 +1,8 @@
 import type React from 'react';
-import { BaseColors } from '@/typings';
+import { BaseColors, BaseSizes } from '@/typings';
 
 export type InputVariant = 'outlined' | 'filled' | 'borderless';
+export type FieldSize = BaseSizes;
 
 export interface FieldProps<C extends keyof JSX.IntrinsicElements> {
     className?: string;
@@ -17,4 +18,5 @@ export interface FieldProps<C extends keyof JSX.IntrinsicElements> {
     onBlur?: (event: React.FocusEvent) => void;
     name?: string;
     component?: C;
+    size?: FieldSize;
 }

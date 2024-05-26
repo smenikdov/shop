@@ -1,15 +1,78 @@
 @import '@/styles/abstracts';
 
+@mixin field-color($color, $filled-text-color: $dark) {
+    --field-color: #{$color};
+    // --button-hover-color: #{lighten($color, 10)};
+    // --button-active-color: #{darken($color, 10)};
+    --field-filled-text-color: #{$filled-text-color};
+    --field-filled-background: #{lighten($color, 30)};
+    // --button-text-active-background: #{lighten($color, 40)};
+}
+
 .field {
-    &-outlined {}
-    &-filled {}
+    @each $sizeName, $sizeValue in $sizes {
+        &-#{$sizeName} {
+            --field-size: #{$sizeValue};
+        }
+    }
+
+    border-radius: 0.33em;
+    padding: calc(var(--field-size) / 3) calc(var(--field-size) / 1.5);
+
+    &-input {
+        border: none;
+        outline: none;
+        width: 100%;
+        color: inherit;
+        line-height: 150%;
+        font-size: var(--field-size);
+        background: 0 0;
+        &::placeholder {
+            color: inherit;
+            opacity: 0.6;
+        }
+    }
+
+    &-outlined {
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--field-color); 
+    }
+
+    &-filled {
+        background-color: var(--field-filled-background);
+        color: var(--field-filled-text-color);
+    }
+
     &-borderless {}
 
-    &-primary {}
-    &-secondary {}
-    &-success {}
-    &-warning {}
-    &-danger {}
+    &-primary {
+        @include field-color($primary);
+    }
+    &-secondary {
+        @include field-color($secondary);
+    }
+    &-success {
+        @include field-color($success);
+    }
+    &-warning {
+        @include field-color($warning);
+    }
+    &-danger {
+        @include field-color($danger);
+    }
+    &-info {
+        @include field-color($info);
+    }
+    &-light {
+        @include field-color($light);
+    }
+    &-dark {
+        @include field-color($dark, white);
+    }
+    &-muted {
+        @include field-color($muted);
+    }
 
     &-disabled {}
     &-focus {}

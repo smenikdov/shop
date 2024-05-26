@@ -9,8 +9,10 @@ import Link from '@/components/typography/Link';
 import Icon from '@/components/Icon';
 import Empty from '@/components/Empty';
 import Button from '@/components/Button';
-import Tooltip from '@/components/Tooltip';
+import Tooltip from '@/components/floating/Tooltip';
+import QuestionTooltip from '@/components/floating/QuestionTooltip';
 import Input from '@/components/form/Input';
+import Select from '@/components/form/Select';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 import Form from '@/components/form/Form';
@@ -35,9 +37,7 @@ export default function AuthRegistrationForm() {
             <FormItem name="password" label="Пароль">
                 <Input type="password" />
             </FormItem>
-            <Tooltip content="gi">
-                <Button type="submit">Зарегистрироваться</Button>
-            </Tooltip>
+            <Button type="submit">Зарегистрироваться</Button>
         </Form>
     );
 }

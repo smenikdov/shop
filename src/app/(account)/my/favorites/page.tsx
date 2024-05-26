@@ -9,7 +9,7 @@ import Title from '@/components/typography/Title';
 import Link from '@/components/typography/Link';
 import Icon from '@/components/Icon';
 import Button from '@/components/Button';
-import Tooltip from '@/components/Tooltip';
+import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';

@@ -12,6 +12,7 @@ import {
     shift as floatingShift,
     useHover,
     useFocus,
+    useClick,
     useDismiss,
     useRole,
     useInteractions,
@@ -28,8 +29,9 @@ const Tooltip = (props: TooltipProps) => {
         onChange,
         open,
         content,
-        offset = [0, 0],
-        trigger = 'hover',
+        offset = 10,
+        triggers = ['hover'],
+        placement = 'top',
         ...otherProps
     } = props;
 
@@ -38,30 +40,23 @@ const Tooltip = (props: TooltipProps) => {
     const { refs, floatingStyles, context } = useFloating({
         open: controlledValue,
         onOpenChange: onControlledChange,
-        middleware: [floatingOffset(0), floatingFlip(), floatingShift()],
+        middleware: [floatingOffset(offset), floatingFlip(), floatingShift()],
         whileElementsMounted: autoUpdate,
+        placement: placement,
     });
 
     const mergedCls = classNames('tooltip', `tooltip-${color}`, className);
 
     const mergedStyle = useMemo<React.CSSProperties>(() => {
-        // const offsetStyle: React.CSSProperties = { marginLeft: offset[0], marginTop: offset[1] };
         return { ...floatingStyles, ...style };
     }, [floatingStyles, style]);
 
-    const hover = useHover(context, { move: false });
-    const focus = useFocus(context);
+    const hover = useHover(context, { enabled: triggers.includes('hover'), move: false });
+    const click = useClick(context, { enabled: triggers.includes('click') });
     const dismiss = useDismiss(context);
     const role = useRole(context, { role: 'tooltip' });
 
-    const interactions = [dismiss, role];
-
-    if (trigger === 'hover') {
-        interactions.push(hover);
-    }
-    if (trigger === 'focus') {
-        interactions.push(focus);
-    }
+    const interactions = [dismiss, role, hover, click];
 
     const { getReferenceProps, getFloatingProps } = useInteractions(interactions);
 

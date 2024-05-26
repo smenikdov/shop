@@ -1,0 +1,12 @@
+@import '@/styles/abstracts';
+
+.question-tooltip {
+    user-select: none;
+    cursor: pointer;
+    
+    &-primary {}
+    &-secondary {}
+    &-success {}
+    &-warning {}
+    &-danger {}
+}

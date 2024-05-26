@@ -12,12 +12,13 @@ const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
         className,
         disabled = false,
         readOnly = false,
-        color,
+        color = 'primary',
         addonBefore,
         addonAfter,
         style,
         variant = 'outlined',
         maxLength,
+        size = 'md',
         onFocus,
         onBlur,
         component: Component = 'input',
@@ -45,8 +46,9 @@ const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
             'field-disabled': mergedDisabled,
             'field-readonly': mergedReadOnly,
             'field-focus': focused,
-            [`field-${color}`]: color,
         },
+        `field-${size}`,
+        `field-${color}`,
         `field-${variant}`,
         className
     );
@@ -66,6 +68,7 @@ const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
             {addonBefore && <div className="field-addon">{addonBefore}</div>}
             <Component
                 {...medgedProps}
+                className="field-input"
                 disabled={mergedDisabled}
                 readOnly={mergedReadOnly}
                 onFocus={handleFocus}

@@ -9,7 +9,7 @@ import Icon from '@/components/Icon';
 import Empty from '@/components/Empty';
 import Result from '@/components/Result';
 import Button from '@/components/Button';
-import Tooltip from '@/components/Tooltip';
+import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
@@ -189,6 +189,16 @@ export default function Login() {
 
                     <section className={classNames(styles.section, styles.inputs)}>
                         <div className={styles.title}>inputs</div>
+                        <Row>
+                            <Col md={4}>
+                                <div className={styles.subtitle}>variant</div>
+                                <Flex direction="column" gapY="xs">
+                                    <Input placeholder="borderless" variant="borderless" />
+                                    <Input placeholder="outlined" variant="outlined" />
+                                    <Input placeholder="filled" variant="filled" />
+                                </Flex>
+                            </Col>
+                        </Row>
                     </section>
 
                     <section className={classNames(styles.section, styles.chips)}>
