@@ -14,6 +14,6 @@ export const postSendTelegramMessageHandler = new Handler({
 
     async request(payload: { message: string }) {
         telegrafBot.sendMessage({ message: payload.message });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

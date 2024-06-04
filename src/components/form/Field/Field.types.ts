@@ -8,7 +8,6 @@ export interface FieldProps<C extends keyof JSX.IntrinsicElements> {
     className?: string;
     disabled?: boolean;
     readOnly?: boolean;
-    color?: BaseColors;
     addonBefore?: React.ReactNode;
     addonAfter?: React.ReactNode;
     style?: React.CSSProperties;
@@ -19,4 +18,5 @@ export interface FieldProps<C extends keyof JSX.IntrinsicElements> {
     name?: string;
     component?: C;
     size?: FieldSize;
+    error?: React.ReactNode;
 }

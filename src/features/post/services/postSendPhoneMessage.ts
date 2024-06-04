@@ -27,6 +27,6 @@ export const postSendPhoneMessageHandler = new Handler({
             throw new Error('Не удалось отправить сообщение');
         }
 
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

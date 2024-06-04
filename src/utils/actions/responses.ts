@@ -16,14 +16,14 @@ type SuccessHttpStatusCodes = HttpStatusCode.OK;
 
 interface IErrorResponse {
     error?: any;
-    message?: string;
+    message: string;
     statusCode: ErrorHttpStatusCodes;
     errorCode?: number;
     isSuccess: false;
 }
 
 interface ISuccessResponse {
-    data?: any;
+    data: any;
     message?: string;
     statusCode: SuccessHttpStatusCodes;
     isSuccess: true;
@@ -62,9 +62,10 @@ export class ErrorResponse extends BaseResponse implements IErrorResponse {
     public readonly error?: any;
     public readonly statusCode!: ErrorHttpStatusCodes;
     public readonly isSuccess!: false;
+    public readonly message!: string;
 
     constructor({
-        message = 'Проищла ошибка',
+        message = 'Неизвестная ошибка',
         statusCode,
         errorCode,
         error,
@@ -80,18 +81,18 @@ export class ErrorResponse extends BaseResponse implements IErrorResponse {
 
 interface SuccessResponsePaylaod<DataType extends any> {
     message?: string;
-    data?: DataType;
+    data: DataType;
 }
 
 export class SuccessResponse<DataType extends any>
     extends BaseResponse
     implements ISuccessResponse
 {
-    public readonly data?: DataType;
+    public readonly data: DataType;
     public readonly statusCode!: SuccessHttpStatusCodes;
     public readonly isSuccess!: true;
 
-    constructor({ message, data }: SuccessResponsePaylaod<DataType> = {}) {
+    constructor({ message, data }: SuccessResponsePaylaod<DataType>) {
         super({ message, statusCode: HttpStatusCode.OK, isSuccess: true });
         this.data = data;
     }

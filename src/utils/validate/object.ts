@@ -20,19 +20,12 @@ export class ObjectValidator implements IObjectValidator {
         let isAllValid = true;
         for (let fieldKey of Object.keys(this.fieldsValidators)) {
             const validator = this.fieldsValidators[fieldKey];
-            if (fieldKey in object) {
-                const validationResult = validator.validate(
-                    object[fieldKey as keyof typeof object]
-                );
-                if (!validationResult.isValid) {
-                    isAllValid = false;
-                    if ('error' in validationResult) {
-                        allErrors[fieldKey] = validationResult.error;
-                    }
-                }
-            } else {
-                allErrors[fieldKey] = 'Обязательное поле';
+            const validationResult = validator.validate(object[fieldKey as keyof typeof object]);
+            if (!validationResult.isValid) {
                 isAllValid = false;
+                if ('error' in validationResult) {
+                    allErrors[fieldKey] = validationResult.error;
+                }
             }
         }
         return {

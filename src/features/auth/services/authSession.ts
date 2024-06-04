@@ -70,7 +70,7 @@ export const authCreateSessionHandler = new Handler({
             sameSite: 'lax',
             path: '/',
         });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });
 
@@ -90,7 +90,7 @@ export const authDeleteActiveSessionHandler = new Handler({
         });
         cookies.delete('refreshToken');
         cookies.delete('accessToken');
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });
 
@@ -104,7 +104,7 @@ export const authDeleteAllSessionsHandler = new Handler({
                 userId: payload.userId,
             },
         });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });
 

@@ -26,7 +26,7 @@ export const favoriteDeleteItemHandler = new Handler({
         }
         const existingFavoriteItem = favoriteGetProductResponse.data;
         if (!existingFavoriteItem) {
-            return new SuccessResponse();
+            return new SuccessResponse({ data: null });
         }
 
         await prisma.favoriteItem.delete({
@@ -37,6 +37,6 @@ export const favoriteDeleteItemHandler = new Handler({
                 },
             },
         });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

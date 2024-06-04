@@ -26,7 +26,7 @@ export const favoriteAddItemHandler = new Handler({
         }
         const existingFavoriteItem = favoriteGetProductResponse.data;
         if (existingFavoriteItem) {
-            return new SuccessResponse();
+            return new SuccessResponse({ data: null });
         }
 
         await prisma.favoriteItem.create({
@@ -35,6 +35,6 @@ export const favoriteAddItemHandler = new Handler({
                 userId: payload.userId,
             },
         });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

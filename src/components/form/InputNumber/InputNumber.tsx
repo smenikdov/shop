@@ -5,6 +5,7 @@ import './InputNumber.scss';
 import classNames from 'classnames';
 import { InputNumberProps } from './InputNumber.types';
 import Input from '../Input';
+import Button from '@/components/Button';
 
 const InputNumber = (props: InputNumberProps) => {
     const {
@@ -71,14 +72,22 @@ const InputNumber = (props: InputNumberProps) => {
     });
 
     const DecrementButton = (
-        <button className="input-number-decrement" onClick={() => handleStep(-step)}>
+        <Button
+            color="primary"
+            className="input-number-decrement"
+            onClick={() => handleStep(-step)}
+        >
             -
-        </button>
+        </Button>
     );
     const IncrementButton = (
-        <button className="input-number-increment" onClick={() => handleStep(+step)}>
+        <Button
+            color="primary"
+            className="input-number-increment"
+            onClick={() => handleStep(+step)}
+        >
             +
-        </button>
+        </Button>
     );
 
     return (

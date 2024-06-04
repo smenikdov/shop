@@ -11,6 +11,7 @@ import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
+import InputNumber from '@/components/form/InputNumber';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 import Chip from '@/components/Chip';
@@ -190,12 +191,53 @@ export default function Login() {
                     <section className={classNames(styles.section, styles.inputs)}>
                         <div className={styles.title}>inputs</div>
                         <Row>
-                            <Col md={4}>
+                            <Col md={6}>
                                 <div className={styles.subtitle}>variant</div>
-                                <Flex direction="column" gapY="xs">
-                                    <Input placeholder="borderless" variant="borderless" />
-                                    <Input placeholder="outlined" variant="outlined" />
-                                    <Input placeholder="filled" variant="filled" />
+                                <Flex direction="column" gapY="lg" className="mb-lg">
+                                    <Flex gapX="xs">
+                                        <div>
+                                            <Input placeholder="borderless" variant="borderless" />
+                                        </div>
+                                        <div>
+                                            <Input
+                                                placeholder="borderless"
+                                                variant="borderless"
+                                                error="Пример ошибки валидации"
+                                            />
+                                        </div>
+                                    </Flex>
+                                    <Flex gapX="xs">
+                                        <div>
+                                            <Input placeholder="outlined" variant="outlined" />
+                                        </div>
+                                        <div>
+                                            <Input
+                                                placeholder="outlined"
+                                                variant="outlined"
+                                                error="Пример ошибки валидации"
+                                            />
+                                        </div>
+                                    </Flex>
+                                    <Flex gapX="xs">
+                                        <div>
+                                            <Input placeholder="filled" variant="filled" />
+                                        </div>
+                                        <div>
+                                            <Input
+                                                placeholder="filled"
+                                                variant="filled"
+                                                error="Пример ошибки валидации"
+                                            />
+                                        </div>
+                                    </Flex>
+                                </Flex>
+                            </Col>
+                            <Col md={6}>
+                                <div className={styles.subtitle}>another</div>
+                                <Flex gapX="xs">
+                                    <div>
+                                        <InputNumber />
+                                    </div>
                                 </Flex>
                             </Col>
                         </Row>

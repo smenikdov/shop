@@ -9,7 +9,6 @@ import Icon from '@/components/Icon';
 import Flex from '@/components/Flex';
 import { MdStarRate, MdStarOutline } from 'react-icons/md';
 import FormContext from '@/components/form/Form/Form.context';
-import FormItemContext from '@/components/form/FormItem/FormItem.context';
 
 const RatingItem = (props: RatingItemProps) => {
     const { ratingValue, itemValue, hoverValue, ...otherProps } = props;
@@ -50,7 +49,6 @@ const Rating = (props: RatingProps) => {
     } = props;
 
     const formContext = React.useContext(FormContext);
-    const formItemContext = React.useContext(FormItemContext);
 
     const mergedDisabled = formContext?.disabled || disabled;
     const mergedReadOnly = formContext?.readOnly || readOnly;

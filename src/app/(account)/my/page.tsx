@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function Contacts() {
     return (
         <main>
-            <Container>
+            <Container className="mt-xl">
                 <Row gapY="md">
                     <Col md={4}>
                         <Link href="/my/details">

@@ -6,13 +6,4 @@ export interface FormItemProps extends React.HTMLAttributes<HTMLElement> {
     style?: React.CSSProperties;
     label?: String;
     layout?: 'horizontal' | 'vertical';
-    name?: string;
-    required?: boolean;
-}
-
-export interface FormItemContext {
-    name?: string;
-    required: boolean;
-    isValid: boolean;
-    error: string;
 }

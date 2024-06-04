@@ -5,7 +5,6 @@ import './Checkbox.scss';
 import classNames from 'classnames';
 import CheckboxContext from './Checkbox.context';
 import FormContext from '@/components/form/Form/Form.context';
-import FormItemContext from '@/components/form/FormItem/FormItem.context';
 import { CheckboxProps } from './Checkbox.types';
 
 const Checkbox = (props: CheckboxProps) => {
@@ -20,7 +19,6 @@ const Checkbox = (props: CheckboxProps) => {
     } = props;
 
     const formContext = React.useContext(FormContext);
-    const formItemContext = React.useContext(FormItemContext);
     const checkboxContext = React.useContext(CheckboxContext);
 
     const mergedDisabled = formContext?.disabled || checkboxContext?.disabled || disabled;
@@ -41,11 +39,6 @@ const Checkbox = (props: CheckboxProps) => {
         }
         if (otherProps.value) {
             medgedProps.checked = checkboxContext.value.includes(otherProps.value);
-        }
-    }
-    if (formItemContext) {
-        if (formItemContext.name) {
-            medgedProps.name = formItemContext.name;
         }
     }
 

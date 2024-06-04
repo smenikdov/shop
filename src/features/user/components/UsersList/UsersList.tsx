@@ -1,4 +1,7 @@
-import { useFormState } from 'react-dom';
+'use client';
+
+import React, { useState } from 'react';
+
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -12,12 +15,29 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Input from '@/components/form/Input';
+import InputNumber from '@/components/form/InputNumber';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 import Table from '@/components/Table';
-import { formatPhoneNumber } from '@/utils/text';
-import { userGetAll } from '@/features/user/routes';
+import Form from '@/components/form/Form';
+import FormItem from '@/components/form/FormItem';
 import Result from '@/components/Result';
+
+import * as v from '@/utils/validate';
+import { formatPhoneNumber } from '@/utils/text';
+
+import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
+import useNotification from '@/features/notification/hooks/useNotification';
+import useOnMount from '@/hooks/useOnMount';
+
+import { userGetAll } from '@/features/user/routes';
+
+interface TableUserItem {
+    id: number;
+    email: string | null;
+    phone: string | null;
+    fio: string | null;
+}
 
 const columns = [
     {
@@ -41,12 +61,74 @@ const columns = [
     },
 ];
 
-export default async function UsersList() {
-    const response = await userGetAll({});
-    if (!response.isSuccess || !response.data) {
-        return <Result response={response} />;
-    }
-    const users = response.data;
+export default function UsersList() {
+    const { notifyError, notifySuccess } = useNotification();
 
-    return <Table columns={columns} data={users} />;
+    const [users, setUsers] = useState<Array<TableUserItem>>([]);
+
+    const { clientState, serverState, register, validate } = useForm({
+        schema: v.object({
+            page: v.page(),
+            userId: v.id(),
+            email: v.string(),
+            phone: v.string(),
+        }),
+        initialState: {
+            page: 1,
+            userId: 0,
+            email: '',
+            phone: '',
+        },
+    });
+
+    const getUsers = async () => {
+        const { isValid } = validate();
+        if (!isValid) {
+            return;
+        }
+
+        const response = await userGetAll(serverState);
+        if (!response.isSuccess) {
+            notifyError(response.message);
+            return;
+        }
+
+        setUsers(response.data);
+    };
+
+    useOnMount(() => {
+        getUsers();
+    });
+
+    return (
+        <div>
+            <Form action={getUsers} className="mb-md">
+                <Row gapX="md" gapY="sm">
+                    <Col md={3}>
+                        <FormItem label="ID">
+                            <InputNumber {...register('userId', baseInput)} min={0} />
+                        </FormItem>
+                    </Col>
+                    <Col md={3}>
+                        <FormItem label="Номер телефона">
+                            <Input
+                                {...register('phone', phoneInput)}
+                                placeholder="+7 (___) __-__"
+                            />
+                        </FormItem>
+                    </Col>
+                    <Col md={3}>
+                        <FormItem label="Email">
+                            <Input {...register('email', textInput)} type="email" />
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Flex justify="flex-end" className="mt-sm">
+                    <Button type="submit">Найти</Button>
+                </Flex>
+            </Form>
+
+            <Table columns={columns} data={users} />
+        </div>
+    );
 }

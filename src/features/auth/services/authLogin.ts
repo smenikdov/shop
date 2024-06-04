@@ -35,10 +35,10 @@ export const authLoginWithPhoneHandler = new Handler({
             userId: user.id,
             userRole: user.role,
         });
-        if (isSuccess) {
-            return new SuccessResponse();
-        } else {
+        if (!isSuccess) {
             throw new Error('Ошибка при создании сессии');
         }
+
+        return new SuccessResponse({ data: null });
     },
 });

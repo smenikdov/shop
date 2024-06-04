@@ -45,6 +45,6 @@ export const basketUpdateQuantityHandler = new Handler({
                 quantity: payload.quantity,
             },
         });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

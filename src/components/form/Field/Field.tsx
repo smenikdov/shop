@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import './Field.scss';
 import classNames from 'classnames';
 import FormContext from '@/components/form/Form/Form.context';
-import FormItemContext from '@/components/form/FormItem/FormItem.context';
 import { FieldProps } from './Field.types';
 
 const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
@@ -12,7 +11,6 @@ const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
         className,
         disabled = false,
         readOnly = false,
-        color = 'primary',
         addonBefore,
         addonAfter,
         style,
@@ -21,12 +19,12 @@ const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
         size = 'md',
         onFocus,
         onBlur,
+        error,
         component: Component = 'input',
         ...otherProps
     } = props;
 
     const formContext = React.useContext(FormContext);
-    const formItemContext = React.useContext(FormItemContext);
 
     const [focused, setFocused] = useState(false);
     const mergedDisabled = formContext?.disabled || disabled;
@@ -34,21 +32,15 @@ const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
 
     const medgedProps = { ...otherProps };
 
-    if (formItemContext) {
-        if (formItemContext.name) {
-            medgedProps.name = formItemContext.name;
-        }
-    }
-
     const mergedCls = classNames(
         'field',
         {
             'field-disabled': mergedDisabled,
             'field-readonly': mergedReadOnly,
             'field-focus': focused,
+            'field-invalid': error,
         },
         `field-${size}`,
-        `field-${color}`,
         `field-${variant}`,
         className
     );
@@ -64,17 +56,20 @@ const Field = (props: FieldProps<keyof JSX.IntrinsicElements>) => {
     };
 
     return (
-        <div className={mergedCls} style={style}>
-            {addonBefore && <div className="field-addon">{addonBefore}</div>}
-            <Component
-                {...medgedProps}
-                className="field-input"
-                disabled={mergedDisabled}
-                readOnly={mergedReadOnly}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-            />
-            {addonAfter && <div className="field-addon">{addonAfter}</div>}
+        <div className="field-container">
+            <div className={mergedCls} style={style}>
+                {addonBefore && <div className="field-addon">{addonBefore}</div>}
+                <Component
+                    {...medgedProps}
+                    className="field-input"
+                    disabled={mergedDisabled}
+                    readOnly={mergedReadOnly}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                />
+                {addonAfter && <div className="field-addon">{addonAfter}</div>}
+            </div>
+            {error && <div className="field-error">{error}</div>}
         </div>
     );
 };

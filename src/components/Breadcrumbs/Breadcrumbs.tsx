@@ -16,6 +16,7 @@ const PAGE_NAMES: {
 } = {
     product: 'Каталог',
     my: 'Личный кабинет',
+    details: 'Мои данные',
 };
 
 const BreadcrumbsItem = (props: BreadcrumbsItemProps) => {

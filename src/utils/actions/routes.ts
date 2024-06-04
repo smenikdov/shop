@@ -65,7 +65,7 @@ export class Handler<
                 }
                 const validationResult = this.schema.validate(payload);
                 if (!validationResult.isValid) {
-                    const error = validationResult.errors;
+                    const error = validationResult.error;
                     const response = new RequestErrorResponse({
                         message:
                             'Сервер понял запрос, но отказался его выполнять. Причина: передан некоректный запрос',
@@ -74,7 +74,7 @@ export class Handler<
                     return response;
                 }
             }
-            return this.request(payload);
+            return await this.request(payload);
         } catch (error) {
             logger.error(this.name, error);
             // await sendMailToAdminIfCritical();
@@ -99,7 +99,7 @@ export function createRoute<
     RoutePayload extends AnyObject = {},
     RouteResponse extends Response = Response,
 >({ access, handler }: RouteParams<RoutePayload, RouteResponse>) {
-    return async function (payload: RoutePayload | FormData) {
+    return async function (payload: RoutePayload) {
         const cookies = getCookies();
         const accessToken = cookies.get('accessToken')?.value;
         const accessTokenData = await decrypt(accessToken);
@@ -108,9 +108,6 @@ export function createRoute<
             if (!userRole || !access.includes(userRole)) {
                 return new AccessDeniedResponse();
             }
-        }
-        if (payload && payload instanceof FormData) {
-            payload = Object.fromEntries(payload.entries()) as RoutePayload;
         }
         const response = await handler({
             payload,

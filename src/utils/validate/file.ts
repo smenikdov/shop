@@ -30,8 +30,12 @@ const imageMimeTypes = [
 ];
 
 export class FileValidator extends Validator implements IFileValidator {
-    validate(value: File): ValidPrimitiveResult {
-        return super.validate(value);
+    validate(value: any): ValidPrimitiveResult {
+        if (value instanceof File) {
+            return super.validate(value);
+        } else {
+            return { isValid: false, error: 'Неверный формат данных' };
+        }
     }
 
     addRule(rule: ValidationRule) {

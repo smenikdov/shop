@@ -20,7 +20,7 @@ export const fileSave = new Handler({
         const buffer = Buffer.from(arrayBuffer);
         const filePath = FILES_DIR + payload.name;
         await writeFile(filePath, buffer);
-        return new SuccessResponse({});
+        return new SuccessResponse({ data: null });
     },
 });
 
@@ -48,6 +48,6 @@ export const fileDelete = new Handler({
     async request(payload: { name: string }) {
         const filePath = FILES_DIR + payload.name;
         await unlink(filePath);
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

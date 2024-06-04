@@ -26,7 +26,7 @@ export const basketAddItemHandler = new Handler({
         }
         const existingBasketItem = basketGetProductResponse.data;
         if (existingBasketItem) {
-            return new SuccessResponse();
+            return new SuccessResponse({ data: null });
         }
 
         await prisma.basketItem.create({
@@ -36,6 +36,6 @@ export const basketAddItemHandler = new Handler({
                 userId: payload.userId,
             },
         });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

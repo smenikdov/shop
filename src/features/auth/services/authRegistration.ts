@@ -1,9 +1,8 @@
 import 'server-only';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcrypt';
-import { redirect } from 'next/navigation';
 import { authCreateSessionHandler } from '@/features/auth/services/authSession';
-import { ServerErrorResponse, RequestErrorResponse, Response } from '@/utils/actions/responses';
+import { ServerErrorResponse, RequestErrorResponse, Response, SuccessResponse } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
 import * as v from '@/utils/validate';
 
@@ -42,11 +41,11 @@ export const authRegistrationWithPhoneHandler = new Handler({
             userId: user.id,
             userRole: user.role,
         });
-        // TODO
-        if (isSuccess) {
-            redirect('/product');
-        } else {
-            redirect('/login');
+
+        if (!isSuccess) {
+            throw new Error('Ошибка при создании сессии');
         }
+
+        return new SuccessResponse({ data: null });
     },
 });

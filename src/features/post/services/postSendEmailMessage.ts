@@ -21,6 +21,6 @@ export const postSendEmailMessageHandler = new Handler({
             text: 'This message was sent from Node js server.',
             html: 'This <i>message</i> was sent from <strong>Node js</strong> server.',
         });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

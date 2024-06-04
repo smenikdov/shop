@@ -34,4 +34,4 @@ export const password = () =>
 
 export const id = () => number().integer().gte(0);
 export const quantity = () => number().integer().gte(0);
-export const page = () => number().integer().gte(0);
+export const page = () => number().integer().gte(1);

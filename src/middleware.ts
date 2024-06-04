@@ -10,49 +10,68 @@ const publicRoutes = ['/login', '/registration'];
 
 const ttlAccess = Number(process.env.TTL_ACCESS);
 
-async function updateSession(): Promise<{ isSuccess: boolean }> {
+async function updateSession() {
+    console.log('начнием обновление сессии');
     const cookies = getCookies();
 
     try {
-        const refreshToken = cookies.get('refreshToken')?.value;
-        const accessToken = cookies.get('accessToken')?.value;
-        const accessTokenData = await decrypt(accessToken);
+        throw new Error('TODO (((');
 
-        if (!accessTokenData) {
-            throw new Error('Попытка обновления токена без авторизации');
-        }
+        // const refreshToken = cookies.get('refreshToken')?.value;
 
-        const accessExpiresAt = new Date(Date.now() + ttlAccess * 1000);
-        const newAccessTokenData = {
-            userId: Number(accessTokenData.userId),
-            userRole: accessTokenData.userRole as UserRole,
-            expiresAt: accessExpiresAt,
-        };
-        const newAccessToken = await encrypt(newAccessTokenData);
+        // if (!refreshToken) {
+        //     throw new Error('Попытка обновления сессии без refreshToken');
+        // }
 
-        const updatedSession = await prisma.session.update({
-            where: {
-                refreshToken,
-                accessToken,
-            },
-            data: {
-                accessToken: newAccessToken,
-            },
-        });
+        // const session = await prisma.session.findUnique({
+        //     select: {
+        //         user: {
+        //             select: {
+        //                 id: true,
+        //                 role: true,
+        //             },
+        //         },
+        //     },
+        //     where: {
+        //         refreshToken,
+        //     },
+        // });
 
-        cookies.set('accessToken', newAccessToken, {
-            httpOnly: true,
-            secure: true,
-            expires: accessExpiresAt,
-            sameSite: 'lax',
-            path: '/',
-        });
-        return { isSuccess: true };
+        // if (!session) {
+        //     throw new Error('Попытка обновления сессии, которая не найдена в базе');
+        // }
+
+        // const accessExpiresAt = new Date(Date.now() + ttlAccess * 1000);
+        // const newAccessTokenData = {
+        //     userId: session.user.id,
+        //     userRole: session.user.role,
+        //     expiresAt: accessExpiresAt,
+        // };
+        // const newAccessToken = await encrypt(newAccessTokenData);
+
+        // const updatedSession = await prisma.session.update({
+        //     where: {
+        //         refreshToken,
+        //     },
+        //     data: {
+        //         accessToken: newAccessToken,
+        //     },
+        // });
+
+        // cookies.set('accessToken', newAccessToken, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     expires: accessExpiresAt,
+        //     sameSite: 'lax',
+        //     path: '/',
+        // });
+        // console.log('успешное обновление сессии');
+        // return { isSuccess: true, newAccessTokenData };
     } catch (error) {
-        console.error('Произошла ошибка обновлении сессии');
-        console.error(error);
-        cookies.delete('refreshToken');
-        cookies.delete('accessToken');
+        // console.error('Произошла ошибка обновлении сессии');
+        // console.error(error);
+        // cookies.delete('refreshToken');
+        // cookies.delete('accessToken');
         return { isSuccess: false };
     }
 }
@@ -60,12 +79,24 @@ async function updateSession(): Promise<{ isSuccess: boolean }> {
 export default async function middleware(req: NextRequest) {
     const cookies = getCookies();
     const accessToken = cookies.get('accessToken')?.value;
-    const accessTokenData = await decrypt(accessToken);
+    const refreshToken = cookies.get('refreshToken')?.value;
+    let accessTokenData = await decrypt(accessToken);
 
     const path = req.nextUrl.pathname;
     const isUserRoute = userRoutes.some((route) => path.startsWith(route));
     const isAdminRoute = adminRoutes.some((route) => path.startsWith(route));
     const isPublicRoute = publicRoutes.some((route) => path.startsWith(route));
+
+    const isTokenExpired = !accessTokenData && refreshToken;
+
+    // if (isTokenExpired) {
+    //     const updateSessionResult = await updateSession();
+    //     if (!updateSessionResult.isSuccess) {
+    //         console.error('Ошибка при обновлении токена');
+    //         return NextResponse.redirect(new URL('/product', req.nextUrl));
+    //     }
+    //     // accessTokenData = updateSessionResult.newAccessTokenData;
+    // }
 
     if (!accessTokenData || !accessTokenData.userId) {
         if (isAdminRoute || isUserRoute) {
@@ -77,16 +108,6 @@ export default async function middleware(req: NextRequest) {
 
     const userRole = accessTokenData.userRole as UserRole;
     const userId = Number(accessTokenData.userId);
-    const expiresAt = Number(accessTokenData.expiresAt);
-    const isTokenExpired = expiresAt <= Date.now();
-
-    if (isTokenExpired) {
-        const { isSuccess } = await updateSession();
-        if (!isSuccess) {
-            console.error('Ошибка при обновлении токена');
-            return NextResponse.redirect(new URL('/product', req.nextUrl));
-        }
-    }
 
     if (isAdminRoute && userRole !== 'ADMIN') {
         return NextResponse.redirect(new URL('/product', req.nextUrl));

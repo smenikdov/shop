@@ -1,4 +1,5 @@
 'use client';
+
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -15,24 +16,52 @@ import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
+
 import * as v from '@/utils/validate';
+
+import { useForm, textInput, phoneInput } from '@/hooks/useForm';
+import useNotification from '@/features/notification/hooks/useNotification';
+import { useRouter } from 'next/router';
 
 import { authLoginWithPhone } from '@/features/auth/routes';
 
 export default function AuthLoginForm() {
+    const { notifyError, notifySuccess } = useNotification();
+    const router = useRouter();
+
+    const { clientState, serverState, register, validate } = useForm({
+        initialState: {
+            password: '',
+            phone: '',
+        },
+        schema: v.object({
+            password: v.password(),
+            phone: v.phone(),
+        }),
+    });
+
+    const loginAction = async () => {
+        const { isValid } = validate();
+        if (!isValid) {
+            return;
+        }
+
+        const response = await authLoginWithPhone(serverState);
+        if (!response.isSuccess) {
+            notifyError(response.message);
+            return;
+        }
+
+        router.push('/my');
+    };
+
     return (
-        <Form
-            action={authLoginWithPhone}
-            schema={v.object({
-                password: v.password(),
-                phone: v.phone(),
-            })}
-        >
-            <FormItem name="phone" label="Номер телефона">
-                <Input placeholder="+7 (___) __-__" />
+        <Form action={loginAction}>
+            <FormItem label="Номер телефона">
+                <Input {...register('phone', phoneInput)} placeholder="+7 (___) __-__" />
             </FormItem>
-            <FormItem name="password" label="Пароль">
-                <Input type="password" />
+            <FormItem label="Пароль">
+                <Input {...register('password', textInput)} type="password" />
             </FormItem>
             <Button type="submit">Войти</Button>
         </Form>

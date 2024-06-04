@@ -40,6 +40,6 @@ export const postSendPhoneCodeHandler = new Handler({
             },
         });
 
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

@@ -1,8 +1,15 @@
 @import '@/styles/abstracts';
 
 .input-number {
+    overflow: hidden;
+
     &-min {}
     &-max {}
+
+    &-increment, &-decrement {
+        height: 100%;
+        border-radius: 0;
+    }
 
     &-decrement {}
     &-increment {}

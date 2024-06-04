@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import type { Metadata } from 'next';
 
+import type { ProductItem } from '@/features/product/typings';
+
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
@@ -27,16 +29,7 @@ import { basketCalcTotalResult } from '@/features/basket/utils/basketCalcTotalRe
 
 import styles from './page.module.css';
 
-const products = [
-    {
-        id: 1,
-        name: 'Мистическое яйцо динозавра',
-        price: 999,
-        discount: 20,
-        images: ['https://dummyimage.com/800x800/f4eee0/ab7c0d&text=1'],
-        rating: 4.8,
-    },
-];
+const products: Array<ProductItem> = [];
 
 export const metadata: Metadata = {
     title: 'Моя корзина',

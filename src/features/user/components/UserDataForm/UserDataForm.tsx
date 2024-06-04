@@ -16,26 +16,53 @@ import Flex from '@/components/Flex';
 import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 import Card from '@/components/Card';
+
 import * as v from '@/utils/validate';
 
+import { useForm, textInput, baseInput } from '@/hooks/useForm';
+import useNotification from '@/features/notification/hooks/useNotification';
+import useOnMount from '@/hooks/useOnMount';
+
 export default function UserDataForm() {
+    const { notifyError, notifySuccess } = useNotification();
+
+    const { clientState, serverState, register, validate } = useForm({
+        schema: v.object({
+            lastName: v.string().required(),
+            firstName: v.string().required(),
+            patronymic: v.string().required(),
+        }),
+        initialState: {
+            page: 1,
+            userId: 0,
+            email: '',
+            phone: '',
+        },
+    });
+
+    const saveUserDataAction = async () => {
+        const { isValid } = validate();
+        if (!isValid) {
+            return;
+        }
+
+        // const response = await userGetAll(serverState);
+        // if (!response.isSuccess) {
+        //     notifyError(response.message);
+        //     return;
+        // }
+    };
+
     return (
-        <Form
-            schema={v.object({
-                lastName: v.string().required(),
-                firstName: v.string().required(),
-                patronymic: v.string().required(),
-            })}
-            disabled
-        >
-            <FormItem name="lastName" label="Имя">
-                <Input />
+        <Form action={saveUserDataAction} disabled>
+            <FormItem label="Имя">
+                <Input {...register('lastName', textInput)} />
             </FormItem>
-            <FormItem name="firstName" label="Фамилия">
-                <Input />
+            <FormItem label="Фамилия">
+                <Input {...register('firstName', textInput)} />
             </FormItem>
-            <FormItem name="patronymic" label="Отчество">
-                <Input />
+            <FormItem label="Отчество">
+                <Input {...register('patronymic', textInput)} />
             </FormItem>
             <Button type="submit" className="mt-sm">
                 Сохранить

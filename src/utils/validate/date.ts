@@ -7,8 +7,12 @@ import type {
 import { formatDate } from '../date';
 
 export class DateValidator extends Validator implements IDateValidator {
-    validate(value: Date): ValidPrimitiveResult {
-        return super.validate(value);
+    validate(value: any): ValidPrimitiveResult {
+        if (value instanceof Date) {
+            return super.validate(value);
+        } else {
+            return { isValid: false, error: 'Неверный формат данных' };
+        }
     }
 
     addRule(rule: ValidationRule) {

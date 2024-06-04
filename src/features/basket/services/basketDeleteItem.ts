@@ -26,7 +26,7 @@ export const basketDeleteItemHandler = new Handler({
         }
         const existingBasketItem = basketGetProductResponse.data;
         if (!existingBasketItem) {
-            return new SuccessResponse();
+            return new SuccessResponse({ data: null });
         }
 
         await prisma.basketItem.delete({
@@ -37,6 +37,6 @@ export const basketDeleteItemHandler = new Handler({
                 },
             },
         });
-        return new SuccessResponse();
+        return new SuccessResponse({ data: null });
     },
 });

@@ -12,10 +12,10 @@ export const authLogoutHandler = new Handler({
 
     async request() {
         const { isSuccess } = await authDeleteActiveSessionHandler.execute({});
-        if (isSuccess) {
-            return new SuccessResponse();
-        } else {
+        if (!isSuccess) {
             throw new Error('Ошибка при удалении сессии');
         }
+
+        return new SuccessResponse({ data: null });
     },
 });

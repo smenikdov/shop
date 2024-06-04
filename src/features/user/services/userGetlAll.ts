@@ -8,7 +8,8 @@ import { includePagination } from '@/utils/prisma';
 interface PayloadFilters {
     phone: string;
     email: string;
-    id: number;
+    userId: number;
+    page: number;
 }
 
 export const userGetAllHandler = new Handler({
@@ -16,14 +17,12 @@ export const userGetAllHandler = new Handler({
     defaultError: 'Ошибка при получении списка всех пользователей',
     schema: v.object({
         page: v.page(),
-        filters: v.object({
-            id: v.id(),
-            email: v.string(),
-            phone: v.string(),
-        }),
+        userId: v.id(),
+        email: v.string(),
+        phone: v.string(),
     }),
 
-    async request(payload: { page: number; filters: PayloadFilters }) {
+    async request(payload: PayloadFilters) {
         const users = await prisma.user.findMany({
             ...includePagination(payload.page),
             select: {
@@ -35,12 +34,12 @@ export const userGetAllHandler = new Handler({
                 phone: true,
             },
             where: {
-                id: payload.filters.id,
+                id: payload.userId || undefined,
                 email: {
-                    contains: payload.filters.email,
+                    contains: payload.email || undefined,
                 },
                 phone: {
-                    contains: payload.filters.phone,
+                    contains: payload.phone || undefined,
                 },
             },
         });
