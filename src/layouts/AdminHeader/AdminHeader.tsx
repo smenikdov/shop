@@ -13,7 +13,15 @@ import { MdOutlineAccountCircle, MdOutlineShoppingBasket } from 'react-icons/md'
 const links = [
     {
         label: 'Пользователи',
-        href: '/admin/users',
+        href: '/admin/user',
+    },
+    {
+        label: 'Баланс',
+        href: '/admin/payment',
+    },
+    {
+        label: 'Заказы',
+        href: '/admin/order',
     },
 ];
 

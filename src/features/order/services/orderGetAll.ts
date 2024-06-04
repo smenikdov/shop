@@ -6,7 +6,8 @@ import * as v from '@/utils/validate';
 import { includePagination } from '@/utils/prisma';
 
 interface PayloadFilters {
-    id: number;
+    page: number;
+    orderId: number;
 }
 
 export const orderGetAllHandler = new Handler({
@@ -14,12 +15,10 @@ export const orderGetAllHandler = new Handler({
     defaultError: 'Ошибка при получении списка всех заказов',
     schema: v.object({
         page: v.page(),
-        filters: v.object({
-            id: v.id(),
-        }),
+        orderId: v.id(),
     }),
 
-    async request(payload: { page: number; filters: PayloadFilters }) {
+    async request(payload: PayloadFilters) {
         const orders = await prisma.order.findMany({
             ...includePagination(payload.page),
             select: {
@@ -36,10 +35,20 @@ export const orderGetAllHandler = new Handler({
                 },
             },
             where: {
-                id: payload.filters.id,
+                id: payload.orderId,
             },
         });
 
-        return new SuccessResponse({ data: orders });
+        const formatOrders = orders.map((order) => ({
+            id: order.id,
+            status: order.status,
+            total: order.total,
+            userId: order.user.id,
+            fio: [order.user.lastName, order.user.firstName, order.user.patronymic]
+                .join(' ')
+                .trim(),
+        }));
+
+        return new SuccessResponse({ data: formatOrders });
     },
 });

@@ -23,6 +23,8 @@ import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 import Result from '@/components/Result';
 
+import { PaymentStatuses } from '@prisma/client';
+
 import * as v from '@/utils/validate';
 import { formatPhoneNumber } from '@/utils/text';
 
@@ -30,12 +32,13 @@ import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
 import useOnMount from '@/hooks/useOnMount';
 
-import { userGetAll } from '@/features/user/routes';
+import { paymentGetAll } from '@/features/payment/routes';
 
-interface TableUserItem {
+interface TablePaymentItem {
     id: number;
-    email: string | null;
-    phone: string | null;
+    status: PaymentStatuses;
+    createdAt: Date;
+    userId: number;
     fio: string;
 }
 
@@ -45,81 +48,61 @@ const columns = [
         name: 'id',
     },
     {
-        title: 'Email',
-        name: 'email',
-        render: (email: string) => (email ? <a href={`mailto:+${email}`}>{email}</a> : '—'),
-    },
-    {
-        title: 'Телефон',
-        name: 'phone',
-        render: (phone: string) =>
-            phone ? <a href={`tel:+${phone}`}>{formatPhoneNumber(phone)}</a> : '—',
-    },
-    {
-        title: 'ФИО',
+        title: 'Инициатор',
         name: 'fio',
+    },
+    {
+        title: 'Статус',
+        name: 'status',
+    },
+    {
+        title: 'Дата',
+        name: 'createdAt',
     },
 ];
 
-export default function UsersList() {
+export default function PaymentsList() {
     const { notifyError, notifySuccess } = useNotification();
 
-    const [users, setUsers] = useState<Array<TableUserItem>>([]);
+    const [payments, setPayments] = useState<Array<TablePaymentItem>>([]);
 
-    const { clientState, serverState, register, validate } = useForm({
+    const { serverState, register, validate } = useForm({
         schema: v.object({
             page: v.page(),
-            userId: v.id(),
-            email: v.string(),
-            phone: v.string(),
+            paymentId: v.id(),
         }),
         initialState: {
             page: 1,
-            userId: 0,
-            email: '',
-            phone: '',
+            paymentId: 0,
         },
     });
 
-    const getUsers = async () => {
+    const getPayments = async () => {
         const { isValid } = validate();
         if (!isValid) {
             return;
         }
 
-        const response = await userGetAll(serverState);
+        const response = await paymentGetAll(serverState);
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
         }
 
-        setUsers(response.data);
+        setPayments(response.data);
     };
 
     useOnMount(() => {
-        getUsers();
+        getPayments();
     });
 
     return (
         <div>
-            <Form action={getUsers} className="mb-md">
+            <Form action={getPayments} className="mb-md">
                 <Row gapX="md" gapY="sm">
                     <Col md={3}>
                         <FormItem label="ID">
-                            <InputNumber {...register('userId', baseInput)} min={0} />
-                        </FormItem>
-                    </Col>
-                    <Col md={3}>
-                        <FormItem label="Номер телефона">
-                            <Input
-                                {...register('phone', phoneInput)}
-                                placeholder="+7 (___) __-__"
-                            />
-                        </FormItem>
-                    </Col>
-                    <Col md={3}>
-                        <FormItem label="Email">
-                            <Input {...register('email', textInput)} type="email" />
+                            <InputNumber {...register('paymentId', baseInput)} min={0} />
                         </FormItem>
                     </Col>
                 </Row>
@@ -128,7 +111,7 @@ export default function UsersList() {
                 </Flex>
             </Form>
 
-            <Table columns={columns} data={users} />
+            <Table columns={columns} data={payments} />
         </div>
     );
 }

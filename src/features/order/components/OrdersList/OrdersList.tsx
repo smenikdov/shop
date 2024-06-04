@@ -23,6 +23,8 @@ import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 import Result from '@/components/Result';
 
+import type { OrderStatuses } from '@prisma/client';
+
 import * as v from '@/utils/validate';
 import { formatPhoneNumber } from '@/utils/text';
 
@@ -30,13 +32,14 @@ import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
 import useOnMount from '@/hooks/useOnMount';
 
-import { userGetAll } from '@/features/user/routes';
+import { orderGetAll } from '@/features/order/routes';
 
-interface TableUserItem {
+interface TableOrderItem {
     id: number;
-    email: string | null;
-    phone: string | null;
     fio: string;
+    userId: number;
+    status: OrderStatuses;
+    total: number;
 }
 
 const columns = [
@@ -45,81 +48,62 @@ const columns = [
         name: 'id',
     },
     {
-        title: 'Email',
-        name: 'email',
-        render: (email: string) => (email ? <a href={`mailto:+${email}`}>{email}</a> : '—'),
-    },
-    {
-        title: 'Телефон',
-        name: 'phone',
-        render: (phone: string) =>
-            phone ? <a href={`tel:+${phone}`}>{formatPhoneNumber(phone)}</a> : '—',
-    },
-    {
-        title: 'ФИО',
+        title: 'Заказчик',
         name: 'fio',
+        render: (fio: string) => <Link>{fio}</Link>,
+    },
+    {
+        title: 'Статус',
+        name: 'status',
+    },
+    {
+        title: 'Сумма',
+        name: 'total',
     },
 ];
 
-export default function UsersList() {
+export default function OrdersList() {
     const { notifyError, notifySuccess } = useNotification();
 
-    const [users, setUsers] = useState<Array<TableUserItem>>([]);
+    const [orders, setOrders] = useState<Array<TableOrderItem>>([]);
 
     const { clientState, serverState, register, validate } = useForm({
         schema: v.object({
             page: v.page(),
-            userId: v.id(),
-            email: v.string(),
-            phone: v.string(),
+            orderId: v.id(),
         }),
         initialState: {
             page: 1,
-            userId: 0,
-            email: '',
-            phone: '',
+            orderId: 0,
         },
     });
 
-    const getUsers = async () => {
+    const getOrders = async () => {
         const { isValid } = validate();
         if (!isValid) {
             return;
         }
 
-        const response = await userGetAll(serverState);
+        const response = await orderGetAll(serverState);
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
         }
 
-        setUsers(response.data);
+        setOrders(response.data);
     };
 
     useOnMount(() => {
-        getUsers();
+        getOrders();
     });
 
     return (
         <div>
-            <Form action={getUsers} className="mb-md">
+            <Form action={getOrders} className="mb-md">
                 <Row gapX="md" gapY="sm">
                     <Col md={3}>
                         <FormItem label="ID">
-                            <InputNumber {...register('userId', baseInput)} min={0} />
-                        </FormItem>
-                    </Col>
-                    <Col md={3}>
-                        <FormItem label="Номер телефона">
-                            <Input
-                                {...register('phone', phoneInput)}
-                                placeholder="+7 (___) __-__"
-                            />
-                        </FormItem>
-                    </Col>
-                    <Col md={3}>
-                        <FormItem label="Email">
-                            <Input {...register('email', textInput)} type="email" />
+                            <InputNumber {...register('orderId', baseInput)} min={0} />
                         </FormItem>
                     </Col>
                 </Row>
@@ -128,7 +112,7 @@ export default function UsersList() {
                 </Flex>
             </Form>
 
-            <Table columns={columns} data={users} />
+            <Table columns={columns} data={orders} />
         </div>
     );
 }
