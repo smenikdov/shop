@@ -23,86 +23,69 @@ import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 import Result from '@/components/Result';
 
-import { PaymentStatuses } from '@prisma/client';
-
 import * as v from '@/utils/validate';
 import { formatPhoneNumber } from '@/utils/text';
+import { parseSearchParams as psp } from '@/utils/actions/search-params';
 
 import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
 import useOnMount from '@/hooks/useOnMount';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
-import { paymentGetAll } from '@/features/payment/routes';
-
-interface TablePaymentItem {
-    id: number;
-    status: PaymentStatuses;
-    createdAt: Date;
-    userId: number;
-    fio: string;
-}
-
-const columns = [
-    {
-        title: 'ID',
-        name: 'id',
-    },
-    {
-        title: 'Инициатор',
-        name: 'fio',
-    },
-    {
-        title: 'Статус',
-        name: 'status',
-    },
-    {
-        title: 'Дата',
-        name: 'createdAt',
-    },
-];
-
-export default function PaymentsList() {
+export default function UserListFilters() {
     const { notifyError, notifySuccess } = useNotification();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
 
-    const [payments, setPayments] = useState<Array<TablePaymentItem>>([]);
-
-    const { serverState, register, validate } = useForm({
+    const { clientState, serverState, register, validate } = useForm({
         schema: v.object({
             page: v.page(),
-            paymentId: v.id(),
+            userId: v.id(),
+            email: v.string(),
+            phone: v.string(),
         }),
         initialState: {
-            page: 1,
-            paymentId: 0,
+            page: psp.integer(searchParams.get('page')) || 1,
+            userId: psp.integer(searchParams.get('userId')),
+            email: psp.string(searchParams.get('email')),
+            phone: psp.string(searchParams.get('phone')),
         },
     });
 
-    const getPayments = async () => {
+    const handleApplyFilters = () => {
         const { isValid } = validate();
         if (!isValid) {
             return;
         }
 
-        const response = await paymentGetAll(serverState);
-        if (!response.isSuccess) {
-            notifyError(response.message);
-            return;
+        const params = new URLSearchParams(searchParams);
+        for (const [key, value] of Object.entries(serverState)) {
+            params.set(key, value.toString());
         }
-
-        setPayments(response.data);
+        router.replace(`${pathname}?${params}`);
     };
-
-    useOnMount(() => {
-        getPayments();
-    });
 
     return (
         <div>
-            <Form action={getPayments} className="mb-md">
+            <Form action={handleApplyFilters} className="mb-md">
                 <Row gapX="md" gapY="sm">
                     <Col md={3}>
                         <FormItem label="ID">
-                            <InputNumber {...register('paymentId', baseInput)} min={0} />
+                            <InputNumber {...register('userId', baseInput)} min={0} />
+                        </FormItem>
+                    </Col>
+                    <Col md={3}>
+                        <FormItem label="Номер телефона">
+                            <Input
+                                {...register('phone', phoneInput)}
+                                placeholder="+7 (___) __-__"
+                            />
+                        </FormItem>
+                    </Col>
+                    <Col md={3}>
+                        <FormItem label="Email">
+                            <Input {...register('email', textInput)} type="email" />
                         </FormItem>
                     </Col>
                 </Row>
@@ -110,8 +93,6 @@ export default function PaymentsList() {
                     <Button type="submit">Найти</Button>
                 </Flex>
             </Form>
-
-            <Table columns={columns} data={payments} />
         </div>
     );
 }

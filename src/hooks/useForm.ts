@@ -19,6 +19,7 @@ export const useForm = <FormState extends AnyObject>(options: UseFormOptions<For
     const register = (fieldName: string, options: RegisterOptions) => {
         return {
             name: fieldName,
+            value: clientState[fieldName],
             onChange: (newValue: any) => {
                 newValue = options.format(newValue);
                 setClientState((prevState) => ({ ...prevState, [fieldName]: newValue }));

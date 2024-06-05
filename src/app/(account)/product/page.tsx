@@ -18,7 +18,7 @@ import InputNumber from '@/components/form/InputNumber';
 import Flex from '@/components/Flex';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ProductList from '@/features/product/components/ProductList';
-import Result from '@/components/Result';
+
 import { productGetAll } from '@/features/product/routes';
 
 export const metadata: Metadata = {
@@ -27,8 +27,9 @@ export const metadata: Metadata = {
 };
 export default async function Product() {
     const response = await productGetAll({});
-    if (!response.isSuccess || !response.data) {
-        return <Result response={response} />;
+
+    if (!response.isSuccess) {
+        throw new Error('Ошибка при загрузке страницы');
     }
 
     const products = response.data;

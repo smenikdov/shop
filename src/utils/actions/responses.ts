@@ -6,7 +6,7 @@ export enum HttpStatusCode {
     INTERNAL_SERVER = 500,
 }
 
-type ErrorHttpStatusCodes =
+export type ErrorHttpStatusCodes =
     | HttpStatusCode.BAD_REQUEST
     | HttpStatusCode.ACCESS_DENIED
     | HttpStatusCode.NOT_FOUND
@@ -14,7 +14,7 @@ type ErrorHttpStatusCodes =
 
 type SuccessHttpStatusCodes = HttpStatusCode.OK;
 
-interface IErrorResponse {
+export interface IErrorResponse {
     error?: any;
     message: string;
     statusCode: ErrorHttpStatusCodes;
@@ -22,7 +22,7 @@ interface IErrorResponse {
     isSuccess: false;
 }
 
-interface ISuccessResponse {
+export interface ISuccessResponse {
     data: any;
     message?: string;
     statusCode: SuccessHttpStatusCodes;
@@ -142,6 +142,23 @@ export class AccessDeniedResponse extends ErrorResponse {
         super({
             message,
             statusCode: HttpStatusCode.ACCESS_DENIED,
+            error,
+        });
+    }
+}
+
+/* ============= AccessDeniedResponse ============= */
+
+interface NotFoundResponsePayload {
+    message?: string;
+    error?: any;
+}
+
+export class NotFoundResponse extends ErrorResponse {
+    constructor({ message = 'Страница не найдена', error }: NotFoundResponsePayload = {}) {
+        super({
+            message,
+            statusCode: HttpStatusCode.NOT_FOUND,
             error,
         });
     }

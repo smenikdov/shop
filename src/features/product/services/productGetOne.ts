@@ -5,6 +5,7 @@ import {
     RequestErrorResponse,
     Response,
     SuccessResponse,
+    NotFoundResponse,
 } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
 import * as v from '@/utils/validate';
@@ -24,6 +25,9 @@ export const productGetOneHandler = new Handler({
             },
             select: baseProductScheme,
         });
+        if (!product) {
+            return new NotFoundResponse({ message: 'Товар не найден' });
+        }
         return new SuccessResponse({ data: product });
     },
 });

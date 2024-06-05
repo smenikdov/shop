@@ -23,87 +23,52 @@ import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 import Result from '@/components/Result';
 
-import type { OrderStatuses } from '@prisma/client';
+import { PaymentStatuses } from '@prisma/client';
 
 import * as v from '@/utils/validate';
+import { parseSearchParams as psp } from '@/utils/actions/search-params';
 import { formatPhoneNumber } from '@/utils/text';
 
 import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
-import useOnMount from '@/hooks/useOnMount';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
-import { orderGetAll } from '@/features/order/routes';
-
-interface TableOrderItem {
-    id: number;
-    fio: string;
-    userId: number;
-    status: OrderStatuses;
-    total: number;
-}
-
-const columns = [
-    {
-        title: 'ID',
-        name: 'id',
-    },
-    {
-        title: 'Заказчик',
-        name: 'fio',
-        render: (fio: string) => <Link>{fio}</Link>,
-    },
-    {
-        title: 'Статус',
-        name: 'status',
-    },
-    {
-        title: 'Сумма',
-        name: 'total',
-    },
-];
-
-export default function OrdersList() {
+export default function PaymentListFilters() {
     const { notifyError, notifySuccess } = useNotification();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
 
-    const [orders, setOrders] = useState<Array<TableOrderItem>>([]);
-
-    const { clientState, serverState, register, validate } = useForm({
+    const { serverState, register, validate } = useForm({
         schema: v.object({
             page: v.page(),
-            orderId: v.id(),
+            paymentId: v.id(),
         }),
         initialState: {
-            page: 1,
-            orderId: 0,
+            page: psp.integer(searchParams.get('page')) || 1,
+            paymentId: psp.integer(searchParams.get('paymentId')),
         },
     });
 
-    const getOrders = async () => {
+    const handleApplyFilters = async () => {
         const { isValid } = validate();
         if (!isValid) {
             return;
         }
-
-        const response = await orderGetAll(serverState);
-        if (!response.isSuccess) {
-            notifyError(response.message);
-            return;
+        const params = new URLSearchParams(searchParams);
+        for (const [key, value] of Object.entries(serverState)) {
+            params.set(key, value.toString());
         }
-
-        setOrders(response.data);
+        router.replace(`${pathname}?${params}`);
     };
-
-    useOnMount(() => {
-        getOrders();
-    });
 
     return (
         <div>
-            <Form action={getOrders} className="mb-md">
+            <Form action={handleApplyFilters} className="mb-md">
                 <Row gapX="md" gapY="sm">
                     <Col md={3}>
                         <FormItem label="ID">
-                            <InputNumber {...register('orderId', baseInput)} min={0} />
+                            <InputNumber {...register('paymentId', baseInput)} min={0} />
                         </FormItem>
                     </Col>
                 </Row>
@@ -111,8 +76,6 @@ export default function OrdersList() {
                     <Button type="submit">Найти</Button>
                 </Flex>
             </Form>
-
-            <Table columns={columns} data={orders} />
         </div>
     );
 }
