@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from '@/hooks/useStore';
 import type { Notification } from '../typings';
 import {
-    createNotification as createNotificationAction,
-    deleteNotification as deleteNotificationAction,
+    notificationCreate as notificationCreateAction,
+    notificationDelete as notificationDeleteAction,
 } from '../store';
 
 const useNotification = () => {
@@ -12,13 +12,13 @@ const useNotification = () => {
     const createNotification = (notification: Omit<Notification, 'id'>) => {
         const notificationId = uuidv4();
         dispatch(
-            createNotificationAction({
+            notificationCreateAction({
                 ...notification,
                 id: notificationId,
             })
         );
         setTimeout(() => {
-            dispatch(deleteNotificationAction(notificationId));
+            dispatch(notificationDeleteAction(notificationId));
         }, notification.timeOut);
     };
 

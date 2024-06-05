@@ -5,3 +5,8 @@ export interface TotalResult {
     total: number;
     discount: number;
 }
+
+export interface BasketItem {
+    productId: number;
+    quantity: number;
+}

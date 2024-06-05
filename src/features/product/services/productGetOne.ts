@@ -9,7 +9,6 @@ import {
 } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
 import * as v from '@/utils/validate';
-import { baseProductScheme } from '@/utils/prisma';
 
 export const productGetOneHandler = new Handler({
     name: 'Получение деталей товара',
@@ -23,7 +22,24 @@ export const productGetOneHandler = new Handler({
             where: {
                 id: payload.productId,
             },
-            select: baseProductScheme,
+            select: {
+                id: true,
+                name: true,
+                price: true,
+                shortDescription: true,
+                longDescription: true,
+                offer: {
+                    select: {
+                        id: true,
+                        discount: true,
+                    },
+                    where: {
+                        isActive: true,
+                    },
+                },
+                images: true,
+                rating: true,
+            },
         });
         if (!product) {
             return new NotFoundResponse({ message: 'Товар не найден' });

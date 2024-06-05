@@ -23,7 +23,6 @@ export const authRegistrationWithPhone = createRoute({
 });
 
 export const authLogout = createRoute({
-    access: ['USER'],
     async handler() {
         return authLogoutHandler.execute({});
     },
@@ -31,10 +30,9 @@ export const authLogout = createRoute({
 
 export const authGetMySessions = createRoute({
     async handler({ accessTokenData }: RouteData) {
-        if (accessTokenData?.userId) {
-            return authGetMySessionsHandler.execute({ userId: accessTokenData.userId });
-        } else {
+        if (!accessTokenData?.userId) {
             return new AccessDeniedResponse();
         }
+        return authGetMySessionsHandler.execute({ userId: accessTokenData.userId });
     },
 });

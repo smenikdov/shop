@@ -27,6 +27,7 @@ import ProductAdvantagesList from '@/features/product/components/ProductAdvantag
 import ProductProperties from '@/features/product/components/ProductProperties';
 import ProductDescription from '@/features/product/components/ProductDescription';
 import ProductImages from '@/features/product/components/ProductImages';
+import ProductMainButton from '@/features/product/components/ProductMainButton';
 
 import BannerBlock from '@/widgets/BannerBlock';
 
@@ -68,7 +69,7 @@ export default async function Product(props: PageProps<{ id: number }>) {
                                 <Text color="muted">({product.rating})</Text>
                             </Flex>
                             <ProductPrice price={product.price} offer={product.offer} />
-                            {/* <ProductAddButton/> */}
+                            <ProductMainButton productId={product.id} />
                             <Paragraph>{product.shortDescription}</Paragraph>
                             {/* <ProductAdvantagesList advantages={product.advantages} /> */}
                         </div>

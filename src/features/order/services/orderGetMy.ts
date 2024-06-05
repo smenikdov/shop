@@ -22,7 +22,7 @@ export const orderGetMyHandler = new Handler({
                     select: {
                         quantity: true,
                         product: {
-                            select: baseProductScheme,
+                            select: baseProductScheme(),
                         },
                     },
                 },

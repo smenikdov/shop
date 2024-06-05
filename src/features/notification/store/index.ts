@@ -10,14 +10,14 @@ const initialState: NotificationState = {
     notifications: [],
 };
 
-export const counterSlice = createSlice({
+export const notificationSlice = createSlice({
     name: 'notification',
     initialState,
     reducers: {
-        createNotification: (state, action: PayloadAction<Notification>) => {
+        notificationCreate: (state, action: PayloadAction<Notification>) => {
             state.notifications.unshift(action.payload);
         },
-        deleteNotification: (state, action: PayloadAction<string>) => {
+        notificationDelete: (state, action: PayloadAction<string>) => {
             state.notifications = state.notifications.filter(
                 (notification) => notification.id !== action.payload
             );
@@ -25,6 +25,6 @@ export const counterSlice = createSlice({
     },
 });
 
-export const { createNotification, deleteNotification } = counterSlice.actions;
+export const { notificationCreate, notificationDelete } = notificationSlice.actions;
 
-export default counterSlice.reducer;
+export default notificationSlice.reducer;

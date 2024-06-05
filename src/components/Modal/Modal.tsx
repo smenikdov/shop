@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom';
 import './Modal.scss';
 import classNames from 'classnames';
 import Fade from '@/components/transitions/Fade';
-import useOnMount from '@/hooks/useOnMount';
 
 import type { ModalProps } from './Modal.types';
 

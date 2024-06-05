@@ -29,7 +29,6 @@ import { parseSearchParams as psp } from '@/utils/actions/search-params';
 
 import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
-import useOnMount from '@/hooks/useOnMount';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export default function UserListFilters() {

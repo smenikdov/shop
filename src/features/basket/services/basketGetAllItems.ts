@@ -22,7 +22,7 @@ export const basketGetAllItemsHandler = new Handler({
             where: {
                 userId: payload.userId,
             },
-            select: baseProductScheme,
+            select: baseProductScheme(),
         });
         return new SuccessResponse({ data: basketItems });
     },

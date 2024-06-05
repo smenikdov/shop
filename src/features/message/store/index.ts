@@ -10,19 +10,19 @@ const initialState: MessageState = {
     messages: [],
 };
 
-export const counterSlice = createSlice({
+export const messageSlice = createSlice({
     name: 'notification',
     initialState,
     reducers: {
-        createMessage: (state, action: PayloadAction<Message>) => {
+        messageCreate: (state, action: PayloadAction<Message>) => {
             state.messages.unshift(action.payload);
         },
-        deleteMessage: (state, action: PayloadAction<string>) => {
+        messageDelete: (state, action: PayloadAction<string>) => {
             state.messages = state.messages.filter((message) => message.id !== action.payload);
         },
     },
 });
 
-export const { createMessage, deleteMessage } = counterSlice.actions;
+export const { messageCreate, messageDelete } = messageSlice.actions;
 
-export default counterSlice.reducer;
+export default messageSlice.reducer;

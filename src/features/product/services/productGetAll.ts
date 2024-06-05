@@ -7,6 +7,7 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
+import { baseProductScheme } from '@/utils/prisma';
 
 export const productGetAllHandler = new Handler({
     name: 'Получение списка товаров',
@@ -14,22 +15,7 @@ export const productGetAllHandler = new Handler({
 
     async request() {
         const products = await prisma.product.findMany({
-            select: {
-                id: true,
-                name: true,
-                price: true,
-                offer: {
-                    select: {
-                        id: true,
-                        discount: true,
-                    },
-                    where: {
-                        isActive: true,
-                    },
-                },
-                images: true,
-                rating: true,
-            },
+            select: baseProductScheme(),
         });
 
         return new SuccessResponse({ data: products });

@@ -24,7 +24,7 @@ export const favoriteGetAllItemsHandler = new Handler({
             },
             select: {
                 product: {
-                    select: baseProductScheme,
+                    select: baseProductScheme(),
                 },
             },
         });

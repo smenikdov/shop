@@ -24,7 +24,7 @@ import * as v from '@/utils/validate';
 
 import { useForm, textInput, phoneInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import { authRegistrationWithPhone } from '@/features/auth/routes';
 

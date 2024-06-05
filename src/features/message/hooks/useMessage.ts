@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from '@/hooks/useStore';
 import type { Message } from '../typings';
 import {
-    createMessage as createMessageAction,
-    deleteMessage as deleteMessageAction,
+    messageCreate as messageCreateAction,
+    messageDelete as messageDeleteAction,
 } from '../store';
 
 const useMessage = () => {
@@ -12,7 +12,7 @@ const useMessage = () => {
     const createMessage = (message: Omit<Message, 'id'>) => {
         const messageId = uuidv4();
         dispatch(
-            createMessageAction({
+            messageCreateAction({
                 ...message,
                 id: messageId,
             })
