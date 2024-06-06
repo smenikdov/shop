@@ -6,16 +6,8 @@ import type {
 } from '@/utils/validate/typings';
 
 export class StringValidator extends Validator implements IStringValidator {
-    validate(value: any): ValidPrimitiveResult {
-        if (typeof value === 'string') {
-            return super.validate(value);
-        } else {
-            return { isValid: false, error: 'Неверный формат данных' };
-        }
-    }
-
     addRule(rule: ValidationRule) {
-        return new StringValidator([...this.rules, rule]);
+        return new StringValidator({ ...this, rules: [...this.rules, rule] });
     }
 
     pattern(reg: RegExp, error: string = 'Неверное значение поля') {

@@ -9,41 +9,31 @@ import {
 } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
 import * as v from '@/utils/validate';
+import { productScheme, formatProductScheme } from '@/utils/prisma';
 
 export const productGetOneHandler = new Handler({
     name: 'Получение деталей товара',
     defaultError: 'Ошибка при получении деталей товара',
     schema: v.object({
         productId: v.id(),
+        userId: v.id().optional(),
     }),
 
-    async request(payload: { productId: number }) {
+    async request(payload: { userId?: number; productId: number }) {
         const product = await prisma.product.findUnique({
             where: {
                 id: payload.productId,
             },
             select: {
-                id: true,
-                name: true,
-                price: true,
+                ...productScheme(payload.userId),
                 shortDescription: true,
                 longDescription: true,
-                offer: {
-                    select: {
-                        id: true,
-                        discount: true,
-                    },
-                    where: {
-                        isActive: true,
-                    },
-                },
-                images: true,
-                rating: true,
             },
         });
         if (!product) {
             return new NotFoundResponse({ message: 'Товар не найден' });
         }
-        return new SuccessResponse({ data: product });
+        const formatProduct = formatProductScheme(product);
+        return new SuccessResponse({ data: formatProduct });
     },
 });

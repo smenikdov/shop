@@ -1,6 +1,7 @@
 'use server';
 import 'server-only';
 import { userGetAllHandler } from '@/features/user/services/userGetlAll';
+import { userInitializeHandler } from '@/features/user/services/userInitialize';
 import { createRoute } from '@/utils/actions/routes';
 import { RouteData } from '@/utils/actions/routes';
 
@@ -14,5 +15,11 @@ export const userGetAll = createRoute({
     access: ['ADMIN'],
     async handler({ payload }: RouteData<UserGetAllPayload>) {
         return userGetAllHandler.execute(payload);
+    },
+});
+
+export const userInitialize = createRoute({
+    async handler({ accessTokenData }: RouteData) {
+        return userInitializeHandler.execute({ userId: accessTokenData?.userId });
     },
 });

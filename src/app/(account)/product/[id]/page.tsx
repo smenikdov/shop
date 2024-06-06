@@ -69,7 +69,7 @@ export default async function Product(props: PageProps<{ id: number }>) {
                                 <Text color="muted">({product.rating})</Text>
                             </Flex>
                             <ProductPrice price={product.price} offer={product.offer} />
-                            <ProductMainButton productId={product.id} />
+                            <ProductMainButton product={product} />
                             <Paragraph>{product.shortDescription}</Paragraph>
                             {/* <ProductAdvantagesList advantages={product.advantages} /> */}
                         </div>

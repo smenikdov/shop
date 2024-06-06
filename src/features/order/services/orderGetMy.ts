@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { baseProductScheme } from '@/utils/prisma';
+import { productScheme, formatProductScheme } from '@/utils/prisma';
 
 export const orderGetMyHandler = new Handler({
     name: 'Получение списка всех заказов пользователя',
@@ -22,7 +22,7 @@ export const orderGetMyHandler = new Handler({
                     select: {
                         quantity: true,
                         product: {
-                            select: baseProductScheme(),
+                            select: productScheme(payload.userId),
                         },
                     },
                 },
@@ -34,6 +34,16 @@ export const orderGetMyHandler = new Handler({
             },
         });
 
-        return new SuccessResponse({ data: orders });
+        const formatOrders = orders.map((o) => ({
+            id: o.id,
+            status: o.status,
+            total: o.total,
+            orderItems: o.orderItems.map((oi) => ({
+                quantity: oi.quantity,
+                ...formatProductScheme(oi.product),
+            })),
+        }));
+
+        return new SuccessResponse({ data: formatOrders });
     },
 });

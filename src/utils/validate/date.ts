@@ -16,7 +16,7 @@ export class DateValidator extends Validator implements IDateValidator {
     }
 
     addRule(rule: ValidationRule) {
-        return new DateValidator([...this.rules, rule]);
+        return new DateValidator({ ...this, rules: [...this.rules, rule] });
     }
 
     required(error: string = 'Обязательно поле') {

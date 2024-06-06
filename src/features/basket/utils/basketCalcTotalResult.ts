@@ -1,8 +1,9 @@
-import type { ProductItem } from '@/features/product/typings';
+import type { Product } from '@/features/product/typings';
 import type { TotalResult } from '@/features/basket/typings';
 import { getProductDiscountValue } from '@/features/product/utils';
 
-export const basketCalcTotalResult = (products: Array<ProductItem>): TotalResult => {
+// TODO calc basketQuantity
+export const basketCalcTotalResult = (products: Array<Product>): TotalResult => {
     const result: TotalResult = {
         quantity: products.length,
         subtotal: 0,

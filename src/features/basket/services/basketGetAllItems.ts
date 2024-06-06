@@ -8,7 +8,7 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { baseProductScheme } from '@/utils/prisma';
+import { productScheme, formatProductScheme } from '@/utils/prisma';
 
 export const basketGetAllItemsHandler = new Handler({
     name: 'Получение корзины',
@@ -22,8 +22,13 @@ export const basketGetAllItemsHandler = new Handler({
             where: {
                 userId: payload.userId,
             },
-            select: baseProductScheme(),
+            select: {
+                product: {
+                    select: productScheme(payload.userId),
+                },
+            },
         });
-        return new SuccessResponse({ data: basketItems });
+        const formatBasketItems = basketItems.map((bi) => formatProductScheme(bi.product));
+        return new SuccessResponse({ data: formatBasketItems });
     },
 });

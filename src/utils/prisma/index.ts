@@ -1,4 +1,22 @@
-export const baseProductScheme = (userId?: number) => ({
+import type { Product, BaseProduct } from '@/features/product/typings';
+
+interface PrismaProductItem {
+    id: number;
+    name: string;
+    price: number;
+    offer: {
+        id: number;
+        discount: number;
+    } | null;
+    basketItems?: Array<{
+        quantity: number;
+    }>;
+    images: Array<string>;
+    rating: number;
+    [key: string]: any;
+}
+
+const baseProductScheme = {
     id: true,
     name: true,
     price: true,
@@ -11,17 +29,27 @@ export const baseProductScheme = (userId?: number) => ({
             isActive: true,
         },
     },
-    // basketItems: {
-    //     where: {
-    //         userId: userId || -1,
-    //     },
-    //     select: {
-    //         quantity: true,
-    //     },
-    // },
     images: true,
     rating: true,
-});
+};
+
+export const productScheme = (userId?: number) => {
+    if (userId) {
+        return {
+            ...baseProductScheme,
+            basketItems: {
+                where: {
+                    userId: userId,
+                },
+                select: {
+                    quantity: true,
+                },
+            },
+        };
+    } else {
+        return baseProductScheme;
+    }
+};
 
 export const includePagination = (page: number) => {
     const itemsPerPage = 20;
@@ -29,4 +57,15 @@ export const includePagination = (page: number) => {
         skip: itemsPerPage * (page - 1),
         take: itemsPerPage,
     };
+};
+
+export const formatProductScheme = (product: PrismaProductItem): Product => {
+    const formatProduct = {
+        ...product,
+        basketQuantity: product.basketItems?.[0]?.quantity || 0,
+    };
+
+    delete formatProduct.basketItems;
+
+    return formatProduct;
 };

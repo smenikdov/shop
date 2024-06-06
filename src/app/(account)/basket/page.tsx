@@ -1,7 +1,6 @@
-import { useMemo } from 'react';
 import type { Metadata } from 'next';
 
-import type { ProductItem } from '@/features/product/typings';
+import type { Product } from '@/features/product/typings';
 
 import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
@@ -25,11 +24,9 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import BasketList from '@/features/basket/components/BasketList';
 import BasketTotalResult from '@/features/basket/components/BasketTotalResult';
 
-import { basketCalcTotalResult } from '@/features/basket/utils/basketCalcTotalResult';
-
 import styles from './page.module.css';
 
-const products: Array<ProductItem> = [];
+const products: Array<Product> = [];
 
 export const metadata: Metadata = {
     title: 'Моя корзина',
@@ -37,12 +34,12 @@ export const metadata: Metadata = {
 };
 
 export default function Basket() {
-    const totalResult = useMemo(() => basketCalcTotalResult(products), [products]);
-
     return (
         <main>
-            <Container>
-                <Title level={1}>Корзина</Title>
+            <Container className="mt-md">
+                <Title level={1} className="mb-xs">
+                    Корзина
+                </Title>
                 {/* TODO
                 <Banner
                     title="The papier promise"
@@ -50,10 +47,10 @@ export default function Basket() {
                 /> */}
                 <Row>
                     <Col md={9}>
-                        <BasketList products={products} />
+                        <BasketList />
                     </Col>
                     <Col md={3}>
-                        <BasketTotalResult result={totalResult} />
+                        <BasketTotalResult />
                     </Col>
                 </Row>
             </Container>

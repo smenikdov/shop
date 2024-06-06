@@ -1,6 +1,10 @@
 'use client';
 
 import React from 'react';
+
+import { useAppSelector } from '@/hooks/useStore';
+import useBasket from '@/features/basket/hooks/useBasket';
+
 import Flex from '@/components/Flex';
 import Text from '@/components/typography/Text';
 import Chip from '@/components/Chip';
@@ -12,27 +16,34 @@ import { formatNumber } from '@/utils/number';
 import Title from '@/components/typography/Title';
 import Icon from '@/components/Icon';
 import Image from '@/components/Image';
-import ProductPrice from '@/features/product/components/ProductPrice';
-import { MdFavorite, MdDelete } from 'react-icons/md';
-
-import type { BasketListProps } from './BasketList.types';
 import Button from '@/components/Button';
 
-const BasketList = (props: BasketListProps) => {
-    const { products } = props;
+import { MdFavorite, MdDelete } from 'react-icons/md';
 
-    if (products.length === 0) {
+import ProductPrice from '@/features/product/components/ProductPrice';
+
+import type { BasketListProps } from './BasketList.types';
+
+const BasketList = (props: BasketListProps) => {
+    const { isLoadig, basketAddItem, basketDeleteItem, basketUpdateQuantity } = useBasket();
+    const basketItems = useAppSelector((state) => state.basket.basketItems);
+
+    if (basketItems.length === 0) {
         return (
             <div>
-                <Text>Воспользуйтесь поиском, чтобы найти всё, что нужно</Text>
-                <Button href="/product">Начать покупки</Button>
+                <div className="mb-xs">
+                    <Text>Воспользуйтесь поиском, чтобы найти всё, что нужно</Text>
+                </div>
+                <div>
+                    <Button href="/product">Начать покупки</Button>
+                </div>
             </div>
         );
     }
 
     return (
         <div>
-            {products.map((product) => (
+            {basketItems.map((product) => (
                 <Row key={product.id}>
                     <Col md={7}>
                         <Flex wrap="nowrap">
@@ -50,8 +61,14 @@ const BasketList = (props: BasketListProps) => {
                                     <Chip>TODO</Chip>
                                 </div>
                                 <Flex>
-                                    <Button icon={<MdFavorite />} onClick={() => {}} />
-                                    <Button icon={<MdDelete />} onClick={() => {}} />
+                                    <Button icon={<MdFavorite />} size="sm" onClick={() => {}} />
+                                    <Button
+                                        icon={<MdDelete />}
+                                        size="sm"
+                                        onClick={() => {
+                                            basketDeleteItem(product.id);
+                                        }}
+                                    />
                                 </Flex>
                             </div>
                         </Flex>

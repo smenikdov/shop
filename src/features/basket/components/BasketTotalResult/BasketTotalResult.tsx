@@ -1,4 +1,9 @@
-import React from 'react';
+'use client';
+
+import React, { useMemo } from 'react';
+
+import { useAppSelector } from '@/hooks/useStore';
+
 import Flex from '@/components/Flex';
 import Text from '@/components/typography/Text';
 import Chip from '@/components/Chip';
@@ -7,19 +12,22 @@ import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
 import styles from './ProductList.module.scss';
 import Title from '@/components/typography/Title';
-import { MdStarRate } from 'react-icons/md';
 import Icon from '@/components/Icon';
 import Image from '@/components/Image';
-import ProductPrice from '@/features/product/components/ProductPrice';
-import { declineWord } from '@/utils/text';
-import { formatNumber } from '@/utils/number';
-
-import type { BasketTotalResultProps } from './BasketTotalResult.types';
 import Divider from '@/components/Divider';
 import Button from '@/components/Button';
 
-const BasketTotalResult = ({ result }: BasketTotalResultProps) => {
-    const { quantity, subtotal, shipping, total, discount } = result;
+import type { BasketTotalResultProps } from './BasketTotalResult.types';
+
+import { basketCalcTotalResult } from '@/features/basket/utils/basketCalcTotalResult';
+import { declineWord } from '@/utils/text';
+import { formatNumber } from '@/utils/number';
+
+const BasketTotalResult = (props: BasketTotalResultProps) => {
+    const basketItems = useAppSelector((state) => state.basket.basketItems);
+    const totalResult = useMemo(() => basketCalcTotalResult(basketItems), [basketItems]);
+
+    const { quantity, subtotal, shipping, total, discount } = totalResult;
 
     return (
         <div>

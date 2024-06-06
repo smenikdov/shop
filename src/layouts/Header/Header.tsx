@@ -9,9 +9,11 @@ import Button from '@/components/Button';
 import Icon from '@/components/Icon';
 import { cookies as getCookies } from 'next/headers';
 
-import { MdOutlineAccountCircle, MdOutlineShoppingBasket } from 'react-icons/md';
+import { MdOutlineAccountCircle } from 'react-icons/md';
 
 import HeaderLogo from './HeaderLogo';
+
+import BasketButton from '@/features/basket/components/BasketButton';
 
 const links = [
     {
@@ -65,13 +67,7 @@ const Header = () => {
                                 className={styles.loginButton}
                                 icon={<MdOutlineAccountCircle />}
                             />
-                            <Button
-                                href="/basket"
-                                shape="circle"
-                                variant="text"
-                                className={styles.loginBasket}
-                                icon={<MdOutlineShoppingBasket />}
-                            />
+                            <BasketButton className={styles.loginBasket} />
                         </Flex>
                     </Col>
                 </Row>

@@ -21,6 +21,11 @@ export interface ValidationRule {
     error: string;
 }
 
+export interface ValidationOptions {
+    optional: boolean;
+    nullable: boolean;
+}
+
 export interface INumberValidator {
     validate(value: number): ValidPrimitiveResult;
 }

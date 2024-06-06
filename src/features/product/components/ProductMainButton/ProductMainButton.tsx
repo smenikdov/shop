@@ -13,12 +13,12 @@ import Button from '@/components/Button';
 import useBasket from '@/features/basket/hooks/useBasket';
 
 const ProductMainButton = (props: ProductMainButtonProps) => {
-    const { productId } = props;
+    const { product } = props;
 
     const { isLoadig, basketAddItem, basketDeleteItem, basketUpdateQuantity } = useBasket();
 
     return (
-        <Button onClick={() => basketAddItem(productId)} loading={isLoadig}>
+        <Button onClick={() => basketAddItem(product)} loading={isLoadig}>
             Добавить в корзину
         </Button>
     );

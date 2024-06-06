@@ -5,10 +5,46 @@ import { DateValidator } from './date';
 import { ObjectValidator } from './object';
 import { FileValidator } from './file';
 
-export const string = () => new StringValidator();
-export const number = () => new NumberValidator();
-export const date = () => new DateValidator();
-export const file = () => new FileValidator();
+export const string = (error = 'Значение должно быть текстом') =>
+    new StringValidator({
+        rules: [
+            {
+                validateFunction: (value: any) => typeof value === 'string',
+                error,
+            },
+        ],
+    });
+
+export const number = (error = 'Значение должно быть числом') =>
+    new NumberValidator({
+        rules: [
+            {
+                validateFunction: (value: any) => typeof value === 'number',
+                error,
+            },
+        ],
+    });
+
+export const date = (error = 'Значение должно быть датой') =>
+    new DateValidator({
+        rules: [
+            {
+                validateFunction: (value: any) => value instanceof Date,
+                error,
+            },
+        ],
+    });
+
+export const file = (error = 'Значение должно быть файлом') =>
+    new FileValidator({
+        rules: [
+            {
+                validateFunction: (value: any) => value instanceof File,
+                error,
+            },
+        ],
+    });
+
 export const object = (fields: ObjectFieldsVlidators) => new ObjectValidator(fields);
 
 export const email = () =>

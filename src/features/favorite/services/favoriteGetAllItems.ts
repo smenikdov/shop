@@ -8,7 +8,7 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { baseProductScheme } from '@/utils/prisma';
+import { productScheme, formatProductScheme } from '@/utils/prisma';
 
 export const favoriteGetAllItemsHandler = new Handler({
     name: 'Получение избранных товаров',
@@ -24,10 +24,12 @@ export const favoriteGetAllItemsHandler = new Handler({
             },
             select: {
                 product: {
-                    select: baseProductScheme(),
+                    select: productScheme(payload.userId),
                 },
             },
         });
-        return new SuccessResponse({ data: favoriteItems });
+
+        const formatFavoriteItems = favoriteItems.map((fi) => formatProductScheme(fi.product));
+        return new SuccessResponse({ data: formatFavoriteItems });
     },
 });

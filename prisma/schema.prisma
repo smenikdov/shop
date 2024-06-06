@@ -13,6 +13,7 @@ enum PaymentStatuses {
 enum UserRole {
     USER
     ADMIN
+    GUEST
 }
 
 enum UserSex {
@@ -59,7 +60,7 @@ model User {
     patronymic String?
     birthday   DateTime?
     sex        UserSex?
-    password   String
+    password   String?
     role       UserRole
 
     sessions      Session[]

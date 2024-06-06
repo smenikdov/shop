@@ -1,12 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { BasketItem } from '../typings';
+import type { Product } from '@/features/product/typings';
 
 export interface BasketState {
-    basketItems: Array<BasketItem>;
+    basketItems: Array<Product>;
 }
-
-export const LOCAL_STORAGE_BASKET = 'basket';
 
 const initialState: BasketState = {
     basketItems: [],
@@ -16,20 +14,20 @@ export const basketSlice = createSlice({
     name: 'basket',
     initialState,
     reducers: {
-        basketAddItem: (state, action: PayloadAction<{ productId: number }>) => {
+        basketAddItem: (state, action: PayloadAction<Product>) => {
             state.basketItems.push({
-                productId: action.payload.productId,
-                quantity: 1,
+                ...action.payload,
+                basketQuantity: 1,
             });
         },
 
         basketDeleteItem: (state, action: PayloadAction<{ productId: number }>) => {
             state.basketItems = state.basketItems.filter(
-                (bi) => bi.productId !== action.payload.productId
+                (bi) => bi.id !== action.payload.productId
             );
         },
 
-        basketSetItems: (state, action: PayloadAction<Array<BasketItem>>) => {
+        basketSetItems: (state, action: PayloadAction<Array<Product>>) => {
             state.basketItems = action.payload;
         },
 
@@ -37,17 +35,9 @@ export const basketSlice = createSlice({
             state,
             action: PayloadAction<{ productId: number; quantity: number }>
         ) => {
-            const basketItem = state.basketItems.find(
-                (bi) => bi.productId === action.payload.productId
-            );
-            if (basketItem) {
-                basketItem.quantity = action.payload.quantity;
-            }
+            const basketItem = state.basketItems.find((bi) => bi.id === action.payload.productId)!;
+            basketItem.basketQuantity = action.payload.quantity;
         },
-    },
-    selectors: {
-        basketGetOneItem: (state, productId) =>
-            state.basketItems.find((bi) => bi.productId === productId),
     },
 });
 

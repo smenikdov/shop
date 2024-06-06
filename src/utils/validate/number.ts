@@ -6,16 +6,8 @@ import type {
 } from '@/utils/validate/typings';
 
 export class NumberValidator extends Validator implements INumberValidator {
-    validate(value: any): ValidPrimitiveResult {
-        if (typeof value === 'number') {
-            return super.validate(value);
-        } else {
-            return { isValid: false, error: 'Неверный формат данных' };
-        }
-    }
-
     addRule(rule: ValidationRule) {
-        return new NumberValidator([...this.rules, rule]);
+        return new NumberValidator({ ...this, rules: [...this.rules, rule] });
     }
 
     gt(option: number, error?: string) {
