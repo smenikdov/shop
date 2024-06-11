@@ -61,8 +61,7 @@ export const textInput = {
 };
 
 export const phoneInput = {
-    format: (event: React.ChangeEvent<HTMLInputElement>) =>
-        event.target.value.replace(/[^0-9]/g, ''),
+    format: (value: string) => value.replace(/[^0-9]/g, ''),
 };
 
 export const numberInput = {

@@ -1,1 +1,90 @@
 @import '@/styles/abstracts';
+
+.input {
+    $root-selector: &;
+
+    display: flex;
+    align-items: stretch;
+    border-radius: 0.33em;
+    transition: 300ms;
+
+    @each $sizeName, $sizeValue in $sizes {
+        &-#{$sizeName} {
+            --field-size: #{$sizeValue};
+        }
+    }
+
+    &-field {
+        padding: calc(var(--field-size) / 3) calc(var(--field-size) / 1.5);
+        border: none;
+        outline: none;
+        width: 100%;
+        color: inherit;
+        line-height: 150%;
+        font-size: var(--field-size);
+        background: 0 0;
+        &::placeholder {
+            color: inherit;
+            opacity: 0.6;
+        }
+    }
+
+    &-outlined {
+        border-width: 1px;
+        border-style: solid;
+        border-color: $muted;
+        &:hover {
+            border-color: $primary;
+        }
+        &:focus-within {
+            border-color: $primary;
+        }
+        &#{$root-selector}-invalid {
+            border-color: $danger;
+        }
+    }
+
+    &-filled {
+        background-color: lighten($primary, 35);
+        border-width: 1px;
+        border-style: solid;
+        border-color: transparent;
+        &:hover {
+            background-color: lighten($primary, 30);
+        }
+        &:focus-within {
+            background-color: $white;
+            border-color: $primary;
+        }
+        &#{$root-selector}-invalid {
+            background-color: lighten($danger, 30);
+            border-color: $danger;
+        }
+    }
+
+    &-borderless {
+        &:hover {}
+        &:focus-within {}
+        &#{$root-selector}-invalid {}
+    }
+
+    &-disabled {}
+
+    &-focus {}
+
+    &-addon {}
+
+    &-container {
+        position: relative;
+    }
+
+    &-error {
+        font-size: 0.7rem;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        color: $danger;
+        line-height: 100%;
+        margin-top: 2px;
+    }
+}

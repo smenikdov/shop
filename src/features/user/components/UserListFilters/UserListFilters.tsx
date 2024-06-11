@@ -15,6 +15,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Input from '@/components/form/Input';
+import InputMask from '@/components/form/InputMask';
 import InputNumber from '@/components/form/InputNumber';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
@@ -76,8 +77,9 @@ export default function UserListFilters() {
                     </Col>
                     <Col md={3}>
                         <FormItem label="Номер телефона">
-                            <Input
+                            <InputMask
                                 {...register('phone', phoneInput)}
+                                mask="+{7} (000) 000-00-00"
                                 placeholder="+7 (___) __-__"
                             />
                         </FormItem>

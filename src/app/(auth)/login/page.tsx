@@ -12,9 +12,9 @@ import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
-import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
+import Card from '@/components/Card';
 import type { Metadata } from 'next';
 import AuthLoginForm from '@/features/auth/components/AuthLoginForm';
 
@@ -27,7 +27,11 @@ export default function Login() {
     return (
         <main>
             <Container>
-                <AuthLoginForm />
+                <Flex justify="center">
+                    <Card>
+                        <AuthLoginForm />
+                    </Card>
+                </Flex>
             </Container>
         </main>
     );

@@ -12,7 +12,7 @@ import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import type { Metadata } from 'next';
 import TextBlock from '@/widgets/TextBlock/TextBlock';
-import Input from '@/components/form/Field';
+import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
 import Flex from '@/components/Flex';

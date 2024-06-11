@@ -12,6 +12,7 @@ import Empty from '@/components/Empty';
 import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
+import InputMask from '@/components/form/InputMask';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
 import Form from '@/components/form/Form';
@@ -58,12 +59,18 @@ export default function AuthLoginForm() {
     return (
         <Form action={loginAction}>
             <FormItem label="Номер телефона">
-                <Input {...register('phone', phoneInput)} placeholder="+7 (___) __-__" />
+                <InputMask
+                    {...register('phone', phoneInput)}
+                    mask="+{7} (000) 000-00-00"
+                    placeholder="+7 (___) __-__"
+                />
             </FormItem>
             <FormItem label="Пароль">
                 <Input {...register('password', textInput)} type="password" />
             </FormItem>
-            <Button type="submit">Войти</Button>
+            <Button type="submit" className="mt-lg">
+                Войти
+            </Button>
         </Form>
     );
 }

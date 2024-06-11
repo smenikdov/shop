@@ -13,6 +13,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import QuestionTooltip from '@/components/floating/QuestionTooltip';
 import Input from '@/components/form/Input';
+import InputMask from '@/components/form/InputMask';
 import Select from '@/components/form/Select';
 import Modal from '@/components/Modal';
 import Flex from '@/components/Flex';
@@ -22,7 +23,7 @@ import Card from '@/components/Card';
 
 import * as v from '@/utils/validate';
 
-import { useForm, textInput, phoneInput } from '@/hooks/useForm';
+import { useForm, textInput, baseInput, phoneInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
 import { useRouter } from 'next/navigation';
 
@@ -78,7 +79,11 @@ export default function AuthRegistrationForm() {
     return (
         <Form action={registerAction}>
             <FormItem label="Номер телефона">
-                <Input {...registerStep1('phone', phoneInput)} placeholder="+7 (___) __-__" />
+                <InputMask
+                    {...registerStep1('phone', phoneInput)}
+                    mask="+{7} (000) 000-00-00"
+                    placeholder="+7 (___) __-__"
+                />
             </FormItem>
             <FormItem label="Пароль">
                 <Input {...registerStep1('password', textInput)} type="password" />

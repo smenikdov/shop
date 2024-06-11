@@ -11,4 +11,4 @@ export interface BaseInputNumberProps {
     maxLength?: undefined;
 }
 
-export type InputNumberProps = BaseInputNumberProps & Omit<InputProps, 'change'>;
+export type InputNumberProps = BaseInputNumberProps & InputProps;

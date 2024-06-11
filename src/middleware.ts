@@ -98,24 +98,24 @@ export default async function middleware(req: NextRequest) {
     //     // accessTokenData = updateSessionResult.newAccessTokenData;
     // }
 
-    if (!accessTokenData || !accessTokenData.userId) {
-        if (isAdminRoute || isUserRoute) {
-            return NextResponse.redirect(new URL('/product', req.nextUrl));
-        } else {
-            return NextResponse.next();
-        }
-    }
+    // if (!accessTokenData || !accessTokenData.userId) {
+    //     if (isAdminRoute || isUserRoute) {
+    //         return NextResponse.redirect(new URL('/product', req.nextUrl));
+    //     } else {
+    //         return NextResponse.next();
+    //     }
+    // }
 
-    const userRole = accessTokenData.userRole as UserRole;
-    const userId = Number(accessTokenData.userId);
+    // const userRole = accessTokenData.userRole as UserRole;
+    // const userId = Number(accessTokenData.userId);
 
-    if (isAdminRoute && userRole !== 'ADMIN') {
-        return NextResponse.redirect(new URL('/product', req.nextUrl));
-    }
+    // if (isAdminRoute && userRole !== 'ADMIN') {
+    //     return NextResponse.redirect(new URL('/product', req.nextUrl));
+    // }
 
-    if (isPublicRoute) {
-        return NextResponse.redirect(new URL('/product', req.nextUrl));
-    }
+    // if (isPublicRoute) {
+    //     return NextResponse.redirect(new URL('/product', req.nextUrl));
+    // }
 
     return NextResponse.next();
 }

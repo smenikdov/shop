@@ -11,7 +11,7 @@ import Icon from '@/components/Icon';
 import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
-import Input from '@/components/form/Field';
+import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
 import Flex from '@/components/Flex';

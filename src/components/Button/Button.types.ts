@@ -21,6 +21,5 @@ export interface BaseButtonProps {
 }
 
 export type ButtonProps = BaseButtonProps &
-    Omit<React.HTMLAttributes<HTMLElement>, keyof BaseButtonProps> &
     Omit<React.ButtonHTMLAttributes<HTMLElement>, keyof BaseButtonProps> &
     Omit<React.AnchorHTMLAttributes<HTMLElement>, keyof BaseButtonProps>;
