@@ -22,13 +22,13 @@ const ProductImages = (props: ProductImagesProps) => {
                         })}
                         onClick={() => setMainImageIndex(index)}
                     >
-                        <Image src={image} width={68} height={68} />
+                        <Image src={image} width={68} height={68} alt="123" />
                     </div>
                 ))}
             </div>
 
             <div className={styles.main}>
-                <Image src={images[mainImageIndex]} fill />
+                <Image src={images[mainImageIndex]} fill alt="123" />
             </div>
         </Flex>
     );

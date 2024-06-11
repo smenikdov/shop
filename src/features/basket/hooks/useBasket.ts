@@ -1,5 +1,5 @@
 import { useInitialData } from '@/context/InitialDataProvider';
-import { useAppDispatch } from '@/hooks/useStore';
+import { useAppDispatch, useAppSelector } from '@/hooks/useStore';
 import useNotification from '@/features/notification/hooks/useNotification';
 import React, { useState } from 'react';
 
@@ -17,12 +17,15 @@ import {
 
 import type { Product } from '@/features/product/typings';
 
-const useBasket = () => {
+const useBasket = (product: Product) => {
     const { notifyError, notifySuccess } = useNotification();
     const [isLoadig, setIsLoading] = useState(false);
     const dispatch = useAppDispatch();
+    const quantity =
+        useAppSelector((state) => state.basket.basketItems.find((bi) => bi.id === product.id))
+            ?.basketQuantity || 0;
 
-    const basketAddItem = async (product: Product) => {
+    const basketAddItem = async () => {
         setIsLoading(true);
         const response = await basketAddItemServerAction({ productId: product.id });
         if (!response.isSuccess) {
@@ -33,30 +36,34 @@ const useBasket = () => {
         setIsLoading(false);
     };
 
-    const basketDeleteItem = async (productId: number) => {
+    const basketDeleteItem = async () => {
         setIsLoading(true);
-        const response = await basketDeleteItemServerAction({ productId });
+        const response = await basketDeleteItemServerAction({ productId: product.id });
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
         }
-        dispatch(basketDeleteItemAction({ productId }));
+        dispatch(basketDeleteItemAction({ productId: product.id }));
         setIsLoading(false);
     };
 
-    const basketUpdateQuantity = async (productId: number, quantity: number) => {
+    const basketUpdateQuantity = async (quantity: number) => {
         setIsLoading(true);
-        const response = await basketUpdateQuantityServerAction({ productId, quantity });
+        const response = await basketUpdateQuantityServerAction({
+            productId: product.id,
+            quantity,
+        });
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
         }
-        dispatch(basketUpdateQuantityAction({ productId, quantity }));
+        dispatch(basketUpdateQuantityAction({ productId: product.id, quantity }));
         setIsLoading(false);
     };
 
     return {
         isLoadig,
+        quantity,
         basketAddItem,
         basketDeleteItem,
         basketUpdateQuantity,

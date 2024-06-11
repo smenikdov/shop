@@ -1,0 +1,19 @@
+@import '@/styles/abstracts';
+
+.input-counter {
+    &-min {}
+
+    &-max {}
+
+    &-decrement {}
+
+    &-increment {}
+
+    &-value {
+        min-width: 36px;
+        margin: 0 4px;
+        min-width: 36px;
+        text-align: center;
+        white-space: nowrap;
+    }
+}

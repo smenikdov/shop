@@ -1,11 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import './InputNumber.scss';
+
 import classNames from 'classnames';
+
 import { InputNumberProps } from './InputNumber.types';
-import Input from '../Input';
+
+import Input from '@/components/form/Input';
 import Button from '@/components/Button';
+
+import { MdRemove, MdAdd } from 'react-icons/md';
+
+import './InputNumber.scss';
 
 const InputNumber = (props: InputNumberProps) => {
     const {
@@ -43,9 +49,6 @@ const InputNumber = (props: InputNumberProps) => {
     };
 
     const handleStep = (changer: number) => {
-        if (isNaN(Number(value))) {
-            return;
-        }
         const newValue = Number(value) + changer;
         setValue(newValue.toString());
         onChange?.(newValue);
@@ -73,21 +76,17 @@ const InputNumber = (props: InputNumberProps) => {
 
     const DecrementButton = (
         <Button
-            color="primary"
             className="input-number-decrement"
+            icon={<MdRemove />}
             onClick={() => handleStep(-step)}
-        >
-            -
-        </Button>
+        />
     );
     const IncrementButton = (
         <Button
-            color="primary"
             className="input-number-increment"
+            icon={<MdAdd />}
             onClick={() => handleStep(+step)}
-        >
-            +
-        </Button>
+        />
     );
 
     return (
