@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { postSendPhoneMessageHandler } from './postSendPhoneMessage';
+import { smsSendMessageHandler } from './smsSendMessage';
 import { getRandomNumber } from '@/utils/number';
 
 const isTestSms = true;
@@ -22,7 +22,7 @@ export const postSendPhoneCodeHandler = new Handler({
             code = '1234';
         } else {
             code = getRandomNumber(1000, 9999).toString();
-            const { isSuccess } = await postSendPhoneMessageHandler.execute({
+            const { isSuccess } = await smsSendMessageHandler.execute({
                 phone: payload.phone,
                 message: `Пароль для регистрации: ${code}`,
             });

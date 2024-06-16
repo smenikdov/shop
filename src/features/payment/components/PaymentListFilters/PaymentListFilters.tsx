@@ -23,7 +23,7 @@ import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 import Result from '@/components/Result';
 
-import { PaymentStatuses } from '@prisma/client';
+import { PaymentStatus } from '@prisma/client';
 
 import * as v from '@/utils/validate';
 import { parseSearchParams as psp } from '@/utils/actions/search-params';

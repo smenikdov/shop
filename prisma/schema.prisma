@@ -1,12 +1,12 @@
 //
-enum OrderStatuses {
+enum OrderStatus {
     PREPARATION
     DELIVERY
     WAITING
     RECEIVED
 }
 
-enum PaymentStatuses {
+enum PaymentStatus {
     SUCCESS
 }
 
@@ -19,6 +19,16 @@ enum UserRole {
 enum UserSex {
     MALE
     FEMALE
+}
+
+enum DeliveryCompany {
+    BOXBERRY
+    CDEK
+}
+
+enum DeliveryType {
+    COURIER
+    POINT
 }
 
 //  ============================================= GLOBAL =============================================
@@ -52,33 +62,29 @@ model Session {
 }
 
 model User {
-    id         Int       @id @default(autoincrement())
-    email      String?   @unique
-    phone      String?   @unique
-    lastName   String?   @map(name: "last_name")
-    firstName  String?   @map(name: "first_name")
-    patronymic String?
-    birthday   DateTime?
-    sex        UserSex?
-    password   String?
-    role       UserRole
-
+    id            Int            @id @default(autoincrement())
+    email         String?        @unique
+    phone         String?        @unique
+    lastName      String?        @map(name: "last_name")
+    firstName     String?        @map(name: "first_name")
+    patronymic    String?
+    birthday      DateTime?
+    sex           UserSex?
+    password      String?
+    role          UserRole
+    cityId        Int            @map("city_id")
     sessions      Session[]
     basketItems   BasketItem[]
     favoriteItems FavoriteItem[]
+    checkoutItems CheckoutItem[]
     payments      Payment[]
     orders        Order[]
+    city          City           @relation(fields: [cityId], references: [id])
 
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+    createdAt    DateTime       @default(now()) @map(name: "created_at")
+    updatedAt    DateTime       @updatedAt @map(name: "updated_at")
 
     @@map(name: "users")
-}
-
-model UserAddress {
-    id Int @id @default(autoincrement())
-
-    @@map(name: "useraddress")
 }
 
 model VerificationToken {
@@ -116,9 +122,15 @@ model Product {
     offer            ProductOffer?   @relation(fields: [offerId], references: [id])
     offerId          Int?
 
-    basketItems      BasketItem[]
-    favoriteItems    FavoriteItem[]
-    orderItems       OrderItem[]
+    width  Int
+    height Int
+    length Int
+    weight Int
+
+    basketItems   BasketItem[]
+    favoriteItems FavoriteItem[]
+    orderItems    OrderItem[]
+    checkoutItems CheckoutItem[]
 
     createdAt    DateTime       @default(now()) @map(name: "created_at")
     updatedAt    DateTime       @updatedAt @map(name: "updated_at")
@@ -144,13 +156,18 @@ model ProductOffer {
 //  ============================================= ORDER =============================================
 
 model Order {
-    id         Int           @id @default(autoincrement())
-    status     OrderStatuses
-    total      Float
-    orderItems OrderItem[]
-    payment    Payment?
-    userId     Int           @map(name: "user_id")
-    user       User          @relation(fields: [userId], references: [id])
+    id              Int               @id @default(autoincrement())
+    status          OrderStatus
+    total           Float
+    orderItems      OrderItem[]
+    payment         Payment?
+    userId          Int               @map(name: "user_id")
+    user            User              @relation(fields: [userId], references: [id])
+    deliveryCompany DeliveryCompany
+    deliveryType    DeliveryType
+    cityId          Int               @map("city_id")
+    city            City              @relation(fields: [cityId], references: [id])
+    notice          String?
 
     @@map(name: "orders")
 }
@@ -166,8 +183,8 @@ model OrderItem {
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-    @@map(name: "orderitems")
     @@unique([productId, orderId])
+    @@map(name: "orderitems")
 }
 
 //  ============================================= BASKET =============================================
@@ -182,8 +199,24 @@ model BasketItem {
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-    @@map(name: "basketitems")
     @@unique([productId, userId])
+    @@map(name: "basketitems")
+}
+
+//  ============================================= CHECKOUT =============================================
+model CheckoutItem {
+    id        Int     @id @default(autoincrement())
+    quantity  Int     @default(1)
+    productId Int     @map(name: "product_id")
+    product   Product @relation(fields: [productId], references: [id])
+    userId    Int     @map(name: "user_id")
+    user      User    @relation(fields: [userId], references: [id])
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@unique([productId, userId])
+    @@map(name: "checkoutitems")
 }
 
 //  ============================================= FAVORITE =============================================
@@ -197,18 +230,18 @@ model FavoriteItem {
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-    @@map(name: "favoriteitems")
     @@unique([productId, userId])
+    @@map(name: "favoriteitems")
 }
 
 //  ============================================= BASKET =============================================
 model Payment {
-    id      Int   @id @default(autoincrement())
-    userId  Int   @map(name: "user_id")
-    user    User  @relation(fields: [userId], references: [id])
-    order   Order @relation(fields: [orderId], references: [id])
-    orderId Int   @unique() @map(name: "order_id")
-    status     PaymentStatuses
+    id      Int             @id @default(autoincrement())
+    userId  Int             @map(name: "user_id")
+    user    User            @relation(fields: [userId], references: [id])
+    order   Order           @relation(fields: [orderId], references: [id])
+    orderId Int             @unique() @map(name: "order_id")
+    status  PaymentStatus
     // TODO 
 
     createdAt DateTime @default(now()) @map(name: "created_at")
@@ -218,27 +251,50 @@ model Payment {
 }
 
 //  ============================================= CODES =============================================
-model SmsCodes {
-    id         Int   @id @default(autoincrement())
-    phone      String
-    code       String
-    isActive   Boolean @default(false)
-    expiresAt  DateTime
+model SmsCode {
+    id        Int      @id @default(autoincrement())
+    phone     String
+    code      String
+    isActive  Boolean  @default(false)
+    expiresAt DateTime
 
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "sms_codes")
 }
-model EmailCodes {
-    id         Int   @id @default(autoincrement())
-    email      String
-    code       String
-    isActive   Boolean @default(false)
-    expiresAt  DateTime
+
+model EmailCode {
+    id        Int      @id @default(autoincrement())
+    email     String
+    code      String
+    isActive  Boolean  @default(false)
+    expiresAt DateTime
 
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "email_codes")
+}
+
+//  ============================================= ADDRESS =============================================
+model City {
+    id           Int    @id @default(autoincrement())
+    name         String
+    boxberryCode Int?   @map(name: "boxberry_code")
+    cdekCode     Int?   @map(name: "cdek_code")
+
+    users  User[]
+    orders Order[]
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "cities")
+}
+
+model OrderAddress {
+    id Int @id @default(autoincrement())
+
+    @@map(name: "orderaddresses")
 }

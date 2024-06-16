@@ -5,7 +5,7 @@ import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 import telegrafBot from '@/lib/telegraf';
 
-export const postSendTelegramMessageHandler = new Handler({
+export const telegramSendMessageHandler = new Handler({
     name: 'Отправка сообщение через телеграм',
     defaultError: 'Ошибка при отправке сообщения через телеграм',
     schema: v.object({

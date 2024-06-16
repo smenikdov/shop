@@ -23,7 +23,7 @@ import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 import Result from '@/components/Result';
 
-import type { OrderStatuses } from '@prisma/client';
+import type { OrderStatus } from '@prisma/client';
 
 import * as v from '@/utils/validate';
 import { formatPhoneNumber } from '@/utils/text';

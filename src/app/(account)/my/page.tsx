@@ -51,13 +51,13 @@ export default function Contacts() {
                         </Link>
                     </Col>
 
-                    <Col md={4}>
+                    {/* <Col md={4}>
                         <Link href="/my/cards">
                             <Card clickable>
                                 <Text bold>Мои карты</Text>
                             </Card>
                         </Link>
-                    </Col>
+                    </Col> */}
                     <Col md={4}>
                         <Link href="/my/balance">
                             <Card clickable>
@@ -79,13 +79,13 @@ export default function Contacts() {
                             </Card>
                         </Link>
                     </Col> */}
-                    {/* <Col md={2}>
+                    <Col md={4}>
                         <Link href="/my/reviews">
                             <Card clickable>
                                 <Text bold>Отзывы</Text>
                             </Card>
                         </Link>
-                    </Col> */}
+                    </Col>
                     {/* <Col md={2}>
                         <Link href="/my/settings">
                             <Card clickable>

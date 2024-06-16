@@ -5,7 +5,7 @@ import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 import transporter from '@/lib/nodemailer';
 
-export const postSendEmailMessageHandler = new Handler({
+export const emailSendMessageHandler = new Handler({
     name: 'Отправка сообщение по почте',
     defaultError: 'Ошибка при отправке сообщения по почте',
     schema: v.object({

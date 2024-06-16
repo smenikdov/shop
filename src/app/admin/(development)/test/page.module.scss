@@ -1,0 +1,13 @@
+@import '@/styles/abstracts';
+
+.container {
+}
+
+.response {
+    white-space: pre-wrap;
+    background-color: $light;
+    border-radius: 20px;
+    padding: 30px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}

@@ -3,9 +3,9 @@ import prisma from '@/lib/prisma';
 import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import axios from 'axios';
+import { sms } from './sms';
 
-export const postSendPhoneMessageHandler = new Handler({
+export const smsSendMessageHandler = new Handler({
     name: 'Отправка СМС по номеру телефон',
     defaultError: 'Ошибка при отправке СМС по номеру телефон',
     schema: v.object({
@@ -14,12 +14,10 @@ export const postSendPhoneMessageHandler = new Handler({
     }),
 
     async request(payload: { phone: string; message: string }) {
-        const response = await axios.get('https://sms.ru/sms/send', {
+        const response = await sms.get('/send', {
             params: {
-                api_id: process.env.SMS_ID,
                 to: payload.phone,
                 msg: payload.message,
-                json: 1,
             },
         });
         const data = response.data;
