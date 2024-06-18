@@ -8,14 +8,14 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { boxberry } from './boxberry';
+import { cdek } from './cdek';
 
-export const boxberryGetCitiesHandler = new Handler({
+export const cdekGetCitiesHandler = new Handler({
     name: 'Получение списка всех городов Boxberry',
     defaultError: 'Ошибка при получении списка городов Boxberry',
 
     async request(payload: {}) {
-        const response = await boxberry.get('/', {
+        const response = await cdek.get('/', {
             params: {
                 method: 'ListCities',
             },

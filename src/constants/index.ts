@@ -9,4 +9,5 @@ export const SHOP_INFO = {
 export const DELIVERY_INFO = {
     BOXBERRY_SENDER_POINT_ID: 1,
     CDEK_SENDER_POINT_ID: 1,
+    DELLIN_SENDER_POINT_ID: 1,
 };

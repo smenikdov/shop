@@ -24,6 +24,7 @@ enum UserSex {
 enum DeliveryCompany {
     BOXBERRY
     CDEK
+    DELLIN
 }
 
 enum DeliveryType {

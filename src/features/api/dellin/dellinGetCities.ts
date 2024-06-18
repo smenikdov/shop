@@ -1,3 +1,4 @@
+
 import 'server-only';
 import prisma from '@/lib/prisma';
 import { Handler } from '@/utils/actions/routes';
@@ -8,14 +9,14 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { boxberry } from './boxberry';
+import { dellin } from './dellin';
 
-export const boxberryGetCitiesHandler = new Handler({
+export const dellinGetCitiesHandler = new Handler({
     name: 'Получение списка всех городов Boxberry',
     defaultError: 'Ошибка при получении списка городов Boxberry',
 
     async request(payload: {}) {
-        const response = await boxberry.get('/', {
+        const response = await dellin.get('/', {
             params: {
                 method: 'ListCities',
             },

@@ -8,18 +8,14 @@ import {
     SuccessResponse,
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
-import { boxberry } from './boxberry';
+import { yookassa } from './../yookassa';
 
-export const boxberryGetCitiesHandler = new Handler({
-    name: 'Получение списка всех городов Boxberry',
-    defaultError: 'Ошибка при получении списка городов Boxberry',
+export const yookassaGetReceiptsListHandler = new Handler({
+    name: 'Получение списка чеков в ЮKassa',
+    defaultError: 'Ошибка при получении списка чеков в ЮKassa',
 
     async request(payload: {}) {
-        const response = await boxberry.get('/', {
-            params: {
-                method: 'ListCities',
-            },
-        });
+        const response = await yookassa.get('/receipt', {});
         const data = response.data;
         return new SuccessResponse({ data: data });
     },
