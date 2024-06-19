@@ -10,7 +10,7 @@ import {
 import * as v from '@/utils/validate';
 import { yookassa } from './../yookassa';
 
-export const yookassaConfirmPaymentHandler = new Handler({
+export const yookassaCreatePaymentHandler = new Handler({
     name: 'Создание платежа в ЮKassa',
     defaultError: 'Ошибка при создании платежа в ЮKassa',
 

@@ -9,9 +9,18 @@ import {
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 
-export const deliveryDeleteOrder = new Handler({
+import type { DeliveryType } from '@prisma/client';
+
+import { boxberryDeleteOrderHandler } from '@/features/api/boxberry/boxberryDeleteOrder';
+import { dellinDeleteOrderHandler } from '@/features/api/dellin/dellinDeleteOrder';
+import { cdekDeleteOrderHandler } from '@/features/api/cdek/cdekDeleteOrder';
+
+export const deliveryDeleteOrderHandler = new Handler({
     name: '',
     defaultError: '',
+    schema: v.object({
+        orderId: v.id(),
+    }),
 
     async request(payload: { id: number }) {
         const userData = await prisma.user.findUnique({});

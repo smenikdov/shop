@@ -10,7 +10,7 @@ import {
 import * as v from '@/utils/validate';
 import { dellin } from './dellin';
 
-export const dellinGetPointsHandler = new Handler({
+export const dellinChangeOrderHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Boxberry',
     defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
     schema: v.object({

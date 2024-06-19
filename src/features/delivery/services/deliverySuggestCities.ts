@@ -9,12 +9,26 @@ import {
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 
-export const deliverySuggestCities = new Handler({
+export const deliverySuggestCitiesHandler = new Handler({
     name: '',
     defaultError: '',
+    schema: v.object({
+        query: v.string(),
+    }),
 
-    async request(payload: { id: number }) {
-        const userData = await prisma.user.findUnique({});
-        return new SuccessResponse({ data: userData });
+    async request(payload: { query: string }) {
+        const cities = await prisma.city.findMany({
+            select: {
+                id: true,
+                name: true,
+            },
+            where: {
+                name: {
+                    contains: payload.query,
+                },
+            },
+            take: 10,
+        });
+        return new SuccessResponse({ data: cities });
     },
 });

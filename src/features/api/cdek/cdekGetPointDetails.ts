@@ -10,7 +10,7 @@ import {
 import * as v from '@/utils/validate';
 import { cdek } from './cdek';
 
-export const cdekGetPointsHandler = new Handler({
+export const cdekGetPointDetailsHandler = new Handler({
     name: 'Получение деталей пункта выдачи заказов Boxberry',
     defaultError: 'Ошибка при получении деталей пункта выдачи заказов Boxberry',
     schema: v.object({
@@ -18,7 +18,7 @@ export const cdekGetPointsHandler = new Handler({
     }),
 
     async request(payload: { pointCode: number }) {
-        const response = await cdek.get('/', {
+        const response = await cdek.get('/v2/deliverypoints', {
             params: {
                 method: 'PointsDescription',
                 code: payload.pointCode,

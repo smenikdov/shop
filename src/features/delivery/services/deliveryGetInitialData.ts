@@ -9,11 +9,16 @@ import {
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 
+import type { DeliveryType } from '@prisma/client';
+
 export const deliveryGetInitialData = new Handler({
     name: '',
     defaultError: '',
+    schema: v.object({
+        userId: v.id(),
+    }),
 
-    async request(payload: { id: number }) {
+    async request(payload: { userId: number }) {
         const userData = await prisma.user.findUnique({});
         return new SuccessResponse({ data: userData });
     },

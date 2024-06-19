@@ -9,7 +9,9 @@ import {
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 
-export const deliveryUpdateCities = new Handler({
+import type { DeliveryType } from '@prisma/client';
+
+export const deliveryUpdateCitiesHandler = new Handler({
     name: '',
     defaultError: '',
 

@@ -10,7 +10,7 @@ import {
 import * as v from '@/utils/validate';
 import { cdek } from './cdek';
 
-export const cdekGetPointsHandler = new Handler({
+export const cdekChangeOrderHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Boxberry',
     defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
     schema: v.object({

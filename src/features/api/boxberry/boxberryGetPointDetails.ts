@@ -10,7 +10,7 @@ import {
 import * as v from '@/utils/validate';
 import { boxberry } from './boxberry';
 
-export const boxberryGetPointsHandler = new Handler({
+export const boxberryGetPointDetailsHandler = new Handler({
     name: 'Получение деталей пункта выдачи заказов Boxberry',
     defaultError: 'Ошибка при получении деталей пункта выдачи заказов Boxberry',
     schema: v.object({

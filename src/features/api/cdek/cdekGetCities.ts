@@ -15,9 +15,9 @@ export const cdekGetCitiesHandler = new Handler({
     defaultError: 'Ошибка при получении списка городов Boxberry',
 
     async request(payload: {}) {
-        const response = await cdek.get('/', {
+        const response = await cdek.get('/v2/location/cities', {
             params: {
-                method: 'ListCities',
+                country_codes: [],
             },
         });
         const data = response.data;

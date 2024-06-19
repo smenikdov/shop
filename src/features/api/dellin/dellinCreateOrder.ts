@@ -13,7 +13,7 @@ import { SHOP_INFO, DELIVERY_INFO } from '@/constants';
 
 import type { OrderFullInfo } from '@/features/order/typings';
 
-export const dellinGetPointsHandler = new Handler({
+export const dellinCreateOrderHandler = new Handler({
     name: 'Создание заказа на доставку Boxberry',
     defaultError: 'Ошибка при создании заказа на доставку Boxberry',
 

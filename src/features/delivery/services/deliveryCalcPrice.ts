@@ -20,6 +20,7 @@ export const deliveryCalcPriceHandler = new Handler({
     defaultError: '',
     schema: v.object({
         deliveryType: v.deliveryType(),
+        // TODO
     }),
 
     async request(payload: { deliveryType: DeliveryType }) {

@@ -284,6 +284,7 @@ model City {
     name         String
     boxberryCode Int?   @map(name: "boxberry_code")
     cdekCode     Int?   @map(name: "cdek_code")
+    dellinCode   Int?   @map(name: "dellin_code")
 
     users  User[]
     orders Order[]
@@ -297,5 +298,20 @@ model City {
 model OrderAddress {
     id Int @id @default(autoincrement())
 
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
     @@map(name: "orderaddresses")
+}
+
+model Intaker {
+    id Int @id @default(autoincrement())
+
+    arriveAt        DateTime
+    deliveryCompany DeliveryCompany
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "intakers")
 }

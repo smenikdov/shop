@@ -37,4 +37,11 @@ export class StringValidator extends Validator implements IStringValidator {
             error: error || `Максимальная длинна - ${maxLength}`,
         });
     }
+
+    in(list: Array<string>, error?: string) {
+        return this.addRule({
+            validateFunction: (value: string) => list.includes(value),
+            error: error || `Значение поля должно быть одно из: ${list.join(', ')}`,
+        });
+    }
 }

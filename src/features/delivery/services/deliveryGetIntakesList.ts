@@ -9,12 +9,23 @@ import {
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 
-export const deliveryGetIntakesList = new Handler({
-    name: '',
-    defaultError: '',
+import { includePagination } from '@/utils/prisma';
 
-    async request(payload: { id: number }) {
-        const userData = await prisma.user.findUnique({});
-        return new SuccessResponse({ data: userData });
+export const deliveryGetIntakesListHandler = new Handler({
+    name: 'Получение списка заявок на вызов курьера',
+    defaultError: 'Ошибка при получении списка заявок на вызов курьера',
+    schema: v.object({
+        page: v.page(),
+    }),
+
+    async request(payload: { page: number }) {
+        const intakes = await prisma.intake.findMany({
+            ...includePagination(payload.page),
+            select: {
+                deliveryCompany: true,
+                arriveAt: true,
+            },
+        });
+        return new SuccessResponse({ data: intakes });
     },
 });

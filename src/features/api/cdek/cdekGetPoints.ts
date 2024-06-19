@@ -18,11 +18,11 @@ export const cdekGetPointsHandler = new Handler({
     }),
 
     async request(payload: { cityCode: number }) {
-        const response = await cdek.get('/', {
+        const response = await cdek.get('/v2/deliverypoints', {
             params: {
-                method: 'ListPoints',
-                CityCode: payload.cityCode,
-                prepaid: 0,
+                city_code: payload.cityCode,
+                type: 'ALL',
+                country_code: 0,
             },
         });
         const data = response.data;
