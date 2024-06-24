@@ -10,21 +10,29 @@ import {
 import * as v from '@/utils/validate';
 import { boxberry } from './boxberry';
 
+interface BoxberryDeleteOrderRequest {
+    method: 'CancelOrder';
+    track?: string;
+    orderId?: number;
+    cancelType?: 1 | 2;
+};
+
+interface BoxberryDeleteOrderResposne {
+    err: boolean | string;
+};
+
 export const boxberryDeleteOrderHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Boxberry',
     defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
     schema: v.object({
-        cityCode: v.id(),
     }),
 
-    async request(payload: { cityCode: number }) {
-        const response = await boxberry.get('/', {
-            params: {
-                method: 'ListPoints',
-                CityCode: payload.cityCode,
-                prepaid: 0,
-            },
-        });
+    async request(payload: {}) {
+        const request: BoxberryDeleteOrderRequest = {
+            method: 'CancelOrder',
+        };
+
+        const response = await boxberry.get<BoxberryDeleteOrderResposne>('/', {});
         const data = response.data;
         return new SuccessResponse({ data: data });
     },

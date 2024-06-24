@@ -22,3 +22,11 @@ interface PageProps<Params = undefined> {
     searchParams?: SearchParams;
     params: Params;
 }
+
+declare global {
+    type integer = number;
+    type float = number;
+    type money = number;
+    type uuid = string;
+    type ISODate = string;
+}

@@ -10,20 +10,57 @@ import {
 import * as v from '@/utils/validate';
 import { boxberry } from './boxberry';
 
+interface BoxberryGetPointsRequest {
+    method: 'ListPoints';
+    CityCode: number;
+    prepaid?: 0 | 1;
+    is_include_postamat?: 0 | 1;
+};
+
+type BoxberryGetPointsResponse = Array<{
+    Code: string;
+    Name: string;
+    Address: string;
+    Phone: string;
+    WorkShedule: string;
+    TripDescription: string;
+    DeliveryPeriod: number;
+    CityCode: string;
+    CityName: string;
+    TariffZone: string;
+    Settlement: string;
+    Area: string;
+    Country: string;
+    GPS: string;
+    AddressReduce: string;
+    OnlyPrepaidOrders: 'Yes' | 'No';
+    Acquiring: 'Yes' | 'No';
+    DigitalSignature: 'Yes' | 'No';
+    CountryCode: string;
+    NalKD: 'Yes' | 'No';
+    Metro: string;
+    TypeOfOffice: 1 | 2;
+    VolumeLimit: number;
+    LoadLimit: number;
+    Postamat: boolean;
+}>;
+
 export const boxberryGetPointsHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Boxberry',
     defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
     schema: v.object({
-        cityCode: v.id(),
+        cityBoxberryId: v.id(),
     }),
 
-    async request(payload: { cityCode: number }) {
-        const response = await boxberry.get('/', {
-            params: {
-                method: 'ListPoints',
-                CityCode: payload.cityCode,
-                prepaid: 0,
-            },
+    async request(payload: { cityBoxberryId: number }) {
+        const request: BoxberryGetPointsRequest = {
+            method: 'ListPoints',
+            CityCode: payload.cityBoxberryId,
+            prepaid: 0,
+            is_include_postamat: 1,
+        };
+        const response = await boxberry.get<BoxberryGetPointsResponse>('/', {
+            params: request,
         });
         const data = response.data;
         return new SuccessResponse({ data: data });

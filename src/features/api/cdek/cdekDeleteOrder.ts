@@ -14,17 +14,10 @@ export const cdekDeleteOrderHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Boxberry',
     defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
     schema: v.object({
-        cityCode: v.id(),
     }),
 
-    async request(payload: { cityCode: number }) {
-        const response = await cdek.get('/', {
-            params: {
-                method: 'ListPoints',
-                CityCode: payload.cityCode,
-                prepaid: 0,
-            },
-        });
+    async request(payload: {}) {
+        const response = await cdek.get('/', {});
         const data = response.data;
         return new SuccessResponse({ data: data });
     },

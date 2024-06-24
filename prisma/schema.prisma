@@ -1,5 +1,6 @@
 //
 enum OrderStatus {
+    PAYMENT
     PREPARATION
     DELIVERY
     WAITING
@@ -7,7 +8,9 @@ enum OrderStatus {
 }
 
 enum PaymentStatus {
-    SUCCESS
+    PENDING
+    SUCCEEDED
+    CANCELED
 }
 
 enum UserRole {
@@ -25,11 +28,50 @@ enum DeliveryCompany {
     BOXBERRY
     CDEK
     DELLIN
+    FIVEPOST
 }
 
 enum DeliveryType {
     COURIER
     POINT
+}
+
+enum PaymentType {
+    BANK_CARD
+    SBP
+}
+
+enum MeasureType {
+    PIECE
+    GRAM
+    KILOGRAM
+    TON
+    CENTIMETER
+    DECIMETER
+    METER
+    SQURE_CENTIMETER
+    SQURE_DECIMETER
+    SQURE_METER
+    MILLILITER
+    LITER
+    CUBIC_METER
+    KILOWATT_HOUR
+    GIGACALORIE
+    DAY
+    HOUR
+    MINUTE
+    SECOND
+    KILOBYTE
+    MEGABYTE
+    GIGABYTE
+    TERABYTE
+    ANOTHER
+}
+
+enum PointType {
+    PVZ
+    POSTAMAT
+    TOBACCO
 }
 
 //  ============================================= GLOBAL =============================================
@@ -82,8 +124,8 @@ model User {
     orders        Order[]
     city          City           @relation(fields: [cityId], references: [id])
 
-    createdAt    DateTime       @default(now()) @map(name: "created_at")
-    updatedAt    DateTime       @updatedAt @map(name: "updated_at")
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "users")
 }
@@ -106,7 +148,7 @@ model ProductCategory {
     updatedAt   DateTime  @updatedAt @map(name: "updated_at")
     products    Product[]
 
-    @@map(name: "productcategory")
+    @@map(name: "productcategories")
 }
 
 model Product {
@@ -123,18 +165,19 @@ model Product {
     offer            ProductOffer?   @relation(fields: [offerId], references: [id])
     offerId          Int?
 
-    width  Int
-    height Int
-    length Int
-    weight Int
+    width   Int
+    height  Int
+    length  Int
+    weight  Int
+    measure MeasureType
 
     basketItems   BasketItem[]
     favoriteItems FavoriteItem[]
     orderItems    OrderItem[]
     checkoutItems CheckoutItem[]
 
-    createdAt    DateTime       @default(now()) @map(name: "created_at")
-    updatedAt    DateTime       @updatedAt @map(name: "updated_at")
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     // TODO advantages, properties, призовые очки,
     @@map(name: "products")
@@ -157,20 +200,59 @@ model ProductOffer {
 //  ============================================= ORDER =============================================
 
 model Order {
-    id              Int               @id @default(autoincrement())
-    status          OrderStatus
-    total           Float
-    orderItems      OrderItem[]
-    payment         Payment?
-    userId          Int               @map(name: "user_id")
-    user            User              @relation(fields: [userId], references: [id])
-    deliveryCompany DeliveryCompany
-    deliveryType    DeliveryType
-    cityId          Int               @map("city_id")
-    city            City              @relation(fields: [cityId], references: [id])
-    notice          String?
+    id          Int         @id @default(autoincrement())
+    status      OrderStatus
+    amount      Float
+    orderItems  OrderItem[]
+    userId      Int         @map(name: "user_id")
+    customerId  Int         @unique @map(name: "customer_id")
+    deliveryId  Int         @unique @map(name: "delivery_id")
+    notice      String?
+    paymentType PaymentType
+
+    user     User          @relation(fields: [userId], references: [id])
+    customer OrderCustomer @relation(fields: [customerId], references: [id])
+    delivery OrderDelivery @relation(fields: [deliveryId], references: [id])
+    payments Payment[]
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "orders")
+}
+
+model OrderCustomer {
+    id Int @id @default(autoincrement())
+
+    fio   String
+    phone String
+    email String?
+
+    order Order?
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "ordercustomers")
+}
+
+model OrderDelivery {
+    id Int @id @default(autoincrement())
+
+    cityId  Int             @map(name: "city_id")
+    city    City            @relation(fields: [cityId], references: [id])
+    company DeliveryCompany
+    type    DeliveryType
+    pointId Int?            @map(name: "point_id")
+    point   Point?          @relation(fields: [pointId], references: [id])
+    address String?
+
+    order Order?
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "orderdeliveries")
 }
 
 model OrderItem {
@@ -237,13 +319,14 @@ model FavoriteItem {
 
 //  ============================================= BASKET =============================================
 model Payment {
-    id      Int             @id @default(autoincrement())
-    userId  Int             @map(name: "user_id")
-    user    User            @relation(fields: [userId], references: [id])
-    order   Order           @relation(fields: [orderId], references: [id])
-    orderId Int             @unique() @map(name: "order_id")
-    status  PaymentStatus
-    // TODO 
+    id         Int           @id @default(autoincrement())
+    userId     Int           @map(name: "user_id")
+    orderId    Int           @map(name: "order_id")
+    status     PaymentStatus @default(PENDING)
+    yookassaId String        @unique @map(name: "yookassa_id")
+
+    user  User  @relation(fields: [userId], references: [id])
+    order Order @relation(fields: [orderId], references: [id])
 
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
@@ -280,14 +363,15 @@ model EmailCode {
 
 //  ============================================= ADDRESS =============================================
 model City {
-    id           Int    @id @default(autoincrement())
-    name         String
-    boxberryCode Int?   @map(name: "boxberry_code")
-    cdekCode     Int?   @map(name: "cdek_code")
-    dellinCode   Int?   @map(name: "dellin_code")
+    id         Int    @id @default(autoincrement())
+    name       String
+    boxberryId Int?   @map(name: "boxberry_id")
+    cdekId     Int?   @map(name: "cdek_id")
+    dellinId   Int?   @map(name: "dellin_id")
+    fivepostId Int?   @map(name: "fivepost_id")
 
-    users  User[]
-    orders Order[]
+    users           User[]
+    orderDeliveries OrderDelivery[]
 
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
@@ -295,13 +379,18 @@ model City {
     @@map(name: "cities")
 }
 
-model OrderAddress {
+model Point {
     id Int @id @default(autoincrement())
 
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+    deliveryCompany DeliveryCompany
+    type            PointType
+    orderDeliveries OrderDelivery[]
+    // TODO
 
-    @@map(name: "orderaddresses")
+    createdAt     DateTime        @default(now()) @map(name: "created_at")
+    updatedAt     DateTime        @updatedAt @map(name: "updated_at")
+
+    @@map(name: "points")
 }
 
 model Intaker {

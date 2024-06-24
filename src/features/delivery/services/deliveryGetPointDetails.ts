@@ -15,6 +15,7 @@ import { DELIVERY_COMPANY } from '@/constants';
 import type { DeliveryCompany } from '@prisma/client';
 
 import { boxberryGetPointDetailsHandler } from '@/features/api/boxberry/boxberryGetPointDetails';
+import { fivepostGetPointDetailsHandler } from '@/features/api/fivepost/fivepostGetPointDetails';
 import { dellinGetPointDetailsHandler } from '@/features/api/dellin/dellinGetPointDetails';
 import { cdekGetPointDetailsHandler } from '@/features/api/cdek/cdekGetPointDetails';
 
@@ -23,26 +24,32 @@ export const deliveryGetPointDetailsHandler = new Handler({
     defaultError: '',
     schema: v.object({
         deliveryCompany: v.string().in(Object.values(DELIVERY_COMPANY)),
-        pointCode: v.code(),
+        outerPointId: v.id(),
     }),
 
-    async request(payload: { deliveryCompany: DeliveryCompany; pointCode: string }) {
+    async request(payload: { deliveryCompany: DeliveryCompany; outerPointId: number }) {
         switch (payload.deliveryCompany) {
             case 'BOXBERRY': {
                 const pointInfo = boxberryGetPointDetailsHandler.execute({
-                    pointCode: payload.pointCode,
+                    pointBoxberryId: payload.outerPointId,
                 });
                 return new SuccessResponse({ data: pointInfo });
             }
             case 'DELLIN': {
                 const pointInfo = dellinGetPointDetailsHandler.execute({
-                    pointCode: payload.pointCode,
+                    pointDellinId: payload.outerPointId,
                 });
                 return new SuccessResponse({ data: pointInfo });
             }
             case 'CDEK': {
                 const pointInfo = cdekGetPointDetailsHandler.execute({
-                    pointCode: payload.pointCode,
+                    pointCdekId: payload.outerPointId,
+                });
+                return new SuccessResponse({ data: pointInfo });
+            }
+            case 'FIVEPOST': {
+                const pointInfo = fivepostGetPointDetailsHandler.execute({
+                    pointFivepostId: payload.outerPointId,
                 });
                 return new SuccessResponse({ data: pointInfo });
             }

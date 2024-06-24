@@ -10,6 +10,7 @@ import {
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 
+import { fivepostGetPointsHandler } from '@/features/api/fivepost/fivepostGetPoints';
 import { boxberryGetPointsHandler } from '@/features/api/boxberry/boxberryGetPoints';
 import { dellinGetPointsHandler } from '@/features/api/dellin/dellinGetPoints';
 import { cdekGetPointsHandler } from '@/features/api/cdek/cdekGetPoints';
@@ -24,9 +25,10 @@ export const deliveryGetPointsHandler = new Handler({
     async request(payload: { cityId: number }) {
         const city = await prisma.city.findUnique({
             select: {
-                boxberryCode: true,
-                cdekCode: true,
-                dellinCode: true,
+                boxberryId: true,
+                cdekId: true,
+                dellinId: true,
+                fivepostId: true,
             },
             where: {
                 id: payload.cityId,
@@ -39,14 +41,17 @@ export const deliveryGetPointsHandler = new Handler({
 
         const requests = [];
 
-        if (city.boxberryCode) {
-            requests.push(boxberryGetPointsHandler.execute({ cityCode: city.boxberryCode }));
+        if (city.boxberryId) {
+            requests.push(boxberryGetPointsHandler.execute({ cityBoxberryId: city.boxberryId }));
         }
-        if (city.dellinCode) {
-            requests.push(dellinGetPointsHandler.execute({ cityCode: city.dellinCode }));
+        if (city.dellinId) {
+            requests.push(dellinGetPointsHandler.execute({ cityDellinId: city.dellinId }));
         }
-        if (city.cdekCode) {
-            requests.push(cdekGetPointsHandler.execute({ cityCode: city.cdekCode }));
+        if (city.cdekId) {
+            requests.push(cdekGetPointsHandler.execute({ cityCdekId: city.cdekId }));
+        }
+        if (city.fivepostId) {
+            requests.push(fivepostGetPointsHandler.execute({ cityFivepostId: city.fivepostId }));
         }
 
         const responses = await Promise.allSettled([requests]);

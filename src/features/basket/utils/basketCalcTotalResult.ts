@@ -2,7 +2,7 @@ import type { Product } from '@/features/product/typings';
 import type { TotalResult } from '@/features/basket/typings';
 import { getProductDiscountValue } from '@/features/product/utils';
 
-// TODO calc basketQuantity
+// TODO
 export const basketCalcTotalResult = (products: Array<Product>): TotalResult => {
     const result: TotalResult = {
         quantity: products.length,

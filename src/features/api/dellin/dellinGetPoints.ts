@@ -10,21 +10,25 @@ import {
 import * as v from '@/utils/validate';
 import { dellin } from './dellin';
 
+interface DellinGetPointsResponse {
+    city: Array<>
+};
+
 export const dellinGetPointsHandler = new Handler({
-    name: 'Получение списка пунктов выдачи заказов Boxberry',
-    defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
+    name: 'Получение списка пунктов выдачи заказов Деловые Линии',
+    defaultError: 'Ошибка при получении списка пунктов выдачи заказов Деловые Линии',
     schema: v.object({
-        cityCode: v.id(),
+        cityDellinId: v.id(),
     }),
 
-    async request(payload: { cityCode: number }) {
-        const response = await dellin.get('/', {
-            params: {
-                method: 'ListPoints',
-                CityCode: payload.cityCode,
-                prepaid: 0,
-            },
-        });
+    async request(payload: { cityDellinId: number }) {
+        const termionalsResponse = await dellin.get<{
+            hash: string;
+            url: string;
+        }>('/v3/public/terminals.json');
+        const termionalsData = termionalsResponse.data;
+
+        const response = await dellin.get<DellinGetPointsResponse>(termionalsData.url);
         const data = response.data;
         return new SuccessResponse({ data: data });
     },

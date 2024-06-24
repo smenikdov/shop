@@ -29,7 +29,7 @@ export const basketAddItemHandler = new Handler({
             return new SuccessResponse({ data: null });
         }
 
-        await prisma.basketItem.create({
+        const basketItem = await prisma.basketItem.create({
             data: {
                 quantity: 1,
                 productId: payload.productId,

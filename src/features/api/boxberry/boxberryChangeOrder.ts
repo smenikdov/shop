@@ -13,18 +13,10 @@ import { boxberry } from './boxberry';
 export const boxberryChangeOrderHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Boxberry',
     defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
-    schema: v.object({
-        cityCode: v.id(),
-    }),
+    schema: v.object({}),
 
-    async request(payload: { cityCode: number }) {
-        const response = await boxberry.get('/', {
-            params: {
-                method: 'ListPoints',
-                CityCode: payload.cityCode,
-                prepaid: 0,
-            },
-        });
+    async request(payload: {}) {
+        const response = await boxberry.get('/', {});
         const data = response.data;
         return new SuccessResponse({ data: data });
     },

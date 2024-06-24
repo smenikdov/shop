@@ -10,15 +10,37 @@ import {
 import * as v from '@/utils/validate';
 import { boxberry } from './boxberry';
 
+interface BoxberryGetCitiesRequest {
+    method: 'ListCities',
+};
+
+interface BoxberryGetCitiesResponse {
+    Name: string;
+    Code: string;
+    CountryCode: string;
+    Prefix: string;
+    ReceptionLaP: 0 | 1;
+    DeliveryLaP: 0 | 1;
+    Reception: 0 | 1;
+    CourierDelivery: 0 | 1;
+    ForeignReceptionReturns: 0 | 1;
+    Terminal: 0 | 1;
+    Kladr: string;
+    Region: string;
+    District: string;
+    CourierReception: 0 | 1;
+};
+
 export const boxberryGetCitiesHandler = new Handler({
     name: 'Получение списка всех городов Boxberry',
     defaultError: 'Ошибка при получении списка городов Boxberry',
 
     async request(payload: {}) {
-        const response = await boxberry.get('/', {
-            params: {
-                method: 'ListCities',
-            },
+        const request: BoxberryGetCitiesRequest = {
+            method: 'ListCities',
+        };
+        const response = await boxberry.get<BoxberryGetCitiesResponse>('/', {
+            params: request,
         });
         const data = response.data;
         return new SuccessResponse({ data: data });
