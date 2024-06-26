@@ -14,6 +14,7 @@ import type { DeliveryType } from '@prisma/client';
 import { boxberryCreateOrderHandler } from '@/features/api/boxberry/boxberryCreateOrder';
 import { dellinCreateOrderHandler } from '@/features/api/dellin/dellinCreateOrder';
 import { cdekCreateOrderHandler } from '@/features/api/cdek/cdekCreateOrder';
+import { fivepostCreateOrderHandler } from '@/features/api/fivepost/fivepostCreateOrder';
 
 export const deliveryCreateOrderHandler = new Handler({
     name: '',

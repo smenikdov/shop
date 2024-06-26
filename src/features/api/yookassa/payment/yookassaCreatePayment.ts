@@ -25,15 +25,17 @@ interface IndustryDetails {
     value: string;
 };
 
+// Часть полей могла быть удалена или изменена, для полной информации смотрите документацию
+// У многих полей изменилась обязательность
 interface YooKassaCreatePaymentRequest {
     amount: Amount;
-    description?: string;
+    description: string;
     receipt: {
-        customer?: {
-            full_name?: string;
+        customer: {
+            full_name: string;
             inn?: string;
             email?: string;
-            phone?: string;
+            phone: string;
         },
         items: Array<{
             description: string;
@@ -45,13 +47,13 @@ interface YooKassaCreatePaymentRequest {
                 numerator: number;
                 denominator: number;
             },
-            payment_subject?: string;
-            payment_mode?: string;
+            payment_subject: 'commodity' | 'job' | 'service' | 'another';
+            payment_mode: 'full_prepayment' | 'partial_prepayment' | 'full_payment' | 'partial_payment';
             country_of_origin_code?: string;
             customs_declaration_number?: string;
             excise?: string;
             product_code?: string;
-            mark_code_info?: {
+            mark_code_info: {
                 mark_code_raw?: string;
                 unknown?: string;
                 ean_8?: string;
@@ -68,8 +70,8 @@ interface YooKassaCreatePaymentRequest {
             payment_subject_industry_details?: Array<IndustryDetails>;
         }>,
         tax_system_code?: number;
-        receipt_industry_details?: Array<IndustryDetails>,
-        receipt_operational_details?: {
+        receipt_industry_details: Array<IndustryDetails>,
+        receipt_operational_details: {
             operation_id: number;
             value: number;
             created_at: Date;
@@ -123,7 +125,7 @@ interface YooKassaCreatePaymentRequest {
             bic?: string;
         };
     };
-    merchant_customer_id?: number;
+    merchant_customer_id: number;
 };
 
 interface YooKassaCreatePaymentResponse {

@@ -49,9 +49,9 @@ enum MeasureType {
     CENTIMETER
     DECIMETER
     METER
-    SQURE_CENTIMETER
-    SQURE_DECIMETER
-    SQURE_METER
+    SQUARE_CENTIMETER
+    SQUARE_DECIMETER
+    SQUARE_METER
     MILLILITER
     LITER
     CUBIC_METER
@@ -68,10 +68,30 @@ enum MeasureType {
     ANOTHER
 }
 
+enum BarcodeType {
+    EAN_8
+    EAN_13
+    ITF_14
+    GS_10
+    GS_1M
+    SHORT
+    FUR
+    EGIAS_20
+    EGIAS_30
+    UNKNOWN
+}
+
 enum PointType {
     PVZ
     POSTAMAT
     TOBACCO
+}
+
+enum ProductType {
+    PRODUCT
+    SERVICE
+    JOB
+    ANOTHER
 }
 
 //  ============================================= GLOBAL =============================================
@@ -164,12 +184,17 @@ model Product {
     categoryId       Int             @map(name: "category_id")
     offer            ProductOffer?   @relation(fields: [offerId], references: [id])
     offerId          Int?
+    barcode          String
+    barcodeType      BarcodeType
+    type             ProductType
 
     width   Int
     height  Int
     length  Int
     weight  Int
     measure MeasureType
+
+    packageQuantity Int @default(1)
 
     basketItems   BasketItem[]
     favoriteItems FavoriteItem[]
@@ -246,6 +271,8 @@ model OrderDelivery {
     pointId Int?            @map(name: "point_id")
     point   Point?          @relation(fields: [pointId], references: [id])
     address String?
+    timeFrom  String?
+    timeTo    String?
 
     order Order?
 
@@ -365,6 +392,10 @@ model EmailCode {
 model City {
     id         Int    @id @default(autoincrement())
     name       String
+    region     String
+    prefix     String
+    isActive   Boolean @default(false)
+
     boxberryId Int?   @map(name: "boxberry_id")
     cdekId     Int?   @map(name: "cdek_id")
     dellinId   Int?   @map(name: "dellin_id")

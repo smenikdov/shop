@@ -14,7 +14,7 @@ interface BoxberryGetCitiesRequest {
     method: 'ListCities',
 };
 
-interface BoxberryGetCitiesResponse {
+type BoxberryGetCitiesResponse = Array<{
     Name: string;
     Code: string;
     CountryCode: string;
@@ -29,7 +29,7 @@ interface BoxberryGetCitiesResponse {
     Region: string;
     District: string;
     CourierReception: 0 | 1;
-};
+}>;
 
 export const boxberryGetCitiesHandler = new Handler({
     name: 'Получение списка всех городов Boxberry',

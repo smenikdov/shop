@@ -12,49 +12,27 @@ import * as v from '@/utils/validate';
 
 import { DELIVERY_COMPANY } from '@/constants';
 
-import type { DeliveryCompany } from '@prisma/client';
-
-import { boxberryGetPointDetailsHandler } from '@/features/api/boxberry/boxberryGetPointDetails';
-import { fivepostGetPointDetailsHandler } from '@/features/api/fivepost/fivepostGetPointDetails';
-import { dellinGetPointDetailsHandler } from '@/features/api/dellin/dellinGetPointDetails';
-import { cdekGetPointDetailsHandler } from '@/features/api/cdek/cdekGetPointDetails';
-
 export const deliveryGetPointDetailsHandler = new Handler({
-    name: '',
-    defaultError: '',
+    name: 'Получение деталей точки выдачи',
+    defaultError: 'Ошибка при получении деталей точки выдачи',
     schema: v.object({
-        deliveryCompany: v.string().in(Object.values(DELIVERY_COMPANY)),
-        outerPointId: v.id(),
+        pointId: v.id(),
     }),
 
-    async request(payload: { deliveryCompany: DeliveryCompany; outerPointId: number }) {
-        switch (payload.deliveryCompany) {
-            case 'BOXBERRY': {
-                const pointInfo = boxberryGetPointDetailsHandler.execute({
-                    pointBoxberryId: payload.outerPointId,
-                });
-                return new SuccessResponse({ data: pointInfo });
-            }
-            case 'DELLIN': {
-                const pointInfo = dellinGetPointDetailsHandler.execute({
-                    pointDellinId: payload.outerPointId,
-                });
-                return new SuccessResponse({ data: pointInfo });
-            }
-            case 'CDEK': {
-                const pointInfo = cdekGetPointDetailsHandler.execute({
-                    pointCdekId: payload.outerPointId,
-                });
-                return new SuccessResponse({ data: pointInfo });
-            }
-            case 'FIVEPOST': {
-                const pointInfo = fivepostGetPointDetailsHandler.execute({
-                    pointFivepostId: payload.outerPointId,
-                });
-                return new SuccessResponse({ data: pointInfo });
-            }
-            default:
-                throw new Error('Неизвестный идентификтор курьерской компании');
+    async request(payload: { pointId: integer }) {
+        const point = await prisma.point.findUnique({
+            select: {
+                // TODO
+            },
+            where: {
+                id: payload.pointId,
+            },
+        });
+
+        if (!point) {
+            return new NotFoundResponse({ message: 'Точка не найдена' });
         }
+
+        return new SuccessResponse({ data: point });
     },
 });
