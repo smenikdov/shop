@@ -34,6 +34,7 @@ interface CdekGetPointsRequest {
     page?: integer;
 };
 
+// Переделать на новый формат
 type CdekGetPointsResponse = Array<{
     code: string;
     uuid: uuid;

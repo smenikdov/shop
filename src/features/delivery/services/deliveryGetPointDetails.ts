@@ -19,10 +19,10 @@ export const deliveryGetPointDetailsHandler = new Handler({
         pointId: v.id(),
     }),
 
-    async request(payload: { pointId: integer }) {
+    async request(payload: { pointId: number }) {
         const point = await prisma.point.findUnique({
             select: {
-                // TODO
+                
             },
             where: {
                 id: payload.pointId,
@@ -30,9 +30,9 @@ export const deliveryGetPointDetailsHandler = new Handler({
         });
 
         if (!point) {
-            return new NotFoundResponse({ message: 'Точка не найдена' });
+            return new NotFoundResponse({ message: 'Точка выдачи не найдена' });
         }
-
+    
         return new SuccessResponse({ data: point });
     },
 });

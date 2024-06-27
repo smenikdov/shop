@@ -20,10 +20,15 @@ export const deliveryGetPointsHandler = new Handler({
     async request(payload: { cityId: number }) {
         const points = await prisma.point.findMany({
             select: {
-                // TODO
+                id: true,
+                deliveryCompany: true,
+                type: true,
+                longitude: true,
+                latitude: true,
             },
             where: {
                 cityId: payload.cityId,
+                // TODO filters
             },
         });
 

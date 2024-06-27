@@ -389,6 +389,15 @@ model EmailCode {
 }
 
 //  ============================================= ADDRESS =============================================
+model Region {
+    id         Int    @id @default(autoincrement())
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "regions")
+}
+
 model City {
     id         Int    @id @default(autoincrement())
     name       String
@@ -416,7 +425,44 @@ model Point {
     deliveryCompany DeliveryCompany
     type            PointType
     orderDeliveries OrderDelivery[]
-    // TODO
+
+    // innerId
+    // name
+    // organization
+    // phone
+    // email
+    // fullAddress
+    // address
+
+    // flagas
+    // isUsing
+
+    // Выдача только полностью оплаченных посылок
+    // Возможность оплаты банковской картой
+    // Возможность примерки (Наличие примерочной)
+    // Возможность частичной выдачи заказа
+    // Возможность проведения оплаты наличными
+    // Возможность оплаты картой лояльности
+    // Разрешен наложенный платеж, может принимать значения:
+    // Признак работы терминала на выдачу груза
+    // Признак работы терминала на приём груза
+
+    // workTime
+    // images 
+    // cityId
+    // description
+e
+    // facts
+    // meta
+
+    maxWeight Float
+    maxHeight Float
+    maxWidth Float
+    maxLength Float
+    maxVolume Float
+
+    longitude  Float
+    latitude  Float
 
     createdAt     DateTime        @default(now()) @map(name: "created_at")
     updatedAt     DateTime        @updatedAt @map(name: "updated_at")

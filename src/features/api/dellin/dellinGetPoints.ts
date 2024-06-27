@@ -11,7 +11,74 @@ import * as v from '@/utils/validate';
 import { dellin } from './dellin';
 
 interface DellinGetPointsResponse {
-    city: Array<>
+    city: Array<{
+        id: string;
+        name: string;
+        code: string;
+        cityID: integer;
+        latitude: string;
+        longitude: string;
+        url: string;
+        timeshift: string;
+        requestEndTime: string;
+        sfrequestEndTime: string;
+        day2dayRequest: string;
+        day2daySFRequest: string;
+        preorderRequest: string;
+        freeStorageDays: string;
+        terminals: Array<{
+            id: string;
+            name: string;
+            address: string;
+            fullAddress: string;
+            latitude: string;
+            longitude: string;
+            phones: Array<{
+                number: string;
+                type: 'городской' | 'мобильный';
+                comment?: string;
+                primary: boolean;
+            }>;
+            isPVZ: boolean;
+            isOffice: boolean;
+            receiveCargo: boolean;
+            giveoutCargo: boolean;
+            storage: boolean;
+            mail: string;
+            cashOnDelivery: boolean;
+            maps: Array<{}>; // TODO
+            addressCode: {
+                street_code: string;
+            };
+            calcSchedule: {
+                derival: string;
+                arrival: string;
+            };
+            default: string;
+            maxVolume: float;
+            maxWeight: float;
+            maxHeight: float;
+            maxWidth: float;
+            maxLength: float;
+            worktables: {
+                worktable: Array<{
+                    department: string;
+                    monday: string;
+                    tuesday: string;
+                    wednesday: string;
+                    thursday: string;
+                    friday: string;
+                    saturday: string;
+                    sunday: string;
+                    timetable: string;
+                }>;
+                specialWorktable?: {
+                    receive: Array<string>;
+                    giveout: Array<string>;
+                };
+            };
+        }>;
+    }>
 };
 
 export const dellinGetPointsHandler = new Handler({
