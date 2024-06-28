@@ -491,3 +491,16 @@ model Intaker {
 
     @@map(name: "intakers")
 }
+
+//  ============================================= SUPPORT_REPORT =============================================
+model Support {
+    id       Int @id @default(autoincrement())
+    userId   Int
+    email    String?
+    message  String
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "support")
+}
