@@ -1,8 +1,8 @@
 import type React from 'react';
 
 interface AdvantageType {
-    header: string;
-    content: string;
+    name: string;
+    description: string;
 }
 
 export interface ProductAdvantagesListProps {

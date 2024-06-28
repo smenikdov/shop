@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './ProductAdvantagesList.module.scss';
-import Accordion from '@/components/Accordion';
 
 import type { ProductAdvantagesListProps } from './ProductAdvantagesList.types';
 
@@ -9,7 +8,6 @@ const ProductAdvantagesList = (props: ProductAdvantagesListProps) => {
 
     return (
         <div className={styles.container}>
-            <Accordion items={advantages} />
         </div>
     );
 };

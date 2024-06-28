@@ -14,4 +14,7 @@ export interface BreadcrumbsProps {
     className?: string;
     children?: React.ReactNode;
     items?: BreadcrumbsItemProps[];
+    pageNames?: {
+        [ket: string]: string,
+    },
 }

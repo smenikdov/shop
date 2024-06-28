@@ -77,17 +77,17 @@ async function updateSession() {
 }
 
 export default async function middleware(req: NextRequest) {
-    const cookies = getCookies();
-    const accessToken = cookies.get('accessToken')?.value;
-    const refreshToken = cookies.get('refreshToken')?.value;
-    let accessTokenData = await decrypt(accessToken);
+    // const cookies = getCookies();
+    // const accessToken = cookies.get('accessToken')?.value;
+    // const refreshToken = cookies.get('refreshToken')?.value;
+    // let accessTokenData = await decrypt(accessToken);
 
-    const path = req.nextUrl.pathname;
-    const isUserRoute = userRoutes.some((route) => path.startsWith(route));
-    const isAdminRoute = adminRoutes.some((route) => path.startsWith(route));
-    const isPublicRoute = publicRoutes.some((route) => path.startsWith(route));
+    // const path = req.nextUrl.pathname;
+    // const isUserRoute = userRoutes.some((route) => path.startsWith(route));
+    // const isAdminRoute = adminRoutes.some((route) => path.startsWith(route));
+    // const isPublicRoute = publicRoutes.some((route) => path.startsWith(route));
 
-    const isTokenExpired = !accessTokenData && refreshToken;
+    // const isTokenExpired = !accessTokenData && refreshToken;
 
     // if (isTokenExpired) {
     //     const updateSessionResult = await updateSession();

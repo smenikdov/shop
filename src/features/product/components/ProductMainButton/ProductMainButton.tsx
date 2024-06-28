@@ -18,7 +18,7 @@ import useBasket from '@/features/basket/hooks/useBasket';
 import { MdFavorite, MdDelete } from 'react-icons/md';
 
 const ProductMainButton = (props: ProductMainButtonProps) => {
-    const { product } = props;
+    const { product, ...otherProps } = props;
 
     const { isLoadig, quantity, basketAddItem, basketDeleteItem, basketUpdateQuantity } =
         useBasket(product);
@@ -67,7 +67,7 @@ const ProductMainButton = (props: ProductMainButtonProps) => {
     );
 
     return (
-        <Flex align="center" gapX="md">
+        <Flex align="center" gapX="md" {...otherProps}>
             {quantity > 0 ? BasketAndChangeButton : AddButton}
             {FavoriteButton}
         </Flex>

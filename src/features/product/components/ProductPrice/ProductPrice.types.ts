@@ -6,4 +6,5 @@ export interface ProductPriceProps {
         id: number;
         discount: number;
     } | null;
+    className?: string;
 }

@@ -40,6 +40,7 @@ const Breadcrumbs = (props: BreadcrumbsProps) => {
         className,
         children,
         items,
+        pageNames = {},
         ...otherProps
     } = props;
 
@@ -73,7 +74,7 @@ const Breadcrumbs = (props: BreadcrumbsProps) => {
                     return (
                         <BreadcrumbsItem
                             key={index}
-                            label={PAGE_NAMES[link] || link}
+                            label={PAGE_NAMES[link] || pageNames[link] || link}
                             href={href}
                             separator={pathNames.length !== index + 1 && separator}
                         />

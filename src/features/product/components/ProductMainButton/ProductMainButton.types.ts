@@ -4,4 +4,5 @@ import type { Product } from '@/features/product/typings';
 
 export interface ProductMainButtonProps {
     product: Product;
+    className?: string;
 }

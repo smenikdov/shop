@@ -1,11 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import styles from './ProductImages.module.scss';
+
 import Image from '@/components/Image';
 import Flex from '@/components/Flex';
-import classNames from 'classnames';
+
 import type { ProductImagesProps } from './ProductImages.types';
+
+import styles from './ProductImages.module.scss';
+
+import classNames from 'classnames';
 
 const ProductImages = (props: ProductImagesProps) => {
     const { images } = props;
@@ -22,13 +26,15 @@ const ProductImages = (props: ProductImagesProps) => {
                         })}
                         onClick={() => setMainImageIndex(index)}
                     >
-                        <Image src={image} width={68} height={68} alt="123" />
+                        <Image src={image} width={68} height={68} alt="TODO" />
                     </div>
                 ))}
             </div>
 
-            <div className={styles.main}>
-                <Image src={images[mainImageIndex]} fill alt="123" />
+            <div className={styles.rightPart}>
+                <div className={styles.mainWrap}>
+                    <Image className={styles.mainImage} src={images[mainImageIndex]} fill alt="TODO" />
+                </div>
             </div>
         </Flex>
     );

@@ -1,8 +1,6 @@
 @import '@/styles/abstracts';
 
-.container {
-    height: 500px;
-}
+.container {}
 
 .list {
     display: none;
@@ -18,22 +16,36 @@
     border: 1px solid $primary;
 }
 
-.main {
+.rightPart {
+    flex: 1;
+}
+
+.mainWrap {
+    background-color: $light;
+    overflow: hidden;
     position: relative;
     flex: 1;
 
-    img {
-        object-fit: contain;
-        object-position: center;
+    &:before {
+        content: "";
+        display: block;
+        padding-top: 100%;
     }
+}
+
+.mainImage {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
 }
 
 @include xl() {
     .list {
         display: block;
-    }
-    .container {
-        height: 650px;
     }
     .main {
         img {

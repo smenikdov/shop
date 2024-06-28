@@ -135,28 +135,19 @@ model User {
     sex           UserSex?
     password      String?
     role          UserRole
-    cityId        Int            @map("city_id")
+    cityId        Int?           @map("city_id")
     sessions      Session[]
     basketItems   BasketItem[]
     favoriteItems FavoriteItem[]
     checkoutItems CheckoutItem[]
     payments      Payment[]
     orders        Order[]
-    city          City           @relation(fields: [cityId], references: [id])
+    city          City?          @relation(fields: [cityId], references: [id])
 
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "users")
-}
-
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
-
-    @@unique([identifier, token])
-    @@map("verificationtokens")
 }
 
 //  ============================================= PRODUCTS =============================================
@@ -201,11 +192,40 @@ model Product {
     orderItems    OrderItem[]
     checkoutItems CheckoutItem[]
 
+    info             ProductInfo[]
+    advantages       ProductAdvantage[]
+
+    createdAt        DateTime           @default(now()) @map(name: "created_at")
+    updatedAt        DateTime           @updatedAt @map(name: "updated_at")
+
+    @@map(name: "products")
+}
+
+model ProductInfo {
+    id        Int     @id @default(autoincrement())
+    header    String
+    content   String
+    productId Int
+    product   Product @relation(fields: [productId], references: [id])
+
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-    // TODO advantages, properties, призовые очки,
-    @@map(name: "products")
+    @@map(name: "productnfo")
+}
+
+model ProductAdvantage {
+    id          Int     @id @default(autoincrement())
+    name        String
+    description String
+    icon        String
+    productId   Int
+    product     Product @relation(fields: [productId], references: [id])
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "productadvantages")
 }
 
 model ProductOffer {
@@ -264,15 +284,15 @@ model OrderCustomer {
 model OrderDelivery {
     id Int @id @default(autoincrement())
 
-    cityId  Int             @map(name: "city_id")
-    city    City            @relation(fields: [cityId], references: [id])
-    company DeliveryCompany
-    type    DeliveryType
-    pointId Int?            @map(name: "point_id")
-    point   Point?          @relation(fields: [pointId], references: [id])
-    address String?
-    timeFrom  String?
-    timeTo    String?
+    cityId   Int             @map(name: "city_id")
+    city     City            @relation(fields: [cityId], references: [id])
+    company  DeliveryCompany
+    type     DeliveryType
+    pointId  Int?            @map(name: "point_id")
+    point    Point?          @relation(fields: [pointId], references: [id])
+    address  String?
+    timeFrom String?
+    timeTo   String?
 
     order Order?
 
@@ -389,26 +409,17 @@ model EmailCode {
 }
 
 //  ============================================= ADDRESS =============================================
-model Region {
-    id         Int    @id @default(autoincrement())
-
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
-
-    @@map(name: "regions")
-}
-
 model City {
-    id         Int    @id @default(autoincrement())
-    name       String
-    region     String
-    prefix     String
-    isActive   Boolean @default(false)
+    id       Int     @id @default(autoincrement())
+    name     String
+    region   String
+    prefix   String
+    isActive Boolean @default(false)
 
-    boxberryId Int?   @map(name: "boxberry_id")
-    cdekId     Int?   @map(name: "cdek_id")
-    dellinId   Int?   @map(name: "dellin_id")
-    fivepostId Int?   @map(name: "fivepost_id")
+    boxberryId Int? @map(name: "boxberry_id")
+    cdekId     Int? @map(name: "cdek_id")
+    dellinId   Int? @map(name: "dellin_id")
+    fivepostId Int? @map(name: "fivepost_id")
 
     users           User[]
     orderDeliveries OrderDelivery[]
@@ -451,21 +462,20 @@ model Point {
     // images 
     // cityId
     // description
-e
     // facts
     // meta
 
     maxWeight Float
     maxHeight Float
-    maxWidth Float
+    maxWidth  Float
     maxLength Float
     maxVolume Float
 
-    longitude  Float
+    longitude Float
     latitude  Float
 
-    createdAt     DateTime        @default(now()) @map(name: "created_at")
-    updatedAt     DateTime        @updatedAt @map(name: "updated_at")
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "points")
 }

@@ -11,7 +11,7 @@ import Empty from '@/components/Empty';
 import Result from '@/components/Result';
 import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
-import styles from './page.module.css';
+import Chip from '@/components/Chip';
 import TextBlock from '@/widgets/TextBlock/TextBlock';
 import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
@@ -24,10 +24,13 @@ import { PageProps } from '@/typings';
 
 import ProductPrice from '@/features/product/components/ProductPrice';
 import ProductAdvantagesList from '@/features/product/components/ProductAdvantagesList';
+import ProductInfoList from '@/features/product/components/ProductInfoList';
 import ProductProperties from '@/features/product/components/ProductProperties';
 import ProductDescription from '@/features/product/components/ProductDescription';
 import ProductImages from '@/features/product/components/ProductImages';
 import ProductMainButton from '@/features/product/components/ProductMainButton';
+
+import styles from './page.module.scss';
 
 import BannerBlock from '@/widgets/BannerBlock';
 
@@ -49,7 +52,11 @@ export default async function Product(props: PageProps<{ id: number }>) {
         <main>
             <Container className="mt-xl mb-xs">
                 <Flex justify="space-between">
-                    <Breadcrumbs />
+                    <Breadcrumbs
+                        pageNames={{
+                            [`${ product.id }`]: product.name,
+                        }}
+                    />
                     <div>
                         <Text color="muted">Код товара: {product.id}</Text>
                     </div>
@@ -63,15 +70,22 @@ export default async function Product(props: PageProps<{ id: number }>) {
                     </Col>
                     <Col xl={5}>
                         <div>
-                            <Title level={1}>{product.name}</Title>
-                            <Flex>
+                            <Chip className={styles.chip}>
+                                Распродажа
+                            </Chip>
+                            <Title level={1} className={styles.title}>
+                                {product.name}
+                            </Title>
+                            {/* <Flex>
                                 <Rating rating={product.rating} readOnly />
                                 <Text color="muted">({product.rating})</Text>
-                            </Flex>
-                            <ProductPrice price={product.price} offer={product.offer} />
-                            <ProductMainButton product={product} />
-                            <Paragraph>{product.shortDescription}</Paragraph>
-                            {/* <ProductAdvantagesList advantages={product.advantages} /> */}
+                            </Flex> */}
+                            <ProductPrice className={styles.price} price={product.price} offer={product.offer} />
+                            <ProductMainButton className={styles.buttons} product={product} />
+                            <Paragraph className={styles.quantity} color="muted">В наличии - остлось TODO {product.quantity}</Paragraph>
+                            <Paragraph className={styles.shortDescription}>{product.shortDescription}</Paragraph>
+                            <ProductInfoList info={product.info} />
+                            <ProductAdvantagesList advantages={product.advantages} />
                         </div>
                     </Col>
                 </Row>

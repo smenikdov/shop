@@ -17,9 +17,9 @@ import InputNumber from '@/components/form/InputNumber';
 import Flex from '@/components/Flex';
 import Card from '@/components/Card';
 
-import CheckoutTotalResult from '@/features/checkout/components/CheckoutTotalResult';
+// import CheckoutTotalResult from '@/features/checkout/components/CheckoutTotalResult';
 
-import { checkoutGetDetails } from '@/features/checkout/routes';
+// import { checkoutGetDetails } from '@/features/checkout/routes';
 
 export const metadata: Metadata = {
     title: 'Оформление заказа',
@@ -27,19 +27,19 @@ export const metadata: Metadata = {
 };
 
 export default async function Contacts() {
-    const response = await checkoutGetDetails();
-    if (!response.isSuccess) {
-        throw new Error('Ошибка при загрузке страницы');
-    }
-    const checkout = response.data;
+    // const response = await checkoutGetDetails();
+    // if (!response.isSuccess) {
+    //     throw new Error('Ошибка при загрузке страницы');
+    // }
+    // const checkout = response.data;
 
-    const isHasAccount = false;
+    // const isHasAccount = false;
 
     return (
         <main>
             <Container>
                 <Row>
-                    <Col md={9}>
+                    {/* <Col md={9}>
                         <Flex direction="column" gapY="md">
                             <Card>
                                 <Title level={2}>Способ доставки</Title>
@@ -71,7 +71,7 @@ export default async function Contacts() {
                     </Col>
                     <Col md={3}>
                         <CheckoutTotalResult />
-                    </Col>
+                    </Col> */}
                 </Row>
             </Container>
         </main>

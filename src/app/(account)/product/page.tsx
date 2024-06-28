@@ -38,6 +38,9 @@ export default async function Product() {
         <main>
             <Container className="mt-xl mb-xs">
                 <Breadcrumbs />
+                <Title level={2} className="mt-sm">
+                    Товары которые вам могут понравиться
+                </Title>
             </Container>
             <ProductList products={products} />
         </main>

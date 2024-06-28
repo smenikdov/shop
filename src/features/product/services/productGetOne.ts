@@ -28,6 +28,20 @@ export const productGetOneHandler = new Handler({
                 ...productScheme(payload.userId),
                 shortDescription: true,
                 longDescription: true,
+                quantity: true,
+                info: {
+                    select: {
+                        header: true,
+                        content: true,
+                    },
+                },
+                advantages: {
+                    select: {
+                        name: true,
+                        description: true,
+                        icon: true,
+                    },
+                },
             },
         });
         if (!product) {

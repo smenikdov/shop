@@ -1,7 +1,12 @@
 @import '@/styles/abstracts';
 
 .accordion {
-    &-item {}
+    &-item {
+        border-bottom: 1px solid $muted;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
     &-item-active {
         .accordion-body {
             grid-template-rows: 1fr;
@@ -9,10 +14,10 @@
     }
     &-header {
         cursor: pointer;
-        background: #ccc;
+        text-transform: uppercase;
     }
     &-header-text {
-        font-weight: 600;
+        font-weight: 500;
     }
     &-content {
         overflow: hidden;

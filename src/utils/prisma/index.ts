@@ -59,7 +59,7 @@ export const includePagination = (page: number) => {
     };
 };
 
-export const formatProductScheme = (product: PrismaProductItem): Product => {
+export const formatProductScheme = <NotFormatedProduct extends PrismaProductItem>(product: NotFormatedProduct) => {
     const formatProduct = {
         ...product,
         basketQuantity: product.basketItems?.[0]?.quantity || 0,
