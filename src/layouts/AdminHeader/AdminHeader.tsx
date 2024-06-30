@@ -23,6 +23,10 @@ const links = [
         label: 'Заказы',
         href: '/admin/order',
     },
+    {
+        label: 'Каталог',
+        href: '/admin/product',
+    },
 ];
 
 const Header = () => {

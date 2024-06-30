@@ -94,6 +94,12 @@ enum ProductType {
     ANOTHER
 }
 
+enum ProductStatus {
+    DRAFT
+    PUBLISH
+    DELETED
+}
+
 //  ============================================= GLOBAL =============================================
 
 generator client {
@@ -105,7 +111,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-//  ============================================= USERS =============================================
+//  ============================================= USER =============================================
 
 model Session {
     id               Int      @id @default(autoincrement())
@@ -150,14 +156,45 @@ model User {
     @@map(name: "users")
 }
 
-//  ============================================= PRODUCTS =============================================
-model ProductCategory {
+//  ============================================= PROPERTY =============================================
+model Property {
     id          Int       @id @default(autoincrement())
     name        String
     description String?
+
+    categoryProperties  CategoryProperty[]
+
     createdAt   DateTime  @default(now()) @map(name: "created_at")
     updatedAt   DateTime  @updatedAt @map(name: "updated_at")
+
+    @@map(name: "properties")
+}
+
+model CategoryProperty {
+    id          Int       @id @default(autoincrement())
+    categorId   Int
+    propertyId  Int
+
+    category   Category @relation(fields: [categorId], references: [id])
+    property   Property @relation(fields: [propertyId], references: [id])
+
+    createdAt   DateTime  @default(now()) @map(name: "created_at")
+    updatedAt   DateTime  @updatedAt @map(name: "updated_at")
+
+    @@map(name: "categoryproperties")
+}
+
+//  ============================================= PRODUCT =============================================
+model Category {
+    id          Int       @id @default(autoincrement())
+    name        String
+    description String?
+
     products    Product[]
+    categoryProperties  CategoryProperty[]
+
+    createdAt   DateTime  @default(now()) @map(name: "created_at")
+    updatedAt   DateTime  @updatedAt @map(name: "updated_at")
 
     @@map(name: "productcategories")
 }
@@ -166,12 +203,13 @@ model Product {
     id               Int             @id @default(autoincrement())
     name             String
     price            Float
+    status           ProductStatus
     rating           Float           @default(0)
     quantity         Int
     shortDescription String          @map(name: "short_description")
     longDescription  String?         @map(name: "long_description")
-    images           String[]
-    category         ProductCategory @relation(fields: [categoryId], references: [id])
+    keywords         String?
+    category         Category        @relation(fields: [categoryId], references: [id])
     categoryId       Int             @map(name: "category_id")
     offer            ProductOffer?   @relation(fields: [offerId], references: [id])
     offerId          Int?
@@ -183,7 +221,7 @@ model Product {
     height  Int
     length  Int
     weight  Int
-    measure MeasureType
+    measure MeasureType @default(PIECE)
 
     packageQuantity Int @default(1)
 
@@ -192,13 +230,28 @@ model Product {
     orderItems    OrderItem[]
     checkoutItems CheckoutItem[]
 
-    info             ProductInfo[]
-    advantages       ProductAdvantage[]
+    info       ProductInfo[]
+    advantages ProductAdvantage[]
+    tags       ProductTag[]
+    images     ProductImage[]
 
-    createdAt        DateTime           @default(now()) @map(name: "created_at")
-    updatedAt        DateTime           @updatedAt @map(name: "updated_at")
+    createdAt  DateTime     @default(now()) @map(name: "created_at")
+    updatedAt  DateTime     @updatedAt @map(name: "updated_at")
 
     @@map(name: "products")
+}
+
+model ProductImage {
+    id        Int     @id @default(autoincrement())
+    name      String
+    path      String
+    productId Int
+    product   Product @relation(fields: [productId], references: [id])
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "productimages")
 }
 
 model ProductInfo {
@@ -226,6 +279,18 @@ model ProductAdvantage {
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "productadvantages")
+}
+
+model ProductTag {
+    id        Int     @id @default(autoincrement())
+    name      String
+    productId Int
+    product   Product @relation(fields: [productId], references: [id])
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "producttags")
 }
 
 model ProductOffer {
@@ -494,10 +559,10 @@ model Intaker {
 
 //  ============================================= SUPPORT_REPORT =============================================
 model Support {
-    id       Int @id @default(autoincrement())
-    userId   Int
-    email    String?
-    message  String
+    id      Int     @id @default(autoincrement())
+    userId  Int
+    email   String?
+    message String
 
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")

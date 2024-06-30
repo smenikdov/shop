@@ -9,32 +9,21 @@ import {
 import { Handler } from '@/utils/actions/routes';
 import { productScheme, formatProductScheme } from '@/utils/prisma';
 import * as v from '@/utils/validate';
-import { includePagination } from '@/utils/prisma';
 
-interface PayloadFilters {
-    name: string;
-    productId: number;
-    page: number;
-}
+import { PRODUCT_STATUS } from '@/constants';
 
-export const productGetAllHandler = new Handler({
+export const productGetAllPublishHandler = new Handler({
     name: 'Получение списка товаров',
     defaultError: 'Ошибка при получении списка товаров',
     schema: v.object({
-        page: v.page(),
-        productId: v.id(),
-        name: v.string(),
+        userId: v.id().optional(),
     }),
 
-    async request(payload: PayloadFilters) {
+    async request(payload: { userId?: number }) {
         const products = await prisma.product.findMany({
-            ...includePagination(payload.page),
-            select: productScheme(),
+            select: productScheme(payload.userId),
             where: {
-                id: payload.productId || undefined,
-                name: {
-                    contains: payload.name || undefined,
-                },
+                status: PRODUCT_STATUS.PUBLISH
             },
         });
 

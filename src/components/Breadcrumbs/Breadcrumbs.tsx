@@ -16,7 +16,9 @@ const PAGE_NAMES: {
 } = {
     product: 'Каталог',
     my: 'Личный кабинет',
-    details: 'Мои данные',
+    admin: 'Админпанель',
+    basket: 'Корзина',
+    checkout: 'Оформление заказа',
 };
 
 const BreadcrumbsItem = (props: BreadcrumbsItemProps) => {
@@ -74,7 +76,7 @@ const Breadcrumbs = (props: BreadcrumbsProps) => {
                     return (
                         <BreadcrumbsItem
                             key={index}
-                            label={PAGE_NAMES[link] || pageNames[link] || link}
+                            label={pageNames[link] || PAGE_NAMES[link] || link}
                             href={href}
                             separator={pathNames.length !== index + 1 && separator}
                         />

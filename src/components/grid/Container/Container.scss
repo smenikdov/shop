@@ -1,10 +1,9 @@
 @import '@/styles/abstracts';
 
 .container, .container-fluid {
-    $gutter-x: 100px;
     width: 100%;
-    padding-right: $gutter-x;
-    padding-left: $gutter-x;
+    padding-left: 15px;
+    padding-right: 15px;
     margin-right: auto;
     margin-left: auto;
 }

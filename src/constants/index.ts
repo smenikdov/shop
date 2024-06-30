@@ -100,3 +100,18 @@ export const PRODUCT_TYPE = {
     JOB: 'JOB',
     ANOTHER: 'ANOTHER',
 };
+
+export const PRODUCT_STATUS = {
+    DRAFT: 'DRAFT',
+    PUBLISH: 'PUBLISH',
+    DELETED: 'DELETED',
+};
+
+export const BREAKPOINTS = {
+    xs: 480,
+    sm: 640,
+    md: 768,
+    lg: 1024,
+    xl: 1280,
+    xxl: 1536,
+};
