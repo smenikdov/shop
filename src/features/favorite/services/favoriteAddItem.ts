@@ -13,7 +13,7 @@ import { favoriteGetOneItemHandler } from './favoriteGetOneItem';
 
 export const favoriteAddItemHandler = new Handler({
     name: 'Добавление товара в избранное',
-    defaultError: 'Ошибка при добавлении товара в избранное',
+    errors: { default: 'Ошибка при добавлении товара в избранное' },
     schema: v.object({
         userId: v.id(),
         productId: v.id(),

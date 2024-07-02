@@ -12,7 +12,7 @@ import * as v from '@/utils/validate';
 
 export const userGetData = new Handler({
     name: 'Сохранение данных пользователя',
-    defaultError: 'Ошибка при сохранении данных пользователя',
+    errors: { default: 'Ошибка при сохранении данных пользователя' },
     schema: v.object({
         id: v.id(),
         userData: v.object({

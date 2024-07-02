@@ -12,7 +12,7 @@ import { productScheme, formatProductScheme } from '@/utils/prisma';
 
 export const basketGetAllItemsHandler = new Handler({
     name: 'Получение корзины',
-    defaultError: 'Ошибка при получении корзины',
+    errors: { default: 'Ошибка при получении корзины' },
     schema: v.object({
         userId: v.id(),
     }),

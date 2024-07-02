@@ -15,7 +15,7 @@ import type { OrderFullInfo } from '@/features/order/typings';
 
 export const dellinCreateOrderHandler = new Handler({
     name: 'Создание заказа на доставку Boxberry',
-    defaultError: 'Ошибка при создании заказа на доставку Boxberry',
+    errors: { default: 'Ошибка при создании заказа на доставку Boxberry' },
 
     async request(payload: { order: OrderFullInfo }) {
         const { order } = payload;

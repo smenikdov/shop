@@ -7,7 +7,7 @@ import transporter from '@/lib/nodemailer';
 
 export const emailSendMessageHandler = new Handler({
     name: 'Отправка сообщение по почте',
-    defaultError: 'Ошибка при отправке сообщения по почте',
+    errors: { default: 'Ошибка при отправке сообщения по почте' },
     schema: v.object({
         email: v.email(),
         message: v.string(),

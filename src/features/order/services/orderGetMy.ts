@@ -7,7 +7,7 @@ import { productScheme, formatProductScheme } from '@/utils/prisma';
 
 export const orderGetMyHandler = new Handler({
     name: 'Получение списка всех заказов пользователя',
-    defaultError: 'Ошибка при получении списка всех заказов пользователя',
+    errors: { default: 'Ошибка при получении списка всех заказов пользователя' },
     schema: v.object({
         userId: v.id(),
     }),

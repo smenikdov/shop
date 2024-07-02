@@ -11,7 +11,7 @@ import * as v from '@/utils/validate';
 
 export const userGetData = new Handler({
     name: 'Получение детализации по пользователю',
-    defaultError: 'Ошибка при получении данных пользователя',
+    errors: { default: 'Ошибка при получении данных пользователя' },
     schema: v.object({
         id: v.id(),
     }),

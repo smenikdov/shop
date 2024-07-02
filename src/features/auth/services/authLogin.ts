@@ -14,7 +14,7 @@ import * as v from '@/utils/validate';
 
 export const authLoginWithPhoneHandler = new Handler({
     name: 'Вход по номеру телефона',
-    defaultError: 'Произошла ошибка при входе по номеру телефона',
+    errors: { default: 'Произошла ошибка при входе по номеру телефона' },
     schema: v.object({
         password: v.password(),
         phone: v.phone(),

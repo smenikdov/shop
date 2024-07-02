@@ -12,7 +12,7 @@ import { dadata } from './dadata';
 
 export const dadataSuggestEmailsHandler = new Handler({
     name: 'Получение списка email-адресов',
-    defaultError: 'Ошибка при получении списка email-адресов',
+    errors: { default: 'Ошибка при получении списка email-адресов' },
     schema: v.object({
         query: v.string(),
     }),

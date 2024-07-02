@@ -17,7 +17,7 @@ import { cdekCalcPriceHandler } from '@/features/api/cdek/cdekCalcPrice';
 
 export const deliveryCalcPriceHandler = new Handler({
     name: '',
-    defaultError: '',
+    errors: { default: '' },
     schema: v.object({
         deliveryType: v.deliveryType(),
         // TODO

@@ -8,7 +8,7 @@ import { PAYMENT_STATUS } from '@/constants';
 
 export const paymentOnSuccessHandler = new Handler({
     name: 'Обработка успешного платежа',
-    defaultError: 'Ошибка при обработке успешного платежа',
+    errors: { default: 'Ошибка при обработке успешного платежа' },
     schema: v.object({
         paymentYookassaId: v.id(),
     }),

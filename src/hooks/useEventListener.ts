@@ -12,7 +12,7 @@ const useEventListener = (
     }, [callback]);
 
     useEffect(() => {
-        if (element == null) return;
+        if (element === null) return;
         const handler = (event: Event) => callbackRef.current(event);
         element.addEventListener(eventType, handler);
 

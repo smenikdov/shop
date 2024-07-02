@@ -17,7 +17,7 @@ import { cdekChangeOrderHandler } from '@/features/api/cdek/cdekChangeOrder';
 
 export const deliveryChangeOrderHandler = new Handler({
     name: '',
-    defaultError: '',
+    errors: { default: '' },
     schema: v.object({
         orderId: v.id(),
         // TODO

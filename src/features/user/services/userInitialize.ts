@@ -14,7 +14,7 @@ import { authGuestIdentificationHandler } from '@/features/auth/services/authGue
 
 export const userInitializeHandler = new Handler({
     name: 'Инициализация пользователя',
-    defaultError: 'Произошла ошибка при инициализации пользователя',
+    errors: { default: 'Произошла ошибка при инициализации пользователя' },
     schema: v.object({
         userId: v.id().optional(),
     }),

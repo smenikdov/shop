@@ -13,7 +13,7 @@ import { authCreateSessionHandler } from '@/features/auth/services/authSession';
 
 export const authGuestIdentificationHandler = new Handler({
     name: 'Идентифицкация пользователя',
-    defaultError: 'Произошла ошибка при идентифицкации пользователя',
+    errors: { default: 'Произошла ошибка при идентифицкации пользователя' },
 
     async request() {
         const user = await prisma.user.create({

@@ -13,7 +13,7 @@ import type { DeliveryType } from '@prisma/client';
 
 export const deliveryGetInitialData = new Handler({
     name: '',
-    defaultError: '',
+    errors: { default: '' },
     schema: v.object({
         userId: v.id(),
     }),

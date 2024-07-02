@@ -149,7 +149,7 @@ interface YooKassaCreatePaymentResponse {
 
 export const yookassaCreatePaymentHandler = new Handler({
     name: 'Создание платежа в ЮKassa',
-    defaultError: 'Ошибка при создании платежа в ЮKassa',
+    errors: { default: 'Ошибка при создании платежа в ЮKassa' },
     schema: v.object({
         orderId: v.id(),
         userId: v.id(),

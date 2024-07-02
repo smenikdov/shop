@@ -17,7 +17,7 @@ import { cdekDeleteOrderHandler } from '@/features/api/cdek/cdekDeleteOrder';
 
 export const deliveryDeleteOrderHandler = new Handler({
     name: '',
-    defaultError: '',
+    errors: { default: '' },
     schema: v.object({
         orderId: v.id(),
     }),

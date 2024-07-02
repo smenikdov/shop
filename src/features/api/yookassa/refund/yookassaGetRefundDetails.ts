@@ -12,7 +12,7 @@ import { yookassa } from './../yookassa';
 
 export const yookassaGetRefundDetailsHandler = new Handler({
     name: 'Получение информации о возврате в ЮKassa',
-    defaultError: 'Ошибка при получении информации о возврате в ЮKassa',
+    errors: { default: 'Ошибка при получении информации о возврате в ЮKassa' },
 
     async request(payload: {}) {
         const response = await yookassa.post('/', {});

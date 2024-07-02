@@ -12,7 +12,7 @@ import { dadataCleaner } from './dadata';
 
 export const dadataParseFioHandler = new Handler({
     name: 'Стандартизация ФИО',
-    defaultError: 'Ошибка при стандартизации ФИО',
+    errors: { default: 'Ошибка при стандартизации ФИО' },
     schema: v.object({
         fio: v.string(),
     }),

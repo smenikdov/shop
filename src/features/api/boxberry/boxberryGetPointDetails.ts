@@ -71,7 +71,7 @@ interface BoxberryGetPointDetailsResponse {
 
 export const boxberryGetPointDetailsHandler = new Handler({
     name: 'Получение деталей пункта выдачи заказов Boxberry',
-    defaultError: 'Ошибка при получении деталей пункта выдачи заказов Boxberry',
+    errors: { default: 'Ошибка при получении деталей пункта выдачи заказов Boxberry' },
     schema: v.object({
         pointBoxberryId: v.id(),
     }),

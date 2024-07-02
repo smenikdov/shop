@@ -48,7 +48,7 @@ interface CdekGetCitiesResponse {
 
 export const cdekGetCitiesHandler = new Handler({
     name: 'Получение списка всех городов СДЭК',
-    defaultError: 'Ошибка при получении списка городов СДЭК',
+    errors: { default: 'Ошибка при получении списка городов СДЭК' },
 
     async request(payload: {}) {
         const request: CdekGetCitiesRequest = {};

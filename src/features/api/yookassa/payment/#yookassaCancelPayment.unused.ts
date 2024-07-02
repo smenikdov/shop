@@ -12,7 +12,7 @@
 
 // export const yookassaCancelPaymentHandler = new Handler({
 //     name: 'Отмена платежа в ЮKassa',
-//     defaultError: 'Ошибка при отмене платежа в ЮKassa',
+//     errors: { default: 'Ошибка при отмене платежа в ЮKassa' },
 //     schema: v.object({
 //         paymentId: v.id(),
 //     }),

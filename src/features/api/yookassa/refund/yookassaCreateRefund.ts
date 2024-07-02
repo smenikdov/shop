@@ -12,7 +12,7 @@ import { yookassa } from './../yookassa';
 
 export const yookassaCreateRefundHandler = new Handler({
     name: 'Создание возврата в ЮKassa',
-    defaultError: 'Ошибка при создании возврата в ЮKassa',
+    errors: { default: 'Ошибка при создании возврата в ЮKassa' },
 
     async request(payload: {}) {
         const response = await yookassa.post('/refunds', {});

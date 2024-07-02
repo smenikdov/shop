@@ -11,7 +11,7 @@ import * as v from '@/utils/validate';
 
 export const favoriteGetOneItemHandler = new Handler({
     name: 'Получение определённого товара из избранного',
-    defaultError: 'Ошибка при получении определённого товара из избранного',
+    errors: { default: 'Ошибка при получении определённого товара из избранного' },
     schema: v.object({
         userId: v.id(),
         productId: v.id(),

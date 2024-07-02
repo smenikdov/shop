@@ -29,7 +29,7 @@ const formatDadataAddress = (settlement) => {
 
 export const dadataSuggestSettlementsHandler = new Handler({
     name: 'Получение списка городов',
-    defaultError: 'Ошибка при получении списка городов',
+    errors: { default: 'Ошибка при получении списка городов' },
     schema: v.object({
         query: v.string(),
     }),

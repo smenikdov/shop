@@ -12,7 +12,7 @@ import { yookassa } from './../yookassa';
 
 export const yookassaGetPaymentsListHandler = new Handler({
     name: 'Получение списка платежей в ЮKassa',
-    defaultError: 'Ошибка при получении списка платежей в ЮKassa',
+    errors: { default: 'Ошибка при получении списка платежей в ЮKassa' },
 
     async request(payload: {}) {
         const response = await yookassa.get('/payments', {});

@@ -13,7 +13,7 @@
 
 // export const yookassaConfirmPaymentHandler = new Handler({
 //     name: 'Подтверждение платежа в ЮKassa',
-//     defaultError: 'Ошибка при подтверждении платежа в ЮKassa',
+//     errors: { default: 'Ошибка при подтверждении платежа в ЮKassa' },
 //     schema: v.object({
 //         paymentId: v.id(),
 //     }),

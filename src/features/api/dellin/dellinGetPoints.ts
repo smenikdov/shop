@@ -83,7 +83,7 @@ interface DellinGetPointsResponse {
 
 export const dellinGetPointsHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Деловые Линии',
-    defaultError: 'Ошибка при получении списка пунктов выдачи заказов Деловые Линии',
+    errors: { default: 'Ошибка при получении списка пунктов выдачи заказов Деловые Линии' },
     schema: v.object({
         cityDellinId: v.id(),
     }),

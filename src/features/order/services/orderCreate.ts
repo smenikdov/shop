@@ -11,7 +11,7 @@ import { basketCalcTotalResult } from '@/features/basket/utils/basketCalcTotalRe
 
 export const orderCreateHandler = new Handler({
     name: 'Создание заказа',
-    defaultError: 'Ошибка при создании заказа',
+    errors: { default: 'Ошибка при создании заказа' },
     schema: v.object({
         userId: v.id(),
         notice: v.string(),

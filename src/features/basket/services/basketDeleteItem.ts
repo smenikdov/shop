@@ -13,7 +13,7 @@ import { basketGetOneItemHandler } from './basketGetOneItem';
 
 export const basketDeleteItemHandler = new Handler({
     name: 'Удаление товара из корзины',
-    defaultError: 'Ошибка при удалении товара из корзины',
+    errors: { default: 'Ошибка при удалении товара из корзины' },
     schema: v.object({
         userId: v.id(),
         productId: v.id(),

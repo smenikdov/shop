@@ -13,7 +13,7 @@ import { basketGetOneItemHandler } from './basketGetOneItem';
 
 export const basketAddItemHandler = new Handler({
     name: 'Добавление товара в корзину',
-    defaultError: 'Ошибка при добавлении товара в корзину',
+    errors: { default: 'Ошибка при добавлении товара в корзину' },
     schema: v.object({
         userId: v.id(),
         productId: v.id(),

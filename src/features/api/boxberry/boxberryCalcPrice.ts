@@ -19,7 +19,7 @@ import { checkoutGetProductSizes } from '@/features/checkout/routes';
 
 export const boxberryCalcPriceHandler = new Handler({
     name: 'Расчёт стоимость доставки Boxberry',
-    defaultError: 'Ошибка при расчёте стоимости доставки Boxberry',
+    errors: { default: 'Ошибка при расчёте стоимости доставки Boxberry' },
     schema: v.object({
         deliveryType: v.string(),
         pointId: v.id(),

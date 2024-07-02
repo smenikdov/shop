@@ -34,7 +34,7 @@
 
 // export const yookassaCreateReceiptHandler = new Handler({
 //     name: 'Создание чека в ЮKassa',
-//     defaultError: 'Ошибка при создании чека в ЮKassa',
+//     errors: { default: 'Ошибка при создании чека в ЮKassa' },
 
 //     async request(payload: {}) {
 //         const response = await yookassa.post('/receipts', {});

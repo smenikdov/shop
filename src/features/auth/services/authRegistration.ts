@@ -13,7 +13,7 @@ import * as v from '@/utils/validate';
 
 export const authRegistrationWithPhoneHandler = new Handler({
     name: 'Регистрация по номеру телефона',
-    defaultError: 'Произошла ошибка при регистрации пользователя',
+    errors: { default: 'Произошла ошибка при регистрации пользователя' },
     schema: v.object({
         password: v.password(),
         phone: v.phone(),

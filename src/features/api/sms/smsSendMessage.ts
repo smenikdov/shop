@@ -7,7 +7,7 @@ import { sms } from './sms';
 
 export const smsSendMessageHandler = new Handler({
     name: 'Отправка СМС по номеру телефон',
-    defaultError: 'Ошибка при отправке СМС по номеру телефон',
+    errors: { default: 'Ошибка при отправке СМС по номеру телефон' },
     schema: v.object({
         phone: v.phone(),
         message: v.string(),

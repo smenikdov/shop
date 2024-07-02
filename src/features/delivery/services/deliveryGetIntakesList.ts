@@ -13,7 +13,7 @@ import { includePagination } from '@/utils/prisma';
 
 export const deliveryGetIntakesListHandler = new Handler({
     name: 'Получение списка заявок на вызов курьера',
-    defaultError: 'Ошибка при получении списка заявок на вызов курьера',
+    errors: { default: 'Ошибка при получении списка заявок на вызов курьера' },
     schema: v.object({
         page: v.page(),
     }),

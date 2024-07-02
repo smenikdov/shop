@@ -11,7 +11,7 @@ import * as v from '@/utils/validate';
 
 export const basketGetOneItemHandler = new Handler({
     name: 'Получение определённого товара из корзины',
-    defaultError: 'Ошибка при получении определённого товара из корзины',
+    errors: { default: 'Ошибка при получении определённого товара из корзины' },
     schema: v.object({
         userId: v.id(),
         productId: v.id(),

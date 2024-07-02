@@ -11,7 +11,7 @@ const ttlSms = Number(process.env.TTL_SMS);
 
 export const postSendPhoneCodeHandler = new Handler({
     name: 'Отправка кода по номеру телефон',
-    defaultError: 'Ошибка при отправке кода по номеру телефон',
+    errors: { default: 'Ошибка при отправке кода по номеру телефон' },
     schema: v.object({
         phone: v.phone(),
     }),

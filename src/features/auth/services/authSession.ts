@@ -18,7 +18,7 @@ const ttlRefresh = Number(process.env.TTL_REFRESH);
 
 export const authCreateSessionHandler = new Handler({
     name: 'Создание сессии',
-    defaultError: 'Ошибка при создании сессии',
+    errors: { default: 'Ошибка при создании сессии' },
 
     async request(payload: { userId: number; userRole: UserRole }) {
         const { userId, userRole } = payload;
@@ -76,7 +76,7 @@ export const authCreateSessionHandler = new Handler({
 
 export const authDeleteActiveSessionHandler = new Handler({
     name: 'Удаление сессии',
-    defaultError: 'Ошибка при удалении сессии',
+    errors: { default: 'Ошибка при удалении сессии' },
 
     async request() {
         const cookies = getCookies();
@@ -96,7 +96,7 @@ export const authDeleteActiveSessionHandler = new Handler({
 
 export const authDeleteAllSessionsHandler = new Handler({
     name: 'Удаление всех сессий пользователя',
-    defaultError: 'Ошибка при удалении сессий пользователя',
+    errors: { default: 'Ошибка при удалении сессий пользователя' },
 
     async request(payload: { userId: number }) {
         const deletedSessions = await prisma.session.deleteMany({
@@ -110,7 +110,7 @@ export const authDeleteAllSessionsHandler = new Handler({
 
 export const authGetMySessionsHandler = new Handler({
     name: 'Получение всех сессий пользователя',
-    defaultError: 'Ошибка при получении сессий пользователя',
+    errors: { default: 'Ошибка при получении сессий пользователя' },
 
     async request(payload: { userId: number }) {
         const sessions = await prisma.session.findMany({

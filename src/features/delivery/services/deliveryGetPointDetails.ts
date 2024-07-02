@@ -14,7 +14,7 @@ import { DELIVERY_COMPANY } from '@/constants';
 
 export const deliveryGetPointDetailsHandler = new Handler({
     name: 'Получение деталей точки выдачи',
-    defaultError: 'Ошибка при получении деталей точки выдачи',
+    errors: { default: 'Ошибка при получении деталей точки выдачи' },
     schema: v.object({
         pointId: v.id(),
     }),

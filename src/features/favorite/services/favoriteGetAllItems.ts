@@ -12,7 +12,7 @@ import { productScheme, formatProductScheme } from '@/utils/prisma';
 
 export const favoriteGetAllItemsHandler = new Handler({
     name: 'Получение избранных товаров',
-    defaultError: 'Ошибка при получении избранных товаров',
+    errors: { default: 'Ошибка при получении избранных товаров' },
     schema: v.object({
         userId: v.id(),
     }),

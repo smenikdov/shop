@@ -9,7 +9,7 @@ const FILES_DIR = './public/uploads/';
 
 export const fileSave = new Handler({
     name: 'Сохранение файла',
-    defaultError: 'Ошибка при сохранении файла',
+    errors: { default: 'Ошибка при сохранении файла' },
     schema: v.object({
         file: v.file().lt(10),
         name: v.string(),
@@ -26,7 +26,7 @@ export const fileSave = new Handler({
 
 export const fileRead = new Handler({
     name: 'Получение файла',
-    defaultError: 'Ошибка при получении файла',
+    errors: { default: 'Ошибка при получении файла' },
     schema: v.object({
         name: v.string(),
     }),
@@ -40,7 +40,7 @@ export const fileRead = new Handler({
 
 export const fileDelete = new Handler({
     name: 'Удаление файла',
-    defaultError: 'Ошибка при удалении файла',
+    errors: { default: 'Ошибка при удалении файла' },
     schema: v.object({
         name: v.string(),
     }),

@@ -7,7 +7,7 @@ import telegrafBot from '@/lib/telegraf';
 
 export const telegramSendMessageHandler = new Handler({
     name: 'Отправка сообщение через телеграм',
-    defaultError: 'Ошибка при отправке сообщения через телеграм',
+    errors: { default: 'Ошибка при отправке сообщения через телеграм' },
     schema: v.object({
         message: v.string(),
     }),

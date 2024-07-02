@@ -13,7 +13,7 @@ import { boxberryGetCitiesHandler } from '@/features/api/boxberry/boxberryGetCit
 
 export const boxberryUpdateDatabaseCitiesHandler = new Handler({
     name: 'Обновление городов из базы Boxberry',
-    defaultError: 'Ошибка при обновлении городов из базы Boxberry',
+    errors: { default: 'Ошибка при обновлении городов из базы Boxberry' },
 
     async request(payload: {}) {
         const response = await boxberryGetCitiesHandler.execute({});

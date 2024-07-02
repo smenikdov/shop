@@ -19,7 +19,7 @@ interface PayloadFilters {
 
 export const productGetAllHandler = new Handler({
     name: 'Получение списка товаров',
-    defaultError: 'Ошибка при получении списка товаров',
+    errors: { default: 'Ошибка при получении списка товаров' },
     schema: v.object({
         page: v.page(),
         productId: v.id(),

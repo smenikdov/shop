@@ -23,33 +23,35 @@ import {
 interface HandlerParams<
     RequestPayload extends AnyObject = {},
     RequestResponse extends Response = Response,
+    Errors extends AnyObject = {},
 > {
     name: string;
     description?: string;
-    defaultError: string;
+    errors: Errors;
     schema?: IObjectValidator;
-    request: (payload: RequestPayload) => Promise<RequestResponse>;
+    request: (payload: RequestPayload, errors: Errors) => Promise<RequestResponse>;
 }
 export class Handler<
     RequestPayload extends AnyObject = {},
     RequestResponse extends Response = Response,
+    Errors extends AnyObject = {},
 > {
     public readonly name: string;
     public readonly description: string | null;
-    public readonly defaultError: string;
+    public readonly errors: AnyObject;
     public readonly schema?: IObjectValidator;
-    public readonly request: (payload: RequestPayload) => Promise<RequestResponse>;
+    public readonly request: (payload: RequestPayload, errors: Errors) => Promise<RequestResponse>;
 
     constructor({
         name,
         description,
-        defaultError,
+        errors,
         schema,
         request,
-    }: HandlerParams<RequestPayload, RequestResponse>) {
+    }: HandlerParams<RequestPayload, RequestResponse, Errors>) {
         this.name = name;
         this.description = description || null;
-        this.defaultError = defaultError;
+        this.errors = errors;
         this.schema = schema;
         this.request = request;
     }
@@ -68,18 +70,18 @@ export class Handler<
                     const error = validationResult.error;
                     const response = new RequestErrorResponse({
                         message:
-                            'Сервер понял запрос, но отказался его выполнять. Причина: передан некоректный запрос',
+                            'Сервер понял запрос, но отказался его выполнять. Причина: передан некорректный запрос',
                         error,
                     });
                     return response;
                 }
             }
-            return await this.request(payload);
+            return await this.request(payload, this.errors);
         } catch (error) {
             logger.error(this.name, error);
             // await sendMailToAdminIfCritical();
             // await sendEventsToSentry();
-            return new ServerErrorResponse({ message: this.defaultError });
+            return new ServerErrorResponse({ message: this.errors.default || 'Неизвестная ошибка' });
         }
     }
 }

@@ -13,7 +13,7 @@ import { favoriteGetOneItemHandler } from './favoriteGetOneItem';
 
 export const favoriteDeleteItemHandler = new Handler({
     name: 'Удаление товара из избранного',
-    defaultError: 'Ошибка при удалении товара из избранного',
+    errors: { default: 'Ошибка при удалении товара из избранного' },
     schema: v.object({
         userId: v.id(),
         productId: v.id(),

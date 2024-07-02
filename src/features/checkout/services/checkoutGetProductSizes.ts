@@ -6,7 +6,7 @@ import * as v from '@/utils/validate';
 
 export const checkoutGetProductSizesHandler = new Handler({
     name: 'Получение размеров упаковки товаров',
-    defaultError: 'Ошибка при получении размеров упаковки товаров',
+    errors: { default: 'Ошибка при получении размеров упаковки товаров' },
     schema: v.object({
         userId: v.id(),
     }),

@@ -10,7 +10,7 @@ import { yookassaCreatePaymentHandler } from '@/features/api/yookassa/payment/yo
 
 export const paymentCreateHandler = new Handler({
     name: 'Оплата заказа',
-    defaultError: 'Ошибка при оплате заказа',
+    errors: { default: 'Ошибка при оплате заказа' },
     schema: v.object({
         orderId: v.id(),
         userId: v.id(),

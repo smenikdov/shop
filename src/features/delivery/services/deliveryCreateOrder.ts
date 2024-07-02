@@ -18,7 +18,7 @@ import { fivepostCreateOrderHandler } from '@/features/api/fivepost/fivepostCrea
 
 export const deliveryCreateOrderHandler = new Handler({
     name: '',
-    defaultError: '',
+    errors: { default: '' },
     schema: v.object({
         userId: v.id(),
         // TODO

@@ -12,7 +12,7 @@
 
 // export const yookassaGetReceiptDetailsHandler = new Handler({
 //     name: 'Получение информации о чеке в ЮKassa',
-//     defaultError: 'Ошибка при получении информации о чеке в ЮKassa',
+//     errors: { default: 'Ошибка при получении информации о чеке в ЮKassa' },
 //     schema: v.object({
 //         receiptId: v.id(),
 //     }),

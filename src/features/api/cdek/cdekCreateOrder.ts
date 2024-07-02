@@ -27,7 +27,7 @@ interface CdekCreateOrderResponse {};
 
 export const cdekCreateOrderHandler = new Handler({
     name: 'Создание заказа на доставку СДЭК',
-    defaultError: 'Ошибка при создании заказа на доставку СДЭК',
+    errors: { default: 'Ошибка при создании заказа на доставку СДЭК' },
 
     async request(payload: { order: OrderFullInfo }) {
         const { order } = payload;

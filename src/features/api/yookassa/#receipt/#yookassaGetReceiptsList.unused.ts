@@ -12,7 +12,7 @@
 
 // export const yookassaGetReceiptsListHandler = new Handler({
 //     name: 'Получение списка чеков в ЮKassa',
-//     defaultError: 'Ошибка при получении списка чеков в ЮKassa',
+//     errors: { default: 'Ошибка при получении списка чеков в ЮKassa' },
 
 //     async request(payload: {}) {
 //         const response = await yookassa.get('/receipt', {});

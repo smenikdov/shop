@@ -14,7 +14,7 @@ interface PayloadFilters {
 
 export const userGetAllHandler = new Handler({
     name: 'Получение списка всех пользователей',
-    defaultError: 'Ошибка при получении списка всех пользователей',
+    errors: { default: 'Ошибка при получении списка всех пользователей' },
     schema: v.object({
         page: v.page(),
         userId: v.id(),

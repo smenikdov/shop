@@ -14,7 +14,7 @@ import { boxberryUpdateDatabaseCitiesHandler } from '@/features/api/boxberry/box
 
 export const deliveryUpdateDatabaseHandler = new Handler({
     name: 'Обновление базы данных городов и точек выдачи',
-    defaultError: 'Ошибка при обновление базы данных городов и точек выдачи',
+    errors: { default: 'Ошибка при обновление базы данных городов и точек выдачи' },
 
     async request(payload: {}) {
         await boxberryUpdateDatabaseCitiesHandler.execute({});

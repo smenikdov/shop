@@ -83,7 +83,7 @@ type FivepostGetPointsResponse = Array<{
 
 export const fivepostGetPointsHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов 5POST',
-    defaultError: 'Ошибка при получении списка пунктов выдачи заказов 5POST',
+    errors: { default: 'Ошибка при получении списка пунктов выдачи заказов 5POST' },
     schema: v.object({
         cityFivepostId: v.id(),
     }),

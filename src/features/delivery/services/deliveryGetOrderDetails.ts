@@ -17,7 +17,7 @@ import { cdekGetOrderDetailsHandler } from '@/features/api/cdek/cdekGetOrderDeta
 
 export const deliveryGetOrderDetailsHandler = new Handler({
     name: '',
-    defaultError: '',
+    errors: { default: '' },
     schema: v.object({
         orderId: v.id(),
     }),

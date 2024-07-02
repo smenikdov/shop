@@ -8,7 +8,7 @@ import { PAYMENT_STATUS } from '@/constants';
 
 export const paymentOnSuccessHandler = new Handler({
     name: 'Обработка отмены платежа',
-    defaultError: 'Ошибка при обработке отмены платежа',
+    errors: { default: 'Ошибка при обработке отмены платежа' },
     schema: v.object({
         paymentYookassaId: v.id(),
     }),

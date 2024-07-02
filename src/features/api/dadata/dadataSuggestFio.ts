@@ -12,7 +12,7 @@ import { dadata } from './dadata';
 
 export const dadataSuggestFioHandler = new Handler({
     name: 'Получение списка имён',
-    defaultError: 'Ошибка при получении списка имён',
+    errors: { default: 'Ошибка при получении списка имён' },
     schema: v.object({
         query: v.string(),
     }),

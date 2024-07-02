@@ -12,7 +12,7 @@ import { yookassa } from './../yookassa';
 
 export const yookassaGetPaymentDetailsHandler = new Handler({
     name: 'Получение информации о платеже в ЮKassa',
-    defaultError: 'Ошибка при получении информации о платеже в ЮKassa',
+    errors: { default: 'Ошибка при получении информации о платеже в ЮKassa' },
     schema: v.object({
         paymentId: v.id(),
     }),

@@ -12,7 +12,7 @@ interface PayloadFilters {
 
 export const paymentGetAllHandler = new Handler({
     name: 'Получение списка всех финансовых операций',
-    defaultError: 'Ошибка при получении списка всех финансовых операций',
+    errors: { default: 'Ошибка при получении списка всех финансовых операций' },
     schema: v.object({
         page: v.page(),
         paymentId: v.id(),

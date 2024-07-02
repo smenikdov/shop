@@ -12,7 +12,7 @@ import * as v from '@/utils/validate';
 
 export const deliveryGetPointsHandler = new Handler({
     name: '',
-    defaultError: '',
+    errors: { default: '' },
     schema: v.object({
         cityId: v.id(),
     }),

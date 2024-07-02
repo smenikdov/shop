@@ -104,7 +104,7 @@ type CdekGetPointsResponse = Array<{
 
 export const cdekGetPointsHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов СДЭК',
-    defaultError: 'Ошибка при получении списка пунктов выдачи заказов СДЭК',
+    errors: { default: 'Ошибка при получении списка пунктов выдачи заказов СДЭК' },
     schema: v.object({
         cityCdekId: v.id(),
     }),

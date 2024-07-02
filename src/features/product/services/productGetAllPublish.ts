@@ -14,7 +14,7 @@ import { PRODUCT_STATUS } from '@/constants';
 
 export const productGetAllPublishHandler = new Handler({
     name: 'Получение списка товаров',
-    defaultError: 'Ошибка при получении списка товаров',
+    errors: { default: 'Ошибка при получении списка товаров' },
     schema: v.object({
         userId: v.id().optional(),
     }),

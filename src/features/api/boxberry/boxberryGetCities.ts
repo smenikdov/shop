@@ -33,7 +33,7 @@ type BoxberryGetCitiesResponse = Array<{
 
 export const boxberryGetCitiesHandler = new Handler({
     name: 'Получение списка всех городов Boxberry',
-    defaultError: 'Ошибка при получении списка городов Boxberry',
+    errors: { default: 'Ошибка при получении списка городов Boxberry' },
 
     async request(payload: {}) {
         const request: BoxberryGetCitiesRequest = {

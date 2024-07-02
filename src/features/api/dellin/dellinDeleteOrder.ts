@@ -12,7 +12,7 @@ import { dellin } from './dellin';
 
 export const dellinDeleteOrderHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Boxberry',
-    defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
+    errors: { default: 'Ошибка при получении списка пунктов выдачи заказов Boxberry' },
     schema: v.object({
     }),
 

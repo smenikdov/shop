@@ -14,7 +14,7 @@ import { basketAddItemHandler } from './basketAddItem';
 
 export const basketUpdateQuantityHandler = new Handler({
     name: 'Измнение количества товара в корзине',
-    defaultError: 'Ошибка при измнении количества товара в корзине',
+    errors: { default: 'Ошибка при измнении количества товара в корзине' },
     schema: v.object({
         userId: v.id(),
         productId: v.id(),

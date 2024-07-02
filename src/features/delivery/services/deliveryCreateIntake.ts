@@ -19,7 +19,7 @@ import { cdekCreateIntakeHandler } from '@/features/api/cdek/cdekCreateIntake';
 
 export const deliveryCreateIntakeHandler = new Handler({
     name: 'Вызов курьера',
-    defaultError: 'Ошибка при вызове курьера',
+    errors: { default: 'Ошибка при вызове курьера' },
     schema: v.object({
         deliveryCompany: v.string().in(Object.values(DELIVERY_COMPANY)),
         arriveAt: v.date(),

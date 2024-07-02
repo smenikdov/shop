@@ -11,7 +11,7 @@ import * as v from '@/utils/validate';
 
 export const deliverySuggestCitiesHandler = new Handler({
     name: 'Получение подсказок при вводе названия города',
-    defaultError: 'Ошибка при получении подсказок при вводе названия города',
+    errors: { default: 'Ошибка при получении подсказок при вводе названия города' },
     schema: v.object({
         query: v.string(),
     }),

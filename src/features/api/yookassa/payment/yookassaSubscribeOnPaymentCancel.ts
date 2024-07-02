@@ -14,7 +14,7 @@ const YOOKASSA_PAYMENT_SUCCEEDED_URL = '';
 
 export const yookassaSubscribeOnPaymentCancelHandler = new Handler({
     name: 'Подписка на уведомление об отмене платежа в ЮKassa',
-    defaultError: 'Ошибка при подписке на уведомление об отмене платежа в ЮKassa',
+    errors: { default: 'Ошибка при подписке на уведомление об отмене платежа в ЮKassa' },
 
     async request(payload: {}) {
         const response = await yookassa.post('/v3/webhooks', {

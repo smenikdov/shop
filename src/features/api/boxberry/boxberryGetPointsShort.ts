@@ -23,7 +23,7 @@ type BoxberryGetPointsShortResponse = Array<{
 
 export const boxberryGetPointsShortHandler = new Handler({
     name: 'Получение списка пунктов выдачи заказов Boxberry',
-    defaultError: 'Ошибка при получении списка пунктов выдачи заказов Boxberry',
+    errors: { default: 'Ошибка при получении списка пунктов выдачи заказов Boxberry' },
     schema: v.object({}),
 
     async request(payload: { }) {

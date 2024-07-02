@@ -16,7 +16,7 @@ import { boxberryGetPointDetailsHandler } from '@/features/api/boxberry/boxberry
 
 export const boxberryUpdateDatabasePointsHandler = new Handler({
     name: 'Обновление точек выдачи из базы Boxberry',
-    defaultError: 'Ошибка при обновлении точек выдачи из базы Boxberry',
+    errors: { default: 'Ошибка при обновлении точек выдачи из базы Boxberry' },
 
     async request(payload: {}) {
         const response = await boxberryGetPointsShortHandler.execute({});

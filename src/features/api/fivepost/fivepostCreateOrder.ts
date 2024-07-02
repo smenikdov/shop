@@ -76,7 +76,7 @@ interface FivepostCreateOrderResponse {
 
 export const fivepostCreateOrderHandler = new Handler({
     name: 'Создание заказа на доставку 5POST',
-    defaultError: 'Ошибка при создании заказа на доставку 5POST',
+    errors: { default: 'Ошибка при создании заказа на доставку 5POST' },
 
     async request(payload: { order: OrderFullInfo }) {
         const { order } = payload;
