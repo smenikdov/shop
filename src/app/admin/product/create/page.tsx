@@ -32,7 +32,7 @@ export default async function ProductCreate(props: PageProps) {
     return (
         <main>
             <Container className="my-lg">
-                <Breadcrumbs pageNames={{create: 'Добавление товара'}} className="mb-lg" />
+                <Breadcrumbs pageNames={{ create: 'Добавление товара' }} className="mb-lg" />
                 <ProductCreateForm />
             </Container>
         </main>

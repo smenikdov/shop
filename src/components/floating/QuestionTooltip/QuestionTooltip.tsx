@@ -13,7 +13,7 @@ const QuestionTooltip = (props: QuestionTooltipProps) => {
     const mergedCls = classNames('question-tooltip', `question-tooltip-${color}`, className);
 
     return (
-        <Tooltip content={content} triggers={['hover', 'click']} color={color}>
+        <Tooltip content={content} color={color}>
             <div {...otherProps} className={mergedCls} style={style}>
                 <Icon icon={<MdHelpOutline />} />
             </div>

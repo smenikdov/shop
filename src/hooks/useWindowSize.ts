@@ -10,12 +10,12 @@ const useWindowSize = () => {
         return {
             width: width,
             height: height,
-            xs: width >= BREAKPOINTS.xs,
-            sm: width >= BREAKPOINTS.sm,
-            md: width >= BREAKPOINTS.md,
-            lg: width >= BREAKPOINTS.lg,
-            xl: width >= BREAKPOINTS.xl,
-            xxl: width >= BREAKPOINTS.xxl,
+            xs: width >= BREAKPOINTS.XS,
+            sm: width >= BREAKPOINTS.SM,
+            md: width >= BREAKPOINTS.MD,
+            lg: width >= BREAKPOINTS.LG,
+            xl: width >= BREAKPOINTS.XL,
+            xxl: width >= BREAKPOINTS.XXL,
         };
     };
 

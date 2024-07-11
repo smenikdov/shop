@@ -1,0 +1,36 @@
+@import '@/styles/abstracts';
+
+.option-list {
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    width: 100%;
+    z-index: 99;
+    padding: 5px;
+
+    &-container {
+        position: relative;
+        width: fit-content;
+    }
+
+    &-item {
+        cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 5px;
+
+        &-focused {
+            background: lighten($muted, 35);
+        }
+        &-selected {
+            background: $light;
+            font-weight: 600;
+        }
+        &-disabled {}
+    }
+
+    &-primary {}
+    &-secondary {}
+    &-success {}
+    &-warning {}
+    &-danger {}
+}

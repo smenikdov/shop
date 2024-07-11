@@ -36,10 +36,10 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 interface ProductCreateFormStep1Props {
     onGoToNextStep: () => void;
     onCancel: () => void;
-};
+}
 
 export default function ProductCreateFormStep1(props: ProductCreateFormStep1Props) {
-    const { onCancel, onGoToNextStep } = props; 
+    const { onCancel, onGoToNextStep } = props;
 
     const { notifyError, notifySuccess } = useNotification();
 
@@ -48,12 +48,10 @@ export default function ProductCreateFormStep1(props: ProductCreateFormStep1Prop
             password: '',
             phone: '',
         },
-        schema: v.object({
-            
-        }),
+        schema: v.object({}),
     });
 
-    const handleApplyFilters = () => {
+    const handleApply = () => {
         const { isValid } = validate();
         if (!isValid) {
             return;
@@ -63,7 +61,7 @@ export default function ProductCreateFormStep1(props: ProductCreateFormStep1Prop
 
     return (
         <div>
-            <Form action={handleApplyFilters}>
+            <Form action={handleApply}>
                 <Title level={2} className="mb-sm">
                     Информация о товаре
                 </Title>

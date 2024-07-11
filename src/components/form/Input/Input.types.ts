@@ -1,9 +1,7 @@
 import type React from 'react';
 import { BaseColors, BaseSizes } from '@/typings';
 import { HTMLInputTypeAttribute } from 'react';
-
-export type InputVariant = 'outlined' | 'filled' | 'borderless';
-export type InputSize = BaseSizes;
+import type { FieldVariant } from '../typings';
 
 export interface BaseInputProps {
     className?: string;
@@ -12,13 +10,14 @@ export interface BaseInputProps {
     addonBefore?: React.ReactNode;
     addonAfter?: React.ReactNode;
     style?: React.CSSProperties;
-    variant?: InputVariant;
+    variant?: FieldVariant;
     maxLength?: Number;
     onFocus?: (event: React.FocusEvent) => void;
     onBlur?: (event: React.FocusEvent) => void;
     name?: string;
-    size?: InputSize;
+    size?: BaseSizes;
     error?: React.ReactNode;
 }
+
 export type InputProps = BaseInputProps &
     Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof BaseInputProps>;

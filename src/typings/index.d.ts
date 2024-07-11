@@ -13,6 +13,8 @@ export type BaseSizes = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type FontFamily = 'plex-serif' | 'plex-sans';
 
 export type AnyObject = Record<PropertyKey, any>;
+export type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+export type UnwrapArray<T> = T extends (infer U)[] ? U : T;
 
 interface SearchParams {
     [key: string]: string;

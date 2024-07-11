@@ -29,8 +29,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const mergedDisabled = formContext?.disabled || disabled;
     const mergedReadOnly = formContext?.readOnly || readOnly;
 
-    const medgedProps = { ...otherProps };
-
     const mergedCls = classNames(
         'input',
         {
@@ -40,8 +38,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
             'input-invalid': error,
         },
         `input-${size}`,
-        `input-${variant}`,
-        className
+        `input-${variant}`
     );
 
     const handleFocus = (event: React.FocusEvent) => {
@@ -55,11 +52,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     };
 
     return (
-        <div className="input-container">
+        <div className={classNames('input-container', className)}>
             <div className={mergedCls} style={style}>
                 {addonBefore && <div className="input-addon">{addonBefore}</div>}
                 <input
-                    {...medgedProps}
+                    {...otherProps}
                     className="input-field"
                     disabled={mergedDisabled}
                     readOnly={mergedReadOnly}

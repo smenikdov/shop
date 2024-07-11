@@ -11,7 +11,7 @@ const TableHead = (props: TableHeadProps) => {
         <thead className="table-head">
             <tr className="table-row">
                 {columns.map((column, columnIndex) => (
-                    <th key={column.name} className="table-cell">
+                    <th key={columnIndex} className="table-cell">
                         {column.title}
                     </th>
                 ))}
@@ -28,10 +28,8 @@ const TableBody = (props: TableBodyProps) => {
             {data.map((data, dataIndex) => (
                 <tr key={dataIndex} className="table-row">
                     {columns.map((column, columnIndex) => (
-                        <td key={column.name} className="table-cell">
-                            {column.render
-                                ? column.render(data[column.name], data)
-                                : data[column.name] || '—'}
+                        <td key={columnIndex} className="table-cell">
+                            {column.render(data) || '—'}
                         </td>
                     ))}
                 </tr>

@@ -32,6 +32,8 @@ import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
+import { MdOutlineAdd } from 'react-icons/md';
+
 export default function ProductListFilters() {
     const { notifyError, notifySuccess } = useNotification();
     const searchParams = useSearchParams();
@@ -80,7 +82,14 @@ export default function ProductListFilters() {
                     </Col>
                 </Row>
                 <Flex justify="space-between" className="mt-sm">
-                    <Button type="submit" variant="text" href="/admin/product/create">Добавить товар</Button>
+                    <Button
+                        type="submit"
+                        variant="text"
+                        href="/admin/product/create"
+                        icon={<MdOutlineAdd />}
+                    >
+                        Добавить товар
+                    </Button>
                     <Button type="submit">Найти</Button>
                 </Flex>
             </Form>

@@ -14,7 +14,6 @@
     
     outline: none;
     position: relative;
-    display: inline-block;
     font-weight: 500;
     white-space: nowrap;
     text-align: center;
@@ -28,6 +27,9 @@
     line-height: 150%;
     font-size: var(--button-size);
     padding: calc(var(--button-size) / 3) calc(var(--button-size) / 1.5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &-primary {
         @include button-color($primary);

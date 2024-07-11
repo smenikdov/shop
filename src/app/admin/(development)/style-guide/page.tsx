@@ -282,19 +282,19 @@ export default function StyleGuide() {
                             columns={[
                                 {
                                     title: 'Title 1',
-                                    name: 'field1',
+                                    render: ({ field1 }) => field1,
                                 },
                                 {
                                     title: 'Title 2',
-                                    name: 'field2',
+                                    render: ({ field2 }) => field2,
                                 },
                                 {
                                     title: 'Title 3',
-                                    name: 'field3',
+                                    render: ({ field3 }) => field3,
                                 },
                                 {
                                     title: 'Title 4',
-                                    name: 'field4',
+                                    render: ({ field4 }) => field4,
                                 },
                             ]}
                             data={Array(10).fill({

@@ -23,7 +23,7 @@ export const productGetAllPublishHandler = new Handler({
         const products = await prisma.product.findMany({
             select: productScheme(payload.userId),
             where: {
-                status: PRODUCT_STATUS.PUBLISH
+                status: PRODUCT_STATUS.PUBLISH,
             },
         });
 

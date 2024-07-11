@@ -6,9 +6,11 @@
     border-radius: 5px;
     padding: 2px 5px;
     font-size: 12px;
+    margin: auto;
+    width: fit-content;
 
     &-container {
-        width: fit-content;
+        position: relative;
     }
 
     &-primary {}

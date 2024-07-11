@@ -27,6 +27,18 @@ const links = [
         label: 'Каталог',
         href: '/admin/product',
     },
+    {
+        label: 'Категории',
+        href: '/admin/category',
+    },
+    {
+        label: 'Свойства',
+        href: '/admin/property',
+    },
+    {
+        label: 'Единицы измерения',
+        href: '/admin/measure',
+    },
 ];
 
 const Header = () => {

@@ -1,3 +1,18 @@
+import { CreateConstants } from './constants.utils';
+import {
+    BarcodeType,
+    DeliveryCompany,
+    DeliveryType,
+    OrderStatus,
+    PaymentStatus,
+    PaymentType,
+    ProductStatus,
+    ProductType,
+    PropertyType,
+    UserRole,
+    UserSex,
+} from '@prisma/client';
+
 export const SHOP_INFO = {
     NAME: '',
     INN: '',
@@ -12,76 +27,49 @@ export const DELIVERY_INFO = {
     DELLIN_SENDER_POINT_ID: 1,
 };
 
-export const ORDER_STATUS = {
-    PAYMENT: 'PAYMENT',
-    PREPARATION: 'PREPARATION',
-    DELIVERY: 'DELIVERY',
-    WAITING: 'WAITING',
-    RECEIVED: 'RECEIVED',
-};
+export const [ORDER_STATUS, ORDER_STATUS_LABEL] = CreateConstants<OrderStatus>({
+    PAYMENT: 'Оплата',
+    PREPARATION: 'В сборке',
+    DELIVERY: 'В пути',
+    WAITING: 'Доставлен',
+    RECEIVED: 'Получен',
+});
 
-export const PAYMENT_STATUS = {
-    PENDING: 'PENDING',
-    SUCCEEDED: 'SUCCEEDED',
-    CANCELED: 'CANCELED',
-};
+export const [PAYMENT_STATUS, PAYMENT_STATUS_LABEL] = CreateConstants<PaymentStatus>({
+    PENDING: 'Ожидает',
+    SUCCEEDED: 'Успешно',
+    CANCELED: 'Отменено',
+});
 
-export const USER_ROLE = {
+export const [USER_ROLE, USER_ROLE_LABEL] = CreateConstants<UserRole>({
     USER: 'USER',
     ADMIN: 'ADMIN',
     GUEST: 'GUEST',
-};
+});
 
-export const USER_SEX = {
-    MALE: 'MALE',
-    FEMALE: 'FEMALE',
-};
+export const [USER_SEX, USER_SEX_LABEL] = CreateConstants<UserSex>({
+    MALE: 'Мужской пол',
+    FEMALE: 'Женский пол',
+});
 
-export const DELIVERY_COMPANY = {
-    BOXBERRY: 'BOXBERRY',
-    CDEK: 'CDEK',
-    DELLIN: 'DELLIN',
-    FIVEPOST: 'FIVEPOST',
-};
+export const [DELIVERY_COMPANY, DELIVERY_COMPANY_LABEL] = CreateConstants<DeliveryCompany>({
+    BOXBERRY: 'Boxberry',
+    CDEK: 'СДЭК',
+    DELLIN: 'Деловые линии',
+    FIVEPOST: '5POST',
+});
 
-export const DELIVERY_TYPE = {
-    COURIER: 'COURIER',
-    POINT: 'POINT',
-};
+export const [DELIVERY_TYPE, DELIVERY_TYPE_LABEL] = CreateConstants<DeliveryType>({
+    COURIER: 'Курьер',
+    POINT: 'Пункт выдачи',
+});
 
-export const PAYMENT_TYPE = {
-    BANK_CARD: 'BANK_CARD',
-    SBP: 'SBP',
-};
+export const [PAYMENT_TYPE, PAYMENT_TYPE_LABEL] = CreateConstants<PaymentType>({
+    BANK_CARD: 'Банковская карта',
+    SBP: 'СБП',
+});
 
-export const MEASURE_TYPE = {
-    PIECE: 'PIECE',
-    GRAM: 'GRAM',
-    KILOGRAM: 'KILOGRAM',
-    TON: 'TON',
-    CENTIMETER: 'CENTIMETER',
-    DECIMETER: 'DECIMETER',
-    METER: 'METER',
-    SQUARE_CENTIMETER: 'SQUARE_CENTIMETER',
-    SQUARE_DECIMETER: 'SQUARE_DECIMETER',
-    SQUARE_METER: 'SQUARE_METER',
-    MILLILITER: 'MILLILITER',
-    LITER: 'LITER',
-    CUBIC_METER: 'CUBIC_METER',
-    KILOWATT_HOUR: 'KILOWATT_HOUR',
-    GIGACALORIE: 'GIGACALORIE',
-    DAY: 'DAY',
-    HOUR: 'HOUR',
-    MINUTE: 'MINUTE',
-    SECOND: 'SECOND',
-    KILOBYTE: 'KILOBYTE',
-    MEGABYTE: 'MEGABYTE',
-    GIGABYTE: 'GIGABYTE',
-    TERABYTE: 'TERABYTE',
-    ANOTHER: 'ANOTHER',
-};
-
-export const BARCODE_TYPE = {
+export const [BARCODE_TYPE, BARCODE_TYPE_LABEL] = CreateConstants<BarcodeType>({
     EAN_8: 'EAN_8',
     EAN_13: 'EAN_13',
     ITF_14: 'ITF_14',
@@ -92,26 +80,33 @@ export const BARCODE_TYPE = {
     EGIAS_20: 'EGIAS_20',
     EGIAS_30: 'EGIAS_30',
     UNKNOWN: 'UNKNOWN',
-};
+});
 
-export const PRODUCT_TYPE = {
-    PRODUCT: 'PRODUCT',
-    SERVICE: 'SERVICE',
-    JOB: 'JOB',
-    ANOTHER: 'ANOTHER',
-};
+export const [PRODUCT_TYPE, PRODUCT_TYPE_LABEL] = CreateConstants<ProductType>({
+    PRODUCT: 'Товар',
+    SERVICE: 'Услуга',
+    JOB: 'Работа',
+    ANOTHER: 'Другое',
+});
 
-export const PRODUCT_STATUS = {
-    DRAFT: 'DRAFT',
-    PUBLISH: 'PUBLISH',
-    DELETED: 'DELETED',
-};
+export const [PRODUCT_STATUS, PRODUCT_STATUS_LABEL] = CreateConstants<ProductStatus>({
+    DRAFT: 'Черновик',
+    PUBLISH: 'Опубликован',
+    DELETED: 'Удален',
+});
 
 export const BREAKPOINTS = {
-    xs: 480,
-    sm: 640,
-    md: 768,
-    lg: 1024,
-    xl: 1280,
-    xxl: 1536,
+    XS: 480,
+    SM: 640,
+    MD: 768,
+    LG: 1024,
+    XL: 1280,
+    XXL: 1536,
 };
+
+export const [PROPERTY_TYPE, PROPERTY_TYPE_LABEL] = CreateConstants<PropertyType>({
+    STRING: 'Строка',
+    NUMBER: 'Число',
+    SELECT: 'Список',
+    FLAG: 'Флаг',
+});

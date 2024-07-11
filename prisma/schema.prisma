@@ -1,4 +1,4 @@
-//
+//  ============================================= CONSTANTS =============================================
 enum OrderStatus {
     PAYMENT
     PREPARATION
@@ -41,33 +41,6 @@ enum PaymentType {
     SBP
 }
 
-enum MeasureType {
-    PIECE
-    GRAM
-    KILOGRAM
-    TON
-    CENTIMETER
-    DECIMETER
-    METER
-    SQUARE_CENTIMETER
-    SQUARE_DECIMETER
-    SQUARE_METER
-    MILLILITER
-    LITER
-    CUBIC_METER
-    KILOWATT_HOUR
-    GIGACALORIE
-    DAY
-    HOUR
-    MINUTE
-    SECOND
-    KILOBYTE
-    MEGABYTE
-    GIGABYTE
-    TERABYTE
-    ANOTHER
-}
-
 enum BarcodeType {
     EAN_8
     EAN_13
@@ -98,6 +71,13 @@ enum ProductStatus {
     DRAFT
     PUBLISH
     DELETED
+}
+
+enum PropertyType {
+    STRING
+    NUMBER
+    SELECT
+    FLAG
 }
 
 //  ============================================= GLOBAL =============================================
@@ -149,79 +129,104 @@ model User {
     payments      Payment[]
     orders        Order[]
     city          City?          @relation(fields: [cityId], references: [id])
+    products      Product[]
 
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+    createdAt DateTime  @default(now()) @map(name: "created_at")
+    updatedAt DateTime  @updatedAt @map(name: "updated_at")
 
     @@map(name: "users")
 }
 
 //  ============================================= PROPERTY =============================================
 model Property {
-    id          Int       @id @default(autoincrement())
+    id          Int              @id @default(autoincrement())
     name        String
     description String?
+    type        PropertyType
+    measureId   Int?
+    measure     Measure?         @relation(fields: [measureId], references: [id])
+    meta        Json
+    options     PropertyOption[]
 
-    categoryProperties  CategoryProperty[]
+    categoryProperties CategoryProperty[]
 
-    createdAt   DateTime  @default(now()) @map(name: "created_at")
-    updatedAt   DateTime  @updatedAt @map(name: "updated_at")
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "properties")
 }
 
+model PropertyOption {
+    id         Int    @id @default(autoincrement())
+    value      String
+    propertyId Int
+
+    property Property @relation(fields: [propertyId], references: [id])
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "propertyoptions")
+}
+
 model CategoryProperty {
-    id          Int       @id @default(autoincrement())
-    categorId   Int
-    propertyId  Int
+    id         Int @id @default(autoincrement())
+    categorId  Int
+    propertyId Int
 
-    category   Category @relation(fields: [categorId], references: [id])
-    property   Property @relation(fields: [propertyId], references: [id])
+    isUseAsFilter Boolean
+    isRequired    Boolean
 
-    createdAt   DateTime  @default(now()) @map(name: "created_at")
-    updatedAt   DateTime  @updatedAt @map(name: "updated_at")
+    category Category @relation(fields: [categorId], references: [id])
+    property Property @relation(fields: [propertyId], references: [id])
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "categoryproperties")
 }
 
 //  ============================================= PRODUCT =============================================
 model Category {
-    id          Int       @id @default(autoincrement())
+    id          Int     @id @default(autoincrement())
     name        String
     description String?
 
-    products    Product[]
-    categoryProperties  CategoryProperty[]
+    products           Product[]
+    categoryProperties CategoryProperty[]
 
-    createdAt   DateTime  @default(now()) @map(name: "created_at")
-    updatedAt   DateTime  @updatedAt @map(name: "updated_at")
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-    @@map(name: "productcategories")
+    @@map(name: "categories")
 }
 
 model Product {
-    id               Int             @id @default(autoincrement())
+    id               Int           @id @default(autoincrement())
     name             String
     price            Float
     status           ProductStatus
-    rating           Float           @default(0)
+    rating           Float         @default(0)
     quantity         Int
-    shortDescription String          @map(name: "short_description")
-    longDescription  String?         @map(name: "long_description")
+    shortDescription String        @map(name: "short_description")
+    longDescription  String?       @map(name: "long_description")
     keywords         String?
-    category         Category        @relation(fields: [categoryId], references: [id])
-    categoryId       Int             @map(name: "category_id")
-    offer            ProductOffer?   @relation(fields: [offerId], references: [id])
+    category         Category      @relation(fields: [categoryId], references: [id])
+    categoryId       Int           @map(name: "category_id")
+    offer            ProductOffer? @relation(fields: [offerId], references: [id])
     offerId          Int?
     barcode          String
     barcodeType      BarcodeType
     type             ProductType
+    userId           Int           @map(name: "user_id")
+    user             User          @relation(fields: [userId], references: [id])
 
-    width   Int
-    height  Int
-    length  Int
-    weight  Int
-    measure MeasureType @default(PIECE)
+    width     Int
+    height    Int
+    length    Int
+    weight    Int
+    measureId Int
+    measure   Measure @relation(fields: [measureId], references: [id])
 
     packageQuantity Int @default(1)
 
@@ -235,8 +240,8 @@ model Product {
     tags       ProductTag[]
     images     ProductImage[]
 
-    createdAt  DateTime     @default(now()) @map(name: "created_at")
-    updatedAt  DateTime     @updatedAt @map(name: "updated_at")
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "products")
 }
@@ -305,6 +310,22 @@ model ProductOffer {
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
     @@map(name: "productoffers")
+}
+
+// ============================================= MEASURE =============================================
+model Measure {
+    id          Int     @id @default(autoincrement())
+    name        String
+    shortName   String
+    description String?
+
+    producs    Product[]
+    properties Property[]
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+    @@map(name: "measure")
 }
 
 //  ============================================= ORDER =============================================

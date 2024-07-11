@@ -57,7 +57,7 @@ const Button = (props: ButtonProps) => {
         return (
             <>
                 {icon && <Icon icon={icon} />}
-                {children}
+                <div>{children}</div>
             </>
         );
     };

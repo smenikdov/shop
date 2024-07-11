@@ -12,13 +12,13 @@ import Icon from '@/components/Icon';
 import Empty from '@/components/Empty';
 import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
-import styles from './page.module.css';
 import { useState } from 'react';
 import type { Metadata } from 'next';
 import TextBlock from '@/widgets/TextBlock/TextBlock';
 import Input from '@/components/form/Input';
 import Modal from '@/components/Modal';
 import InputNumber from '@/components/form/InputNumber';
+import styles from './page.module.css';
 
 // export const metadata: Metadata = {
 //     title: 'Моя первая страница',
@@ -35,12 +35,16 @@ export default function Home() {
                 content="We recognize the importance of the American small business community and support buying local whenever possible."
                 after={<Button onClick={() => setIsOpenModal(true)}>Купить</Button>}
             />
-            <Input />
+            <Container>
+                <Tooltip content="asd">
+                    <Input />
+                </Tooltip>
+                <Input className="mt-xl" />
+            </Container>
 
             <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
                 12321
             </Modal>
-            <InputNumber />
         </main>
     );
 }

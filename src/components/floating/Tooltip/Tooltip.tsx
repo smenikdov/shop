@@ -4,19 +4,7 @@ import './Tooltip.scss';
 import classNames from 'classnames';
 import { useUncontrolledProp } from 'uncontrollable';
 import type { TooltipProps } from './Tooltip.types';
-import {
-    useFloating,
-    autoUpdate,
-    offset as floatingOffset,
-    flip as floatingFlip,
-    shift as floatingShift,
-    useHover,
-    useFocus,
-    useClick,
-    useDismiss,
-    useRole,
-    useInteractions,
-} from '@floating-ui/react';
+import useFloating from '@/hooks/useFloating';
 
 const Tooltip = (props: TooltipProps) => {
     const {
@@ -26,23 +14,29 @@ const Tooltip = (props: TooltipProps) => {
         arrow,
         disabled,
         children,
-        onChange,
+        onOpenChange,
         open,
         content,
         offset = 10,
         triggers = ['hover'],
-        placement = 'top',
+        alignment = 'center',
+        side = 'left',
         ...otherProps
     } = props;
 
-    const [controlledValue, onControlledChange] = useUncontrolledProp(open, false, onChange);
+    const [controlledValue, onControlledChange] = useUncontrolledProp(open, false, onOpenChange);
+    const containerReference = React.useRef(null);
+    const floatingReference = React.useRef(null);
 
-    const { refs, floatingStyles, context } = useFloating({
-        open: controlledValue,
-        onOpenChange: onControlledChange,
-        middleware: [floatingOffset(offset), floatingFlip(), floatingShift()],
-        whileElementsMounted: autoUpdate,
-        placement: placement,
+    const { floatingStyles } = useFloating({
+        containerReference,
+        floatingReference,
+        isVisible: controlledValue,
+        offset,
+        flip: true,
+        shift: true,
+        side,
+        alignment,
     });
 
     const mergedCls = classNames('tooltip', `tooltip-${color}`, className);
@@ -51,38 +45,30 @@ const Tooltip = (props: TooltipProps) => {
         return { ...floatingStyles, ...style };
     }, [floatingStyles, style]);
 
-    const hover = useHover(context, { enabled: triggers.includes('hover'), move: false });
-    const click = useClick(context, { enabled: triggers.includes('click') });
-    const dismiss = useDismiss(context);
-    const role = useRole(context, { role: 'tooltip' });
-
-    const interactions = [dismiss, role, hover, click];
-
-    const { getReferenceProps, getFloatingProps } = useInteractions(interactions);
-
     return (
-        <>
+        <div className="tooltip-container">
             <div
-                className="tooltip-container"
-                ref={refs.setReference}
-                {...getReferenceProps()}
+                className="tooltip-content"
+                ref={containerReference}
                 aria-disabled={disabled}
+                onMouseEnter={() => onControlledChange(true)}
+                onMouseLeave={() => onControlledChange(false)}
             >
                 {children}
             </div>
 
-            {controlledValue && (
+            {(
                 <div
-                    ref={refs.setFloating}
+                    ref={floatingReference}
+                    role="tooltip"
                     className={mergedCls}
                     style={mergedStyle}
-                    {...getFloatingProps()}
                     {...otherProps}
                 >
                     {content}
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

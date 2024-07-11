@@ -63,7 +63,7 @@ export default function ProductCreateForm() {
         {
             value: 3,
             title: 'Медиа',
-            content: <Step3 onGoToPrevStep={goToPrevStep}  onGoToNextStep={goToNextStep} />,
+            content: <Step3 onGoToPrevStep={goToPrevStep} onGoToNextStep={goToNextStep} />,
         },
         {
             value: 4,
@@ -74,11 +74,7 @@ export default function ProductCreateForm() {
 
     return (
         <div>
-            <Stepper
-                responsiveBreakPoint={BREAKPOINTS.lg}
-                value={step}
-                items={steps}
-            />
+            <Stepper responsiveBreakPoint={BREAKPOINTS.LG} value={step} items={steps} />
         </div>
     );
 }

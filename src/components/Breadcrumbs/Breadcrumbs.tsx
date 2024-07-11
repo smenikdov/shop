@@ -19,6 +19,11 @@ const PAGE_NAMES: {
     admin: 'Админпанель',
     basket: 'Корзина',
     checkout: 'Оформление заказа',
+    category: 'Категории',
+    payment: 'Баланс',
+    order: 'Заказы',
+    property: 'Свойства',
+    measure: 'Единицы измерения',
 };
 
 const BreadcrumbsItem = (props: BreadcrumbsItemProps) => {

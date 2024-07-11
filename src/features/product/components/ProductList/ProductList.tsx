@@ -31,9 +31,7 @@ const ProductList = (props: ProductListProps) => {
                     <Col key={product.id} sm={6} md={4} lg={3}>
                         <Link href={`/product/${product.id}`}>
                             <div className={styles.product}>
-                                <Chip className={styles.chip}>
-                                    Распродажа
-                                </Chip>
+                                <Chip className={styles.chip}>Распродажа</Chip>
                                 <div className={styles.imageWrap}>
                                     <Image
                                         className={styles.image}
@@ -42,7 +40,11 @@ const ProductList = (props: ProductListProps) => {
                                         fill
                                     />
                                 </div>
-                                <ProductPrice className={styles.price} price={product.price} offer={product.offer} />
+                                <ProductPrice
+                                    className={styles.price}
+                                    price={product.price}
+                                    offer={product.offer}
+                                />
                                 <Flex justify="space-between" align="center">
                                     <Title level={3} className={styles.name} family="plex-sans">
                                         {product.name}
