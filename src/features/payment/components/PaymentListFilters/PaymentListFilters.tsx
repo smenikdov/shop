@@ -16,7 +16,7 @@ import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Input from '@/components/form/Input';
 import InputNumber from '@/components/form/InputNumber';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Table from '@/components/Table';
 import Form from '@/components/form/Form';
@@ -39,7 +39,7 @@ export default function PaymentListFilters() {
     const router = useRouter();
     const pathname = usePathname();
 
-    const { serverState, register, validate } = useForm({
+    const form = useForm({
         schema: v.object({
             page: v.page(),
             paymentId: v.id(),
@@ -51,12 +51,12 @@ export default function PaymentListFilters() {
     });
 
     const handleApplyFilters = async () => {
-        const { isValid } = validate();
+        const { isValid } = form.validate();
         if (!isValid) {
             return;
         }
         const params = new URLSearchParams(searchParams);
-        for (const [key, value] of Object.entries(serverState)) {
+        for (const [key, value] of Object.entries(form.serverState)) {
             params.set(key, value.toString());
         }
         router.replace(`${pathname}?${params}`);
@@ -68,7 +68,7 @@ export default function PaymentListFilters() {
                 <Row gapX="md" gapY="sm">
                     <Col md={3}>
                         <FormItem label="ID">
-                            <InputNumber {...register('paymentId', baseInput)} min={0} />
+                            <InputNumber {...form.register('paymentId')} min={0} />
                         </FormItem>
                     </Col>
                 </Row>

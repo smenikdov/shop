@@ -14,7 +14,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Input from '@/components/form/Input';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Table from '@/components/Table';
 import Flex from '@/components/Flex';
 
@@ -61,6 +61,14 @@ const columns: TableColumnsFor<typeof getOrders> = [
     {
         title: 'Сумма',
         render: ({ total }) => total,
+    },
+    {
+        title: 'Действия',
+        render: ({ id }) => (
+            <Button href={`/admin/order/${id}`} variant="link" size="sm">
+                Подробнее
+            </Button>
+        ),
     },
 ];
 

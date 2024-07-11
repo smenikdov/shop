@@ -15,7 +15,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
 import InputNumber from '@/components/form/InputNumber';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Table from '@/components/Table';
 import Form from '@/components/form/Form';
@@ -40,7 +40,7 @@ export default function PropertyListFilters() {
     const router = useRouter();
     const pathname = usePathname();
 
-    const { serverState, register, validate } = useForm({
+    const form = useForm({
         schema: v.object({
             page: v.page(),
             propertyId: v.id(),
@@ -54,12 +54,12 @@ export default function PropertyListFilters() {
     });
 
     const handleApplyFilters = async () => {
-        const { isValid } = validate();
+        const { isValid } = form.validate();
         if (!isValid) {
             return;
         }
         const params = new URLSearchParams(searchParams);
-        for (const [key, value] of Object.entries(serverState)) {
+        for (const [key, value] of Object.entries(form.serverState)) {
             params.set(key, value.toString());
         }
         router.replace(`${pathname}?${params}`);
@@ -71,12 +71,12 @@ export default function PropertyListFilters() {
                 <Row gapX="md" gapY="sm">
                     <Col md={3}>
                         <FormItem label="ID">
-                            <InputNumber {...register('propertyId', baseInput)} min={0} />
+                            <InputNumber {...form.register('propertyId')} min={0} />
                         </FormItem>
                     </Col>
                     <Col md={3}>
                         <FormItem label="Название">
-                            <Input {...register('name', textInput)} />
+                            <Input {...form.register('name', textInput)} />
                         </FormItem>
                     </Col>
                 </Row>

@@ -15,7 +15,7 @@ import QuestionTooltip from '@/components/floating/QuestionTooltip';
 import Input from '@/components/form/Input';
 import InputMask from '@/components/form/InputMask';
 import Select from '@/components/form/Select';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';

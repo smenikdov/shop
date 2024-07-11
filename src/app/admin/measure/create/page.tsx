@@ -13,14 +13,14 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Input from '@/components/form/Input';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Table from '@/components/Table';
 import Flex from '@/components/Flex';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 import type { PageProps, SearchParams } from '@/typings';
 
-import MeasureCreateForm from '@/features/measure/components/MeasureCreateForm';
+import MeasureEditForm from '@/features/measure/components/MeasureEditForm';
 
 export const metadata: Metadata = {
     title: 'Админпанель | Добавление единицы измерения',
@@ -35,7 +35,7 @@ export default async function PropertyCreate(props: PageProps) {
                     pageNames={{ create: 'Добавление единицы измерения' }}
                     className="mb-lg"
                 />
-                <MeasureCreateForm />
+                <MeasureEditForm isCreate />
             </Container>
         </main>
     );

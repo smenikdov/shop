@@ -6,6 +6,7 @@ import { RouteData } from '@/utils/actions/routes';
 
 import { measureGetAllHandler } from '../services/measureGetAll';
 import { measureCreateHandler } from '../services/measureCreate';
+import { measureGetDetailsHandler } from '../services/measureGetDetails';
 
 interface MeasureGetAllPayload {
     page: number;
@@ -30,5 +31,12 @@ export const measureCreate = createRoute({
     access: ['ADMIN'],
     async handler({ payload }: RouteData<MeasureCreatePayload>) {
         return measureCreateHandler.execute(payload);
+    },
+});
+
+export const measureGetDetails = createRoute({
+    access: ['ADMIN'],
+    async handler({ payload }: RouteData<{ measureId: integer }>) {
+        return measureGetDetailsHandler.execute(payload);
     },
 });

@@ -9,6 +9,7 @@ import OptionList from '@/components/floating/OptionList';
 import Icon from '@/components/Icon';
 import FormContext from '@/components/form/Form/Form.context';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import useOptionsList from '@/components/floating/OptionList/OptionsList.hooks';
 
 const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
     const {
@@ -34,7 +35,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
     const [controlledValue, onControlledChange] = useUncontrolledProp(value, '', onChange);
     const optionsListId = React.useId();
     const [isOpenPopup, setIsOpenPopup] = useState(false);
-    const [focusedItemIndex, setFocusedItemIndex] = useState(-1);
+    const { focusedItemIndex, increaseFocusItemIndex, decreaseFocusedItemIndex } = useOptionsList(options);
 
     const [focused, setFocused] = useState(false);
     const mergedDisabled = formContext?.disabled || disabled;
@@ -77,19 +78,11 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         const isArrowDown = event.keyCode === 40;
 
         if (isArrowDown) {
-            if (focusedItemIndex === -1) {
-                setFocusedItemIndex(0);
-            } else {
-                setFocusedItemIndex(focusedItemIndex + 1 < options.length ? focusedItemIndex + 1 : 0);
-            }
+            decreaseFocusedItemIndex();
         }
 
         if (isArrowUp) {
-            if (focusedItemIndex === -1) {
-                setFocusedItemIndex(options.length - 1);
-            } else {
-                setFocusedItemIndex(focusedItemIndex > 0 ? focusedItemIndex - 1 : options.length - 1);
-            }
+            increaseFocusItemIndex()
         }
 
         if (isEnter) {

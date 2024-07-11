@@ -108,5 +108,4 @@ export const [PROPERTY_TYPE, PROPERTY_TYPE_LABEL] = CreateConstants<PropertyType
     STRING: 'Строка',
     NUMBER: 'Число',
     SELECT: 'Список',
-    FLAG: 'Флаг',
 });

@@ -14,14 +14,14 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Input from '@/components/form/Input';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Table from '@/components/Table';
 import Flex from '@/components/Flex';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 import type { PageProps, SearchParams } from '@/typings';
 
-import ProductCreateForm from '@/features/product/components/ProductCreateForm';
+import ProductEditForm from '@/features/product/components/ProductEditForm';
 
 export const metadata: Metadata = {
     title: 'Админпанель | Добавление товара',
@@ -33,7 +33,7 @@ export default async function ProductCreate(props: PageProps) {
         <main>
             <Container className="my-lg">
                 <Breadcrumbs pageNames={{ create: 'Добавление товара' }} className="mb-lg" />
-                <ProductCreateForm />
+                <ProductEditForm isCreate />
             </Container>
         </main>
     );

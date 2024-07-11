@@ -1,85 +1,99 @@
-'use client';
+// 'use client';
 
-import React, { useState } from 'react';
-import './Autocomplete.scss';
-import Input from '../Input';
-import classNames from 'classnames';
-import { AutocompleteProps } from './Autocomplete.types';
-import { useUncontrolledProp } from 'uncontrollable';
-import {
-    useFloating,
-    autoUpdate,
-    offset as floatingOffset,
-    flip as floatingFlip,
-    shift as floatingShift,
-    useRole,
-    useInteractions,
-} from '@floating-ui/react';
+// import React, { useState } from 'react';
+// import './Autocomplete.scss';
+// import Input from '../Input';
+// import classNames from 'classnames';
+// import { AutocompleteProps } from './Autocomplete.types';
+// import { useUncontrolledProp } from 'uncontrollable';
+// import OptionList from '@/components/floating/OptionList';
+// import Icon from '@/components/Icon';
+// import FormContext from '@/components/form/Form/Form.context';
+// import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+// import useOptionsList from '@/components/floating/OptionList/OptionsList.hooks';
 
-const Autocomplete = (props: AutocompleteProps) => {
-    const { options, className, style, value, onChange, onFocus, onBlur, ...otherProps } = props;
+// const Autocomplete = (props: AutocompleteProps) => {
+//     const { options, className, style, value, onChange, onClick, onKeyDown, ...otherProps } = props;
 
-    const [controlledValue, onControlledChange] = useUncontrolledProp(value, '', onChange);
+//     const [controlledValue, onControlledChange] = useUncontrolledProp(value, '', onChange);
 
-    const [isOpenPopup, setIsOpenPopup] = useState(false);
+//     const formContext = React.useContext(FormContext);
+//     const optionsListId = React.useId();
+//     const [isOpenPopup, setIsOpenPopup] = useState(false);
+//     const { focusedItemIndex, increaseFocusItemIndex, decreaseFocusedItemIndex } = useOptionsList(options);
 
-    const { refs, floatingStyles, context } = useFloating({
-        middleware: [floatingOffset(0), floatingFlip(), floatingShift()],
-        whileElementsMounted: autoUpdate,
-        placement: 'bottom-start',
-    });
+//     const [focused, setFocused] = useState(false);
+//     const mergedDisabled = formContext?.disabled || disabled;
+//     const mergedReadOnly = formContext?.readOnly || readOnly;
 
-    const role = useRole(context, { role: 'listbox' });
+//     const mergedCls = classNames(
+//         'autocomplete',
+//         className,
+//     );
 
-    const interactions = [role];
+//     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+//         onClick?.(event);
+//         setIsOpenPopup(true);
+//     };
 
-    const { getReferenceProps, getFloatingProps } = useInteractions(interactions);
+//     const handleKeyDown = (event: React.KeyboardEvent) => {
+//         onKeyDown?.(event);
 
-    const mergedCls = classNames('select', className);
+//         const isEnter = event.keyCode === 13;
+//         const isEsc = event.keyCode === 27;
+//         const isArrowUp = event.keyCode === 38;
+//         const isArrowDown = event.keyCode === 40;
 
-    const handleFocus = (event: React.FocusEvent) => {
-        onFocus?.(event);
-        setIsOpenPopup(true);
-    };
+//         if (isArrowDown) {
+//             decreaseFocusedItemIndex();
+//         }
 
-    const handleBlur = (event: React.FocusEvent) => {
-        onBlur?.(event);
-        setIsOpenPopup(false);
-    };
+//         if (isArrowUp) {
+//             increaseFocusItemIndex()
+//         }
 
-    return (
-        <div className="select-container" ref={refs.setReference}>
-            <Input
-                {...getReferenceProps()}
-                {...otherProps}
-                value={controlledValue}
-                className={mergedCls}
-                style={style}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onChange={onControlledChange}
-            />
+//         if (isEnter) {
+//             if (options[focusedItemIndex] && isOpenPopup) {
+//                 onControlledChange(options[focusedItemIndex].value);
+//                 setIsOpenPopup(false);
+//             } else {
+//                 setIsOpenPopup(!isOpenPopup);
+//             }
+//         }
+        
+//         if (isEsc) {
+//             setIsOpenPopup(false);
+//         }
+//     };
 
-            {isOpenPopup && (
-                <div
-                    className="select-popup"
-                    ref={refs.setFloating}
-                    style={floatingStyles}
-                    {...getFloatingProps()}
-                >
-                    {options.map((option, optionIndex) => (
-                        <div
-                            key={optionIndex}
-                            className="select-option"
-                            onClick={() => onControlledChange(option.label)}
-                        >
-                            {option.label}
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-};
+//     return (
+//         <div className="autocomplete-container">
+//             <OptionList
+//                 id={optionsListId}
+//                 value={controlledValue}
+//                 options={options}
+//                 onChange={onControlledChange}
+//                 open={isOpenPopup}
+//                 onOpenChange={setIsOpenPopup}
+//                 focusedItemIndex={focusedItemIndex}
+//             >
+//                 <Input
+//                     {...otherProps}
+//                     value={controlledValue}
+//                     className={mergedCls}
+//                     style={style}
+//                     onClick={handleClick}
+//                     onKeyDown={handleKeyDown}
+//                     onChange={onControlledChange}
+//                 />
+//             </OptionList>
 
-export default Select;
+//             <Icon
+//                 className="autocomplete-icon"
+//                 icon={<MdOutlineKeyboardArrowDown />}
+//             />
+//         </div>
+//     );
+// };
+
+// export default Autocomplete;

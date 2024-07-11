@@ -1,5 +1,5 @@
 import { IObjectValidator, ValidObjectResult } from '@/utils/validate/typings';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnyObject } from '@/typings';
 
 interface UseFormOptions<FormState> {
@@ -16,7 +16,12 @@ export const useForm = <FormState extends AnyObject>(options: UseFormOptions<For
     const [clientState, setClientState] = useState<FormState>(options.initialState); // TODO
     const [serverState, setServerState] = useState<FormState>(options.initialState);
 
-    const register = (fieldName: string, options: RegisterOptions) => {
+    const setState = (payload: FormState) => {
+        setServerState(payload); // TODO
+        setClientState(payload);
+    };
+
+    const register = (fieldName: string, options: RegisterOptions =  baseInput) => {
         return {
             name: fieldName,
             value: clientState[fieldName],
@@ -48,6 +53,7 @@ export const useForm = <FormState extends AnyObject>(options: UseFormOptions<For
         validate,
         clientState,
         serverState,
+        setState,
         error,
     };
 };

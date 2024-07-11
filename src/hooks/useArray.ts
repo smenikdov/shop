@@ -23,7 +23,7 @@ const useArray = <T>(defaultValue: Array<T>) => {
         setArray([]);
     };
 
-    return { array, set: setArray, push, filter, update, remove, clear };
+    return { value: array, set: setArray, push, filter, update, remove, clear };
 };
 
 export default useArray;

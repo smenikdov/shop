@@ -13,7 +13,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Card from '@/components/Card';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import type { Metadata } from 'next';
 import AuthRegistrationForm from '@/features/auth/components/AuthRegistrationForm';

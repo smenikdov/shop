@@ -13,14 +13,14 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Input from '@/components/form/Input';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Table from '@/components/Table';
 import Flex from '@/components/Flex';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 import type { PageProps, SearchParams } from '@/typings';
 
-import PropertyCreateForm from '@/features/property/components/PropertyCreateForm';
+import PropertyEditForm from '@/features/property/components/PropertyEditForm';
 
 export const metadata: Metadata = {
     title: 'Админпанель | Добавление свойства',
@@ -32,7 +32,7 @@ export default async function PropertyCreate(props: PageProps) {
         <main>
             <Container className="my-lg">
                 <Breadcrumbs pageNames={{ create: 'Добавление свойства' }} className="mb-lg" />
-                <PropertyCreateForm />
+                <PropertyEditForm isCreate />
             </Container>
         </main>
     );

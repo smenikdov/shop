@@ -12,7 +12,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
 import InputNumber from '@/components/form/InputNumber';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Chip from '@/components/Chip';
 import Table from '@/components/Table';

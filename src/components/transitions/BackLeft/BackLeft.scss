@@ -1,0 +1,21 @@
+.back-left {
+    &-enter-active {
+        animation-name: back-left-in;
+        animation-duration: 0.3s;
+    }
+    
+    &-exit-active {
+        animation-name: back-left-out;
+        animation-duration: 0.3s;
+    }
+} 
+
+@keyframes back-left-in {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes back-left-out {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}

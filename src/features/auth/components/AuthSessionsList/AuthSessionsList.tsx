@@ -10,7 +10,7 @@ import Empty from '@/components/Empty';
 import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Result from '@/components/Result';
 import Divider from '@/components/Divider';

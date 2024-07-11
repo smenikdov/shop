@@ -16,7 +16,7 @@ import { useState } from 'react';
 import type { Metadata } from 'next';
 import TextBlock from '@/widgets/TextBlock/TextBlock';
 import Input from '@/components/form/Input';
-import Modal from '@/components/Modal';
+import ModalSlider from '@/components/modal/ModalSlider';
 import InputNumber from '@/components/form/InputNumber';
 import styles from './page.module.css';
 
@@ -42,9 +42,9 @@ export default function Home() {
                 <Input className="mt-xl" />
             </Container>
 
-            <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
+            <ModalSlider isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} title="sad">
                 12321
-            </Modal>
+            </ModalSlider>
         </main>
     );
 }

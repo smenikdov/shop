@@ -11,7 +11,7 @@ import Empty from '@/components/Empty';
 import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
@@ -25,7 +25,7 @@ import useNotification from '@/features/notification/hooks/useNotification';
 export default function UserDataForm() {
     const { notifyError, notifySuccess } = useNotification();
 
-    const { clientState, serverState, register, validate } = useForm({
+    const form = useForm({
         schema: v.object({
             lastName: v.string().required(),
             firstName: v.string().required(),
@@ -40,7 +40,7 @@ export default function UserDataForm() {
     });
 
     const saveUserDataAction = async () => {
-        const { isValid } = validate();
+        const { isValid } = form.validate();
         if (!isValid) {
             return;
         }
@@ -55,13 +55,13 @@ export default function UserDataForm() {
     return (
         <Form action={saveUserDataAction} disabled>
             <FormItem label="Имя">
-                <Input {...register('lastName', textInput)} />
+                <Input {...form.register('lastName', textInput)} />
             </FormItem>
             <FormItem label="Фамилия">
-                <Input {...register('firstName', textInput)} />
+                <Input {...form.register('firstName', textInput)} />
             </FormItem>
             <FormItem label="Отчество">
-                <Input {...register('patronymic', textInput)} />
+                <Input {...form.register('patronymic', textInput)} />
             </FormItem>
             <Button type="submit" className="mt-sm">
                 Сохранить

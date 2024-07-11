@@ -17,7 +17,7 @@ import styles from './page.module.css';
 import Input from '@/components/form/Input';
 import InputMask from '@/components/form/InputMask';
 import InputNumber from '@/components/form/InputNumber';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Table from '@/components/Table';
 import Form from '@/components/form/Form';

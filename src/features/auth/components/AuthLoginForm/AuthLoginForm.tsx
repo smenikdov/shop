@@ -13,7 +13,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
 import InputMask from '@/components/form/InputMask';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
@@ -30,7 +30,7 @@ export default function AuthLoginForm() {
     const { notifyError, notifySuccess } = useNotification();
     const router = useRouter();
 
-    const { clientState, serverState, register, validate } = useForm({
+    const form = useForm({
         initialState: {
             password: '',
             phone: '',
@@ -42,12 +42,12 @@ export default function AuthLoginForm() {
     });
 
     const loginAction = async () => {
-        const { isValid } = validate();
+        const { isValid } = form.validate();
         if (!isValid) {
             return;
         }
 
-        const response = await authLoginWithPhone(serverState);
+        const response = await authLoginWithPhone(form.serverState);
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
@@ -60,13 +60,13 @@ export default function AuthLoginForm() {
         <Form action={loginAction}>
             <FormItem label="Номер телефона">
                 <InputMask
-                    {...register('phone', phoneInput)}
+                    {...form.register('phone', phoneInput)}
                     mask="+{7} (000) 000-00-00"
                     placeholder="+7 (___) __-__"
                 />
             </FormItem>
             <FormItem label="Пароль">
-                <Input {...register('password', textInput)} type="password" />
+                <Input {...form.register('password', textInput)} type="password" />
             </FormItem>
             <Button type="submit" className="mt-lg">
                 Войти

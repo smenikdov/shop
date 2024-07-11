@@ -1,0 +1,19 @@
+@import '@/styles/abstracts';
+
+.modal-dialog {
+    &-container {
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 20px;
+        position: absolute;
+        background: #fff;
+        overflow: auto;
+        outline: none;
+    }
+
+    &-overlay {}
+}

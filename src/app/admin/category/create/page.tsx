@@ -14,14 +14,14 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import styles from './page.module.css';
 import Input from '@/components/form/Input';
-import Modal from '@/components/Modal';
+import ModalDialog from '@/components/modal/ModalDialog';
 import Table from '@/components/Table';
 import Flex from '@/components/Flex';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 import type { PageProps, SearchParams } from '@/typings';
 
-import CategoryCreateForm from '@/features/category/components/CategoryCreateForm';
+import CategoryEditForm from '@/features/category/components/CategoryEditForm';
 
 export const metadata: Metadata = {
     title: 'Админпанель | Добавление категории',
@@ -33,7 +33,7 @@ export default async function CategoryCreate(props: PageProps) {
         <main>
             <Container className="my-lg">
                 <Breadcrumbs pageNames={{ create: 'Добавление категории' }} className="mb-lg" />
-                <CategoryCreateForm />
+                <CategoryEditForm isCreate />
             </Container>
         </main>
     );
