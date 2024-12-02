@@ -42,9 +42,9 @@ export const [PAYMENT_STATUS, PAYMENT_STATUS_LABEL] = CreateConstants<PaymentSta
 });
 
 export const [USER_ROLE, USER_ROLE_LABEL] = CreateConstants<UserRole>({
-    USER: 'USER',
-    ADMIN: 'ADMIN',
-    GUEST: 'GUEST',
+    USER: 'Пользователь',
+    ADMIN: 'Админ',
+    GUEST: 'Гость',
 });
 
 export const [USER_SEX, USER_SEX_LABEL] = CreateConstants<UserSex>({
@@ -70,16 +70,16 @@ export const [PAYMENT_TYPE, PAYMENT_TYPE_LABEL] = CreateConstants<PaymentType>({
 });
 
 export const [BARCODE_TYPE, BARCODE_TYPE_LABEL] = CreateConstants<BarcodeType>({
-    EAN_8: 'EAN_8',
-    EAN_13: 'EAN_13',
-    ITF_14: 'ITF_14',
-    GS_10: 'GS_10',
-    GS_1M: 'GS_1M',
+    EAN_8: 'EAN 8',
+    EAN_13: 'EAN 13',
+    ITF_14: 'ITF 14',
+    GS_10: 'GS 10',
+    GS_1M: 'GS 1M',
     SHORT: 'SHORT',
     FUR: 'FUR',
-    EGIAS_20: 'EGIAS_20',
-    EGIAS_30: 'EGIAS_30',
-    UNKNOWN: 'UNKNOWN',
+    EGIAS_20: 'EGIAS 20',
+    EGIAS_30: 'EGIAS 30',
+    UNKNOWN: 'Неизвестно',
 });
 
 export const [PRODUCT_TYPE, PRODUCT_TYPE_LABEL] = CreateConstants<ProductType>({

@@ -11,7 +11,11 @@ interface PrismaProductItem {
     basketItems?: Array<{
         quantity: number;
     }>;
-    images: Array<string>;
+    images: Array<{
+        id: number;
+        name: string;
+        path: string;
+    }>;
     rating: number;
     [key: string]: any;
 }
@@ -29,7 +33,13 @@ const baseProductScheme = {
             isActive: true,
         },
     },
-    images: true,
+    images: {
+        select: {
+            id: true,
+            name: true,
+            path: true,
+        },
+    },
     rating: true,
 };
 
@@ -59,7 +69,9 @@ export const includePagination = (page: number) => {
     };
 };
 
-export const formatProductScheme = <NotFormatedProduct extends PrismaProductItem>(product: NotFormatedProduct) => {
+export const formatProductScheme = <NotFormatedProduct extends PrismaProductItem>(
+    product: NotFormatedProduct
+) => {
     const formatProduct = {
         ...product,
         basketQuantity: product.basketItems?.[0]?.quantity || 0,
