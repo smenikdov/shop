@@ -18,9 +18,8 @@ const Tooltip = (props: TooltipProps) => {
         open,
         content,
         offset = 10,
-        triggers = ['hover'],
-        alignment = 'center',
-        side = 'left',
+        alignment = 'start',
+        side = 'top',
         ...otherProps
     } = props;
 
@@ -54,11 +53,11 @@ const Tooltip = (props: TooltipProps) => {
                 onMouseEnter={() => onControlledChange(true)}
                 onMouseLeave={() => onControlledChange(false)}
             >
-                {children}
+                {children} 
             </div>
 
             {(
-                <div
+                controlledValue && <div
                     ref={floatingReference}
                     role="tooltip"
                     className={mergedCls}
