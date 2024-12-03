@@ -2,6 +2,7 @@ import 'server-only';
 import prisma from '@/lib/prisma';
 import { Handler } from '@/utils/actions/routes';
 import { AccessDeniedResponse, SuccessResponse } from '@/utils/actions/responses';
+import type { MeasureUpdatePayload } from '@/features/measure/typings';
 import * as v from '@/utils/validate';
 
 export const measureUpdateHandler = new Handler({
@@ -14,7 +15,7 @@ export const measureUpdateHandler = new Handler({
         description: v.string(),
     }),
 
-    async request(payload: { measureId: integer, name: string; shortName: string; description: string }) {
+    async request(payload: MeasureUpdatePayload) {
         const measure = await prisma.measure.update({
             data: {
                 name: payload.name,

@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { Handler } from '@/utils/actions/routes';
 import { AccessDeniedResponse, SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
+import type { MeasureCreatePayload } from '@/features/measure/typings';
 
 export const measureCreateHandler = new Handler({
     name: 'Создание единицы измерения',
@@ -13,7 +14,7 @@ export const measureCreateHandler = new Handler({
         description: v.string(),
     }),
 
-    async request(payload: { name: string; shortName: string; description: string }) {
+    async request(payload: MeasureCreatePayload) {
         const measure = await prisma.measure.create({
             data: {
                 name: payload.name,

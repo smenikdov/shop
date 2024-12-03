@@ -37,7 +37,7 @@ import useNotification from '@/features/notification/hooks/useNotification';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import useOnMount from '@/hooks/useOnMount';
 
-import { measureGetDetails } from '@/features/measure/routes';
+import { measureGetDetails, measureCreate, measureUpdate } from '@/features/measure/routes';
 
 export default function MeasureEditForm(props: MeasureEditFormProps) {
     const { isCreate, isEdit, measureId } = props;
@@ -45,7 +45,11 @@ export default function MeasureEditForm(props: MeasureEditFormProps) {
     const { notifyError, notifySuccess } = useNotification();
     const router = useRouter();
 
-    const form = useForm({
+    const form = useForm<{
+        name: string;
+        shortName: string;
+        description: string | null;
+    }>({
         initialState: {
             name: '',
             shortName: '',
@@ -85,7 +89,15 @@ export default function MeasureEditForm(props: MeasureEditFormProps) {
             return;
         }
 
-        const response = await measureCreate(form.serverState);
+        let response;
+        if (isEdit && measureId) {
+            response = await measureUpdate({
+                measureId,
+                ...form.serverState,
+            });
+        } else {
+            response = await measureCreate(form.serverState);
+        }
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
@@ -123,7 +135,10 @@ export default function MeasureEditForm(props: MeasureEditFormProps) {
                         <Button onClick={handelCancel}>Отмена</Button>
                     </div>
                     <div>
-                        <Button type="submit">Добавить</Button>
+                        <Button type="submit">
+                            { isCreate && 'Добавить' }
+                            { isEdit && 'Сохранить' }
+                        </Button>
                     </div>
                 </Flex>
             </Form>
