@@ -16,6 +16,7 @@ import type { AnyObject } from '@/typings';
 
 const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
     const {
+        inputValue,
         options,
         className,
         style,
@@ -32,8 +33,10 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
     } = props;
 
     const [controlledValue, onControlledChange] = useUncontrolledProp(value, null, onChange);
-    const [inputValue, setInputValue] = useState(
-        controlledValue ? onGetLabel(controlledValue) : ''
+    const [inputControlledValue, onInputControlledChange] = useUncontrolledProp(
+        inputValue,
+        controlledValue ? onGetLabel(controlledValue) : '',
+        onInputChange
     );
 
     const formContext = React.useContext(FormContext);
@@ -44,14 +47,20 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
 
     const mergedCls = classNames('autocomplete', className);
 
-    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
-        onInputChange?.(event);
-    };
-
     const handleSelect = (option: T) => {
         onControlledChange(option);
+        onInputControlledChange(onGetLabel(option));
         setIsOpenPopup(false);
+    };
+
+    const handleInputChange = (value: string) => {
+        onInputControlledChange(value);
+        const selectedOption = options.find((option: T) => onGetLabel(option) === value);
+        if (selectedOption) {
+            onControlledChange(selectedOption);
+        } else {
+            onControlledChange(null);
+        }
     };
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -73,7 +82,6 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
         if (isEnter) {
             if (options[focusedItemIndex] && isOpenPopup) {
                 handleSelect(options[focusedItemIndex]);
-                setIsOpenPopup(false);
             } else {
                 setIsOpenPopup(!isOpenPopup);
             }
@@ -95,16 +103,18 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
                 focusedItemIndex={focusedItemIndex}
                 onGetLabel={onGetLabel}
                 onGetValue={onGetValue}
+                onOutsideClickNeedHide
+                onOpenChange={(isOpen) => setIsOpenPopup(isOpen)}
             >
                 <Input
                     {...otherProps}
-                    value={inputValue}
+                    autoComplete="off"
+                    value={inputControlledValue}
                     className={mergedCls}
                     style={style}
                     onKeyDown={handleKeyDown}
-                    onChange={handleInput}
+                    onChange={(event) => handleInputChange(event.target.value)}
                     onFocus={() => setIsOpenPopup(true)}
-                    onBlur={() => setIsOpenPopup(false)}
                     addonAfter={
                         <Icon className="autocomplete-icon" icon={<MdOutlineKeyboardArrowDown />} />
                     }

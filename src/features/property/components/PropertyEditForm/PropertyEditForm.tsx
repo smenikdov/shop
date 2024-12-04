@@ -46,6 +46,7 @@ import useArray from '@/hooks/useArray';
 import useOnMount from '@/hooks/useOnMount';
 
 import { propertyGetDetails } from '@/features/property/routes';
+import { measureSuggest } from '@/features/measure/routes';
 
 export default function PropertyEditForm(props: PropertyEditFormProps) {
     const { isCreate, isEdit, propertyId } = props;
@@ -79,35 +80,45 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
 
     const options = useArray<PropertyOption>([]);
 
-    const loadForm = async () => {
-        if (!isEdit || !propertyId) {
-            return;
-        }
-
-        const response = await propertyGetDetails({ propertyId });
-        if (!response.isSuccess) {
-            notifyError(response.message);
-            return;
-        }
-        form.setState({
-            ...response.data,
-            measure: response.data.measure
-                ? {
-                      value: response.data.measure.id,
-                      label: response.data.measure.name,
-                  }
-                : null,
-        });
-        meta.setState(response.data.meta || {});
-        options.set(response.data.options);
-    };
-
-    useOnMount(() => {
-        loadForm();
-    });
+    //const loadForm = async () => {
+    //    if (!isEdit || !propertyId) {
+    //        return;
+    //    }
+    //
+    //    const response = await propertyGetDetails({ propertyId });
+    //    if (!response.isSuccess) {
+    //        notifyError(response.message);
+    //        return;
+    //    }
+    //    form.setState({
+    //        ...response.data,
+    //        measure: response.data.measure
+    //            ? {
+    //                  value: response.data.measure.id,
+    //                  label: response.data.measure.name,
+    //              }
+    //            : null,
+    //    });
+    //    meta.setState(response.data.meta || {});
+    //    options.set(response.data.options);
+    //};
+    //
+    //useOnMount(() => {
+    //    loadForm();
+    //});
 
     const handelCancel = () => {
         router.back();
+    };
+
+    const { value: measures, set: setMeasures } = useArray<{ id: integer; name: string }>([]);
+    const [ measureInputValue, setMeasureInputValue ] = useState('');
+    const onMeasuresInputChange = async (value: string) => {
+        setMeasureInputValue(value);
+        const response = await measureSuggest({ query: value });
+        if (response.isSuccess) {
+            setMeasures(response.data);
+        }
     };
 
     const handleApply = async () => {
@@ -167,10 +178,11 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
                         <FormItem label="Единица измерения" required>
                             <Autocomplete
                                 {...form.register('measure')}
+                                inputValue={measureInputValue}
                                 options={measures}
                                 onGetValue={(option) => option.id}
-                                onGetLabel={(option) => option.value}
-                                onInputChange={(event) => suggestMeasures(event.target.value)}
+                                onGetLabel={(option) => option.name}
+                                onInputChange={(value) => onMeasuresInputChange(value)}
                             />
                         </FormItem>
                     </Col>

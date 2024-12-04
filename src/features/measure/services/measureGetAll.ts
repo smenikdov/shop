@@ -32,6 +32,7 @@ export const measureGetAllHandler = new Handler({
                 id: payload.measureId || undefined,
                 name: {
                     contains: payload.name || undefined,
+                    mode: 'insensitive',
                 },
             },
         });

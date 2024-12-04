@@ -31,6 +31,7 @@ export const categoryGetAllHandler = new Handler({
                 id: payload.categoryId || undefined,
                 name: {
                     contains: payload.name || undefined,
+                    mode: 'insensitive',
                 },
             },
         });

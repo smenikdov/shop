@@ -27,6 +27,13 @@
         &-disabled {}
     }
 
+    &-no-data {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-style: italic;
+        color: $muted;
+    }
+
     &-primary {}
     &-secondary {}
     &-success {}

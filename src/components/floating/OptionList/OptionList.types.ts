@@ -23,6 +23,7 @@ export interface BaseOptionListProps<T> {
     onOutsideClickNeedHide?: boolean;
     onGetLabel?: (option: T) => React.ReactNode;
     onGetValue?: (option: T) => number | string;
+    noDataText?: string;
 }
 
 export type OptionListProps<T> = BaseOptionListProps<T> &

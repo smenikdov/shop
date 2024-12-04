@@ -5,6 +5,7 @@ import type { FieldVariant } from '../typings';
 import type { BaseSizes } from '@/typings';
 
 export interface BaseAutocompleteProps<T> {
+    inputValue?: string;
     className?: string;
     disabled?: boolean;
     readOnly?: boolean;
@@ -20,7 +21,7 @@ export interface BaseAutocompleteProps<T> {
     onChange?: (value: T | null) => void;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
     onKeyDown?: (event: React.KeyboardEvent) => void;
-    onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onInputChange?: (value: string) => void;
 }
 
 export type AutocompleteProps<T> = BaseAutocompleteProps<T>;

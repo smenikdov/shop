@@ -27,6 +27,7 @@ const OptionList = <T extends AnyObject>(props: OptionListProps<T>) => {
         onOutsideClickNeedHide = false,
         onGetLabel = (option: T) => option.label,
         onGetValue = (option: T) => option.value,
+        noDataText = 'Ничего не найдено',
         ...otherProps
     } = props;
 
@@ -98,9 +99,12 @@ const OptionList = <T extends AnyObject>(props: OptionListProps<T>) => {
                             data-value={option.value}
                             onClick={() => onControlledChange(option)}
                         >
-                            {option.label}
+                            {onGetLabel(option)}
                         </li>
                     ))}
+                    {options.length === 0 ? (
+                        <div className="option-list-no-data">{noDataText}</div>
+                    ) : null}
                 </ul>
             )}
         </>

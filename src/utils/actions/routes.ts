@@ -109,7 +109,7 @@ export function createRoute<
             const userRole = accessTokenData?.userRole as UserRole | undefined;
             if (!userRole || !access.includes(userRole)) {
                 // TODO 
-                return new AccessDeniedResponse();
+                return deepClone(new AccessDeniedResponse()) as RouteResponse;
             }
         }
         const response = await handler({
