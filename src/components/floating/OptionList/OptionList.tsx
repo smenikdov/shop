@@ -1,13 +1,16 @@
 'use client';
-import React, { useMemo, useState } from 'react';
 import './OptionList.scss';
 import classNames from 'classnames';
+
+import React, { useMemo, useState } from 'react';
 import { useUncontrolledProp } from 'uncontrollable';
-import type { OptionListProps } from './OptionList.types';
 import useFloating from '@/hooks/useFloating';
 import useOutsideClickHandler from '@/hooks/useOutsideClickHandler';
 
-const OptionList = (props: OptionListProps) => {
+import type { AnyObject } from '@/typings';
+import type { OptionListProps } from './OptionList.types';
+
+const OptionList = <T extends AnyObject>(props: OptionListProps<T>) => {
     const {
         className,
         color = 'primary',
@@ -22,6 +25,8 @@ const OptionList = (props: OptionListProps) => {
         onOpenChange,
         focusedItemIndex,
         onOutsideClickNeedHide = false,
+        onGetLabel = (option: T) => option.label,
+        onGetValue = (option: T) => option.value,
         ...otherProps
     } = props;
 
@@ -79,14 +84,19 @@ const OptionList = (props: OptionListProps) => {
                         <li
                             key={optionIndex}
                             className={classNames('option-list-item', {
-                                'option-list-item-selected': controlledValue === option.value,
+                                'option-list-item-selected':
+                                    !!controlledValue &&
+                                    onGetValue(controlledValue) === onGetValue(option),
                                 'option-list-item-disabled': option.disabled,
                                 'option-list-item-focused': focusedItemIndex === optionIndex,
                             })}
                             role="option"
-                            aria-selected={controlledValue === option.value}
+                            aria-selected={
+                                !!controlledValue &&
+                                onGetValue(controlledValue) === onGetValue(option)
+                            }
                             data-value={option.value}
-                            onClick={() => onControlledChange(option.value)}
+                            onClick={() => onControlledChange(option)}
                         >
                             {option.label}
                         </li>

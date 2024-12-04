@@ -11,7 +11,9 @@ import FormContext from '@/components/form/Form/Form.context';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import useOptionsList from '@/components/floating/OptionList/OptionsList.hooks';
 
-const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
+import type { AnyObject } from '@/typings';
+
+const Select = <T extends AnyObject>(props: SelectProps<T>) => {
     const {
         options,
         name,
@@ -28,13 +30,15 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         variant = 'md',
         onClick,
         onKeyDown,
+        onGetLabel = (option: T) => option.label,
+        onGetValue = (option: T) => option.value,
         ...otherProps
     } = props;
 
     const formContext = React.useContext(FormContext);
-    const [controlledValue, onControlledChange] = useUncontrolledProp(value, '', onChange);
-    const setValueAndHide = (newValue: string | number | null) => {
-        onControlledChange(newValue);
+    const [controlledValue, onControlledChange] = useUncontrolledProp(value, null, onChange);
+    const setValueAndHide = (option: T) => {
+        onControlledChange(onGetValue(option));
         setIsOpenPopup(false);
     };
     const optionsListId = React.useId();
@@ -92,7 +96,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
 
         if (isEnter) {
             if (options[focusedItemIndex] && isOpenPopup) {
-                setValueAndHide(options[focusedItemIndex].value);
+                setValueAndHide(options[focusedItemIndex]);
             } else {
                 setIsOpenPopup(!isOpenPopup);
             }
@@ -103,21 +107,25 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         }
     };
 
+    const selectedOption =
+        options.find((option: T) => onGetValue(option) === controlledValue) || null;
+
     return (
         <div className={classNames('select-container', className)}>
             <OptionList
                 id={optionsListId}
-                value={controlledValue}
+                value={selectedOption}
                 options={options}
                 onChange={setValueAndHide}
                 open={isOpenPopup}
                 focusedItemIndex={focusedItemIndex}
                 onOutsideClickNeedHide
                 onOpenChange={(isOpen) => setIsOpenPopup(isOpen)}
+                onGetLabel={onGetLabel}
+                onGetValue={onGetValue}
             >
                 <div className={mergedCls} style={style}>
                     <div
-                        ref={ref}
                         className="select-field"
                         tabIndex={0}
                         role="combobox"
@@ -132,10 +140,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
                         onKeyDown={handleKeyDown}
                         {...otherProps}
                     >
-                        <div className="select-content">
-                            {controlledValue &&
-                                options.find((option) => option.value === controlledValue)?.label}
-                        </div>
+                        <div className="select-content">{onGetLabel(selectedOption)}</div>
                     </div>
                     <Icon className="select-icon" icon={<MdOutlineKeyboardArrowDown />} />
                 </div>
@@ -144,8 +149,6 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
             {error && <div className="select-error">{error}</div>}
         </div>
     );
-});
-
-Select.displayName = 'Select';
+};
 
 export default Select;

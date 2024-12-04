@@ -15,6 +15,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
 import Select from '@/components/form/Select';
+import Autocomplete from '@/components/form/Autocomplete';
 import InputMask from '@/components/form/InputMask';
 import InputNumber from '@/components/form/InputNumber';
 import ModalDialog from '@/components/modal/ModalDialog';
@@ -38,37 +39,35 @@ import type { PropertyOption } from '@/features/property/typings';
 import type { PropertyType } from '@prisma/client';
 import type { AnyObject } from '@/typings';
 
-import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
+import { useForm, textInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import useArray from '@/hooks/useArray';
 import useOnMount from '@/hooks/useOnMount';
+
+import { propertyGetDetails } from '@/features/property/routes';
 
 export default function PropertyEditForm(props: PropertyEditFormProps) {
     const { isCreate, isEdit, propertyId } = props;
 
     const { notifyError, notifySuccess } = useNotification();
     const router = useRouter();
-    const [measures, setMeasures] = useState([
-        {
-            value: 1,
-            label: 'Square meters',
-        },
-    ]);
-
     const showAddModal = () => {};
 
     const form = useForm<{
         name: string;
         description: string | null;
         type: PropertyType;
-        measureId: integer | null;
+        measure: {
+            id: integer;
+            name: string;
+        } | null;
     }>({
         initialState: {
             name: '',
             description: null,
             type: 'STRING',
-            measureId: null,
+            measure: null,
         },
         schema: v.object({}),
     });
@@ -80,24 +79,32 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
 
     const options = useArray<PropertyOption>([]);
 
-    //const loadForm = async () => {
-    //    if (!isEdit || !propertyId) {
-    //        return;
-    //    }
-    //
-    //    const response = await TODO({ propertyId });
-    //    if (!response.isSuccess) {
-    //        notifyError(response.message);
-    //        return;
-    //    }
-    //    form.setState(response.data);
-    //    meta.setState(response.data.meta);
-    //    options.set(response.data.options);
-    //};
+    const loadForm = async () => {
+        if (!isEdit || !propertyId) {
+            return;
+        }
 
-    //useOnMount(() => {
-    //    loadForm();
-    //});
+        const response = await propertyGetDetails({ propertyId });
+        if (!response.isSuccess) {
+            notifyError(response.message);
+            return;
+        }
+        form.setState({
+            ...response.data,
+            measure: response.data.measure
+                ? {
+                      value: response.data.measure.id,
+                      label: response.data.measure.name,
+                  }
+                : null,
+        });
+        meta.setState(response.data.meta || {});
+        options.set(response.data.options);
+    };
+
+    useOnMount(() => {
+        loadForm();
+    });
 
     const handelCancel = () => {
         router.back();
@@ -158,7 +165,13 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
                     </Col>
                     <Col md={6}>
                         <FormItem label="Единица измерения" required>
-                            <Select {...form.register('measure')} options={measures} />
+                            <Autocomplete
+                                {...form.register('measure')}
+                                options={measures}
+                                onGetValue={(option) => option.id}
+                                onGetLabel={(option) => option.value}
+                                onInputChange={(event) => suggestMeasures(event.target.value)}
+                            />
                         </FormItem>
                     </Col>
                 </Row>

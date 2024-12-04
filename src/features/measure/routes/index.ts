@@ -8,7 +8,7 @@ import { measureGetAllHandler } from '../services/measureGetAll';
 import { measureCreateHandler } from '../services/measureCreate';
 import { measureUpdateHandler } from '../services/measureUpdate';
 import { measureGetDetailsHandler } from '../services/measureGetDetails';
-import type { MeasureCreatePayload, MeasureUpdatePayload  } from '@/features/measure/typings';
+import type { MeasureCreatePayload, MeasureUpdatePayload } from '@/features/measure/typings';
 
 interface MeasureGetAllPayload {
     page: number;
