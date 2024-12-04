@@ -94,35 +94,35 @@ export default function MeasureEditForm(props: MeasureEditFormProps) {
     return (
         <div>
             <Form action={handleSubmit}>
-                <Title level={2} className="mb-sm">
+                <Title level={2} className="mb-lg">
                     Информация о единице измерения
                 </Title>
-                <Row gapX="md" gapY="sm">
-                    <Col md={6}>
-                        <FormItem label="Название">
+                <Row gapX="md" gapY="md">
+                    <Col md={4}>
+                        <FormItem label="Название" required>
                             <Input {...form.register('name', textInput)} />
                         </FormItem>
                     </Col>
-                    <Col md={6}>
-                        <FormItem label="Сокращение">
+                    <Col md={4}>
+                        <FormItem label="Сокращение" required>
                             <Input {...form.register('shortName', textInput)} />
                         </FormItem>
                     </Col>
-                    <Col md={6}>
+                    <Col md={4}>
                         <FormItem label="Описание">
                             <Input {...form.register('description', textInput)} />
                         </FormItem>
                     </Col>
                 </Row>
 
-                <Flex justify="flex-end" gapX="md" className="mt-sm">
+                <Flex justify="flex-end" gapX="md" className="mt-xl">
                     <div>
                         <Button onClick={handelCancel}>Отмена</Button>
                     </div>
                     <div>
                         <Button type="submit">
-                            { isCreate && 'Добавить' }
-                            { isEdit && 'Сохранить' }
+                            {isCreate && 'Добавить'}
+                            {isEdit && 'Сохранить'}
                         </Button>
                     </div>
                 </Flex>

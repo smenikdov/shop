@@ -53,11 +53,11 @@ const Tooltip = (props: TooltipProps) => {
                 onMouseEnter={() => onControlledChange(true)}
                 onMouseLeave={() => onControlledChange(false)}
             >
-                {children} 
+                {children}
             </div>
 
-            {(
-                controlledValue && <div
+            {controlledValue && (
+                <div
                     ref={floatingReference}
                     role="tooltip"
                     className={mergedCls}

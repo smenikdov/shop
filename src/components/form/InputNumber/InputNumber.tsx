@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import classNames from 'classnames';
 
@@ -15,6 +15,7 @@ import './InputNumber.scss';
 
 const InputNumber = (props: InputNumberProps) => {
     const {
+        value,
         className,
         min = Number.MIN_SAFE_INTEGER,
         max = Number.MAX_SAFE_INTEGER,
@@ -26,31 +27,52 @@ const InputNumber = (props: InputNumberProps) => {
         ...otherProps
     } = props;
 
-    const [value, setValue] = useState('');
+    const numberToString = (number?: number): string => {
+        if (!number) {
+            return '';
+        }
+        number = Math.trunc(number);
+        if (number < min) {
+            number = min;
+        }
+        if (number > max) {
+            number = max;
+        }
+        return number.toString();
+    };
+
+    const [displayValue, setDisplayValue] = useState(numberToString(value));
+
+    useEffect(() => {
+        const newValue = numberToString(props.value);
+        if (displayValue !== newValue) {
+            setDisplayValue(newValue);
+        }
+    }, [value]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = event.target.value;
         const reg = /^-?\d*?$/;
         if (reg.test(inputValue) || inputValue === '' || inputValue === '-') {
-            setValue(inputValue);
+            setDisplayValue(inputValue);
             onChange?.(Number(inputValue) || 0);
         }
     };
 
     const handleBlur = (event: React.FocusEvent) => {
-        let valueTemp = value;
-        if (value.charAt(value.length - 1) === '.' || value === '-') {
-            valueTemp = value.slice(0, -1);
+        let valueTemp = displayValue;
+        if (displayValue.charAt(displayValue.length - 1) === '.' || displayValue === '-') {
+            valueTemp = displayValue.slice(0, -1);
         }
         valueTemp = valueTemp.replace(/0*(\d+)/, '$1');
-        setValue(valueTemp);
+        setDisplayValue(valueTemp);
         onChange?.(Number(valueTemp));
         onBlur?.(event);
     };
 
     const handleStep = (changer: number) => {
-        const newValue = Number(value) + changer;
-        setValue(newValue.toString());
+        const newValue = Number(displayValue) + changer;
+        setDisplayValue(newValue.toString());
         onChange?.(newValue);
     };
 
@@ -70,8 +92,8 @@ const InputNumber = (props: InputNumberProps) => {
     };
 
     const mergedCls = classNames('input-number', className, {
-        'input-number-min': min === Number(value),
-        'input-number-max': max === Number(value),
+        'input-number-min': min === value,
+        'input-number-max': max === value,
     });
 
     const DecrementButton = (

@@ -8,6 +8,7 @@ import { InputProps } from './Input.types';
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const {
+        value,
         className,
         disabled = false,
         readOnly = false,
@@ -57,6 +58,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 {addonBefore && <div className="input-addon">{addonBefore}</div>}
                 <input
                     {...otherProps}
+                    value={value || ''}
                     className="input-field"
                     disabled={mergedDisabled}
                     readOnly={mergedReadOnly}

@@ -33,9 +33,14 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
 
     const formContext = React.useContext(FormContext);
     const [controlledValue, onControlledChange] = useUncontrolledProp(value, '', onChange);
+    const setValueAndHide = (newValue: string | number | null) => {
+        onControlledChange(newValue);
+        setIsOpenPopup(false);
+    };
     const optionsListId = React.useId();
     const [isOpenPopup, setIsOpenPopup] = useState(false);
-    const { focusedItemIndex, increaseFocusItemIndex, decreaseFocusedItemIndex } = useOptionsList(options);
+    const { focusedItemIndex, increaseFocusItemIndex, decreaseFocusedItemIndex } =
+        useOptionsList(options);
 
     const [focused, setFocused] = useState(false);
     const mergedDisabled = formContext?.disabled || disabled;
@@ -66,7 +71,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         onClick?.(event);
-        setIsOpenPopup(true);
+        setIsOpenPopup(!isOpenPopup);
     };
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -82,18 +87,17 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         }
 
         if (isArrowUp) {
-            increaseFocusItemIndex()
+            increaseFocusItemIndex();
         }
 
         if (isEnter) {
             if (options[focusedItemIndex] && isOpenPopup) {
-                onControlledChange(options[focusedItemIndex].value);
-                setIsOpenPopup(false);
+                setValueAndHide(options[focusedItemIndex].value);
             } else {
                 setIsOpenPopup(!isOpenPopup);
             }
         }
-        
+
         if (isEsc) {
             setIsOpenPopup(false);
         }
@@ -101,46 +105,47 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
 
     return (
         <div className={classNames('select-container', className)}>
-            <div className={mergedCls} style={style}>
-                <div
-                    ref={ref}
-                    className="select-field"
-                    tabIndex={0}
-                    role="combobox"
-                    aria-expanded={isOpenPopup}
-                    aria-controls={optionsListId}
-                    aria-haspopup="listbox"
-                    aria-disabled={disabled}
-                    aria-readonly={readOnly}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    onClick={handleClick}
-                    onKeyDown={handleKeyDown}
-                    {...otherProps}
-                >
-                    <OptionList
-                        id={optionsListId}
-                        value={controlledValue}
-                        options={options}
-                        onChange={onControlledChange}
-                        open={isOpenPopup}
-                        onOpenChange={setIsOpenPopup}
-                        focusedItemIndex={focusedItemIndex}
+            <OptionList
+                id={optionsListId}
+                value={controlledValue}
+                options={options}
+                onChange={setValueAndHide}
+                open={isOpenPopup}
+                focusedItemIndex={focusedItemIndex}
+                onOutsideClickNeedHide
+                onOpenChange={(isOpen) => setIsOpenPopup(isOpen)}
+            >
+                <div className={mergedCls} style={style}>
+                    <div
+                        ref={ref}
+                        className="select-field"
+                        tabIndex={0}
+                        role="combobox"
+                        aria-expanded={isOpenPopup}
+                        aria-controls={optionsListId}
+                        aria-haspopup="listbox"
+                        aria-disabled={disabled}
+                        aria-readonly={readOnly}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        onClick={handleClick}
+                        onKeyDown={handleKeyDown}
+                        {...otherProps}
                     >
                         <div className="select-content">
-                            { controlledValue && options.find((option) => option.value === controlledValue)?.label }
+                            {controlledValue &&
+                                options.find((option) => option.value === controlledValue)?.label}
                         </div>
-                    </OptionList>
+                    </div>
+                    <Icon className="select-icon" icon={<MdOutlineKeyboardArrowDown />} />
                 </div>
-                <Icon
-                    className="select-icon"
-                    icon={<MdOutlineKeyboardArrowDown />}
-                />
-            </div>
+            </OptionList>
 
             {error && <div className="select-error">{error}</div>}
         </div>
     );
 });
+
+Select.displayName = 'Select';
 
 export default Select;

@@ -26,7 +26,7 @@
     color: $dark;
     line-height: 150%;
     font-size: var(--button-size);
-    padding: calc(var(--button-size) / 3) calc(var(--button-size) / 1.5);
+    padding: calc(var(--button-size) / 2) calc(var(--button-size) * 2);
     display: inline-flex;
     align-items: center;
     justify-content: center;

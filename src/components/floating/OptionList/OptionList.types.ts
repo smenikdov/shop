@@ -1,6 +1,5 @@
 import type React from 'react';
 import { BaseColors } from '@/typings';
-import { Placement } from '@floating-ui/react';
 
 export type Options = Array<{
     label: React.ReactNode;
@@ -17,11 +16,11 @@ export interface BaseOptionListProps {
     children: React.ReactNode;
     offset?: number;
     color?: BaseColors;
-    placement?: Placement;
     disabled?: boolean;
     value?: string | number | null;
     onChange?: (value: string | number | null) => void;
     focusedItemIndex?: integer;
+    onOutsideClickNeedHide?: boolean;
 }
 
 export type OptionListProps = BaseOptionListProps &

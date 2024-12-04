@@ -35,6 +35,8 @@ import { PROPERTY_TYPE, PROPERTY_TYPE_LABEL } from '@/constants';
 
 import type { PropertyEditFormProps } from './PropertyEditForm.types';
 import type { PropertyOption } from '@/features/property/typings';
+import type { PropertyType } from '@prisma/client';
+import type { AnyObject } from '@/typings';
 
 import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
@@ -47,49 +49,55 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
 
     const { notifyError, notifySuccess } = useNotification();
     const router = useRouter();
-    const [ measures, setMeasures] = useState([]);
+    const [measures, setMeasures] = useState([
+        {
+            value: 1,
+            label: 'Square meters',
+        },
+    ]);
 
     const showAddModal = () => {};
 
-    const form = useForm({
+    const form = useForm<{
+        name: string;
+        description: string | null;
+        type: PropertyType;
+        measureId: integer | null;
+    }>({
         initialState: {
             name: '',
-            description: '',
-            type: '',
-            measure: '',
+            description: null,
+            type: 'STRING',
+            measureId: null,
         },
         schema: v.object({}),
     });
 
-    const meta = useForm({
-        initialState: {
-            password: '',
-            phone: '',
-        },
+    const meta = useForm<AnyObject>({
+        initialState: {},
         schema: v.object({}),
     });
 
     const options = useArray<PropertyOption>([]);
 
-    const loadForm = async () => {
-        if (!isEdit || !propertyId) {
-            return;
-        }
+    //const loadForm = async () => {
+    //    if (!isEdit || !propertyId) {
+    //        return;
+    //    }
+    //
+    //    const response = await TODO({ propertyId });
+    //    if (!response.isSuccess) {
+    //        notifyError(response.message);
+    //        return;
+    //    }
+    //    form.setState(response.data);
+    //    meta.setState(response.data.meta);
+    //    options.set(response.data.options);
+    //};
 
-        const response = await TODO({ propertyId });
-        if (!response.isSuccess) {
-            notifyError(response.message);
-            return;
-        }
-        // TODO
-        form.setState(response.data);
-        meta.setState(response.data.meta);
-        options.set(response.data.options);
-    }; 
-
-    useOnMount(() => {
-        loadForm();
-    });
+    //useOnMount(() => {
+    //    loadForm();
+    //});
 
     const handelCancel = () => {
         router.back();
@@ -126,81 +134,85 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
     return (
         <div>
             <Form action={handleApply}>
-                <Title level={2} className="mb-sm">
+                <Title level={2} className="mb-lg">
                     Информация о свойстве
                 </Title>
-                <Row gapX="md" gapY="sm">
+                <Row gapX="md" gapY="md">
                     <Col md={6}>
-                        <FormItem label="Название">
+                        <FormItem label="Название" required>
                             <Input {...form.register('name', textInput)} />
                         </FormItem>
                     </Col>
                     <Col md={6}>
-                        <FormItem label="Описание">
+                        <FormItem label="Описание" required>
                             <Input {...form.register('description', textInput)} />
                         </FormItem>
                     </Col>
                     <Col md={6}>
-                        <FormItem label="Тип">
-                            <Select {...form.register('type')} options={getOptionsFromConstants(PROPERTY_TYPE_LABEL)} />
+                        <FormItem label="Тип" required>
+                            <Select
+                                {...form.register('type')}
+                                options={getOptionsFromConstants(PROPERTY_TYPE_LABEL)}
+                            />
                         </FormItem>
                     </Col>
                     <Col md={6}>
-                        <FormItem label="Единица измерения">
+                        <FormItem label="Единица измерения" required>
                             <Select {...form.register('measure')} options={measures} />
                         </FormItem>
                     </Col>
                 </Row>
 
-                <Title level={2} className="mt-lg mb-sm">
+                <Title level={2} className="mt-xl mb-lg">
                     Информация для заполнения
                 </Title>
-                <Row gapX="md" gapY="sm">
-                    { form.serverState.type === PROPERTY_TYPE.STRING && (
-                        <Row gapX="md" gapY="sm">
+                <div>
+                    {form.serverState.type === PROPERTY_TYPE.STRING && (
+                        <Row gapX="md" gapY="md">
                             <Col md={6}>
-                                <FormItem label="Максимальная длинна">
+                                <FormItem label="Максимальная длинна" required>
                                     <InputNumber {...meta.register('maxLength')} />
                                 </FormItem>
                             </Col>
                             <Col md={6}>
-                                <FormItem label="Минимальная длинна">
+                                <FormItem label="Минимальная длинна" required>
                                     <InputNumber {...meta.register('minLength')} />
                                 </FormItem>
                             </Col>
                         </Row>
                     )}
-                    
-                    { form.serverState.type === PROPERTY_TYPE.NUMBER && (
-                        <Row gapX="md" gapY="sm">
+
+                    {form.serverState.type === PROPERTY_TYPE.NUMBER && (
+                        <Row gapX="md" gapY="md">
                             <Col md={6}>
-                                <FormItem label="Максимальное значение">
+                                <FormItem label="Максимальное значение" required>
                                     <InputNumber {...meta.register('max')} />
                                 </FormItem>
                             </Col>
                             <Col md={6}>
-                                <FormItem label="Минимальное значение">
+                                <FormItem label="Минимальное значение" required>
                                     <InputNumber {...meta.register('min')} />
                                 </FormItem>
                             </Col>
                         </Row>
                     )}
 
-                    { form.serverState.type === PROPERTY_TYPE.SELECT && (
+                    {form.serverState.type === PROPERTY_TYPE.SELECT && (
                         <div>
-                            <Button onClick={showAddModal}>
-                                Добавить вариант
-                            </Button>
+                            <Button onClick={showAddModal}>Добавить вариант</Button>
                         </div>
                     )}
-                </Row>
+                </div>
 
-                <Flex justify="flex-end" gapX="md" className="mt-sm">
+                <Flex justify="flex-end" gapX="md" className="mt-xl">
                     <div>
                         <Button onClick={handelCancel}>Отмена</Button>
                     </div>
                     <div>
-                        <Button type="submit">Добавить</Button>
+                        <Button type="submit">
+                            {isCreate && 'Добавить'}
+                            {isEdit && 'Сохранить'}
+                        </Button>
                     </div>
                 </Flex>
             </Form>
