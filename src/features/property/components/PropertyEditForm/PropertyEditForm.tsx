@@ -35,15 +35,16 @@ import { getOptionsFromConstants } from '@/constants/constants.utils';
 import { PROPERTY_TYPE, PROPERTY_TYPE_LABEL } from '@/constants';
 
 import type { PropertyEditFormProps } from './PropertyEditForm.types';
-import type { PropertyOption } from '@/features/property/typings';
 import type { PropertyType } from '@prisma/client';
 import type { AnyObject } from '@/typings';
+import type { TableColumns } from '@/components/Table';
 
 import { useForm, textInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import useArray from '@/hooks/useArray';
 import useOnMount from '@/hooks/useOnMount';
+import useMessage from '@/features/message/hooks/useMessage';
 
 import { propertyGetDetails } from '@/features/property/routes';
 import { measureSuggest } from '@/features/measure/routes';
@@ -52,8 +53,15 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
     const { isCreate, isEdit, propertyId } = props;
 
     const { notifyError, notifySuccess } = useNotification();
+    const { prompt } = useMessage();
+
     const router = useRouter();
-    const showAddModal = () => {};
+    const addNewOption = async () => {
+        const newName = await prompt('Введите название нового варианта');
+        if (newName) {
+            options.push({ id: null, name: newName });
+        }
+    };
 
     const form = useForm<{
         name: string;
@@ -78,7 +86,11 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         schema: v.object({}),
     });
 
-    const options = useArray<PropertyOption>([]);
+    interface OptionsTableItem {
+        id?: integer | null;
+        name: string;
+    }
+    const options = useArray<OptionsTableItem>([]);
 
     //const loadForm = async () => {
     //    if (!isEdit || !propertyId) {
@@ -112,7 +124,7 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
     };
 
     const { value: measures, set: setMeasures } = useArray<{ id: integer; name: string }>([]);
-    const [ measureInputValue, setMeasureInputValue ] = useState('');
+    const [measureInputValue, setMeasureInputValue] = useState('');
     const onMeasuresInputChange = async (value: string) => {
         setMeasureInputValue(value);
         const response = await measureSuggest({ query: value });
@@ -134,20 +146,24 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         };
     };
 
-    // const columns: TableColumnsFor<typeof Option> = [
-    //     {
-    //         title: 'ID',
-    //         render: ({ id }) => id,
-    //     },
-    //     {
-    //         title: 'Название',
-    //         render: ({ name }) => name,
-    //     },
-    //     {
-    //         title: 'Сокращение',
-    //         render: ({ shortName }) => shortName,
-    //     },
-    // ];
+    const columns: TableColumns<OptionsTableItem> = [
+        {
+            title: 'ID',
+            render: ({ id }) => id || '-',
+        },
+        {
+            title: 'Название',
+            render: ({ name }) => name,
+        },
+        {
+            title: 'Действия',
+            render: ({ id }) => (
+                <Button color="danger" variant="link" size="sm">
+                    Удалить
+                </Button>
+            ),
+        },
+    ];
 
     return (
         <div>
@@ -224,7 +240,10 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
 
                     {form.serverState.type === PROPERTY_TYPE.SELECT && (
                         <div>
-                            <Button onClick={showAddModal}>Добавить вариант</Button>
+                            <Table columns={columns} data={options.value} />
+                            <Button onClick={addNewOption} className="mt-md">
+                                Добавить вариант
+                            </Button>
                         </div>
                     )}
                 </div>
