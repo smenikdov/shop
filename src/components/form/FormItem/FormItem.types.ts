@@ -6,4 +6,5 @@ export interface FormItemProps extends React.HTMLAttributes<HTMLElement> {
     style?: React.CSSProperties;
     label?: String;
     layout?: 'horizontal' | 'vertical';
+    required?: boolean;
 }

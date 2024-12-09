@@ -9,14 +9,21 @@ import type { FormItemProps } from './FormItem.types';
 import Text from '@/components/typography/Text';
 
 const FormItem = (props: FormItemProps) => {
-    const { className, style, children, label, layout = 'vertical', ...othersProps } = props;
-
-    const [isValid, setIsValid] = useState(true);
-    const [error, setError] = useState('');
-
-    const formContext = React.useContext(FormContext);
-
-    const mergedCls = classNames(className, 'form-item', `form-item-${layout}`);
+    const {
+        className,
+        style,
+        children,
+        label,
+        required = false,
+        layout = 'vertical',
+        ...othersProps
+    } = props;
+    const mergedCls = classNames(
+        className,
+        'form-item',
+        { 'form-item-required': required },
+        `form-item-${layout}`
+    );
 
     const labelColProps: ColProps =
         layout === 'vertical'
@@ -38,17 +45,12 @@ const FormItem = (props: FormItemProps) => {
               };
 
     return (
-        <Row className={mergedCls} style={style} {...othersProps}>
+        <Row className={mergedCls} style={style} {...othersProps} gapX="xs" gapY="xs">
             <Col {...labelColProps}>
                 {label && <label className="form-item-label">{label}</label>}
             </Col>
             <Col {...controlColProps}>
                 {children && <div className="form-item-control">{children}</div>}
-                {error && (
-                    <div className="form-item-error">
-                        <Text color="danger">{error}</Text>
-                    </div>
-                )}
             </Col>
         </Row>
     );

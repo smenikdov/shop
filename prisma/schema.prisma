@@ -157,7 +157,7 @@ model Property {
 
 model PropertyOption {
     id         Int    @id @default(autoincrement())
-    value      String
+    name       String
     propertyId Int
 
     property Property @relation(fields: [propertyId], references: [id])

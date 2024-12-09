@@ -16,7 +16,6 @@
         "seed": "tsx prisma/seed.ts"
     },
     "dependencies": {
-        "@floating-ui/react": "^0.26.16",
         "@prisma/client": "^5.13.0",
         "@reduxjs/toolkit": "^2.2.4",
         "axios": "^1.7.0",

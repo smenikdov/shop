@@ -13,23 +13,21 @@ import ModalTemplate from '../ModalTemplate';
 
 import type { ModalDialogProps } from './ModalDialog.types';
 
-import { MdClose } from "react-icons/md";
+import { MdClose } from 'react-icons/md';
 
 const ModalDialog = (props: ModalDialogProps) => {
-    const {
-        children,
-        title,
-        isOpen,
-        style,
-        className,
-        onClose,
-        ...othersProps
-    } = props;
+    const { children, title, isOpen, style, className, onClose, ...othersProps } = props;
 
     const mergedCls = classNames(className, 'modal-dialog');
 
     return (
-        <ModalTemplate {...othersProps} isOpen={isOpen} onClose={onClose} className={mergedCls} overlayClassName="modal-dialog-overlay">
+        <ModalTemplate
+            {...othersProps}
+            isOpen={isOpen}
+            onClose={onClose}
+            className={mergedCls}
+            overlayClassName="modal-dialog-overlay"
+        >
             <div className="modal-dialog-content">
                 <Flex className="modal-dialog-header" justify="space-between">
                     <Title level={2} className="modal-dialog-title">
@@ -44,9 +42,7 @@ const ModalDialog = (props: ModalDialogProps) => {
                     />
                 </Flex>
 
-                <div className="modal-dialog-body">
-                    {children}
-                </div>
+                <div className="modal-dialog-body">{children}</div>
             </div>
         </ModalTemplate>
     );

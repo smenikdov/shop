@@ -1,24 +1,16 @@
 'use client';
-import React, { useMemo, useState } from 'react';
 import './OptionList.scss';
 import classNames from 'classnames';
-import { useUncontrolledProp } from 'uncontrollable';
-import type { OptionListProps } from './OptionList.types';
-import {
-    useFloating,
-    autoUpdate,
-    offset as floatingOffset,
-    flip as floatingFlip,
-    shift as floatingShift,
-    useHover,
-    useFocus,
-    useClick,
-    useDismiss,
-    useRole,
-    useInteractions,
-} from '@floating-ui/react';
 
-const OptionList = (props: OptionListProps) => {
+import React, { useMemo, useState } from 'react';
+import { useUncontrolledProp } from 'uncontrollable';
+import useFloating from '@/hooks/useFloating';
+import useOutsideClickHandler from '@/hooks/useOutsideClickHandler';
+
+import type { AnyObject } from '@/typings';
+import type { OptionListProps } from './OptionList.types';
+
+const OptionList = <T extends AnyObject>(props: OptionListProps<T>) => {
     const {
         className,
         color = 'primary',
@@ -29,10 +21,13 @@ const OptionList = (props: OptionListProps) => {
         onChange,
         open,
         offset = 10,
-        placement = 'bottom-start',
         options,
         onOpenChange,
         focusedItemIndex,
+        onOutsideClickNeedHide = false,
+        onGetLabel = (option: T) => option.label,
+        onGetValue = (option: T) => option.value,
+        noDataText = 'Ничего не найдено',
         ...otherProps
     } = props;
 
@@ -43,12 +38,22 @@ const OptionList = (props: OptionListProps) => {
         onOpenChange
     );
 
-    const { refs, floatingStyles, context } = useFloating({
-        open: controlledOpenValue,
-        onOpenChange: onControlledOpenChange,
-        middleware: [floatingOffset(offset), floatingFlip(), floatingShift()],
-        whileElementsMounted: autoUpdate,
-        placement: placement,
+    const containerReference = React.useRef(null);
+    const floatingReference = React.useRef(null);
+    useOutsideClickHandler([containerReference, floatingReference], () => {
+        if (onOutsideClickNeedHide) {
+            onControlledOpenChange(false);
+        }
+    });
+    const { floatingStyles } = useFloating({
+        containerReference,
+        floatingReference,
+        isVisible: controlledOpenValue,
+        offset,
+        flip: true,
+        shift: true,
+        side: 'bottom',
+        alignment: 'start',
     });
 
     const mergedCls = classNames('option-list', `option-list-${color}`, className);
@@ -57,17 +62,11 @@ const OptionList = (props: OptionListProps) => {
         return { ...floatingStyles, ...style };
     }, [floatingStyles, style]);
 
-    const dismiss = useDismiss(context);
-    const interactions = [dismiss];
-
-    const { getReferenceProps, getFloatingProps } = useInteractions(interactions);
-
     return (
         <>
             <div
                 className="option-list-container"
-                ref={refs.setReference}
-                {...getReferenceProps()}
+                ref={containerReference}
                 aria-disabled={disabled}
             >
                 {children}
@@ -75,30 +74,37 @@ const OptionList = (props: OptionListProps) => {
 
             {controlledOpenValue && (
                 <ul
-                    ref={refs.setFloating}
+                    ref={floatingReference}
                     className={mergedCls}
                     style={mergedStyle}
                     role="listbox"
                     tabIndex={-1}
-                    {...getFloatingProps()}
                     {...otherProps}
                 >
                     {options.map((option, optionIndex) => (
                         <li
                             key={optionIndex}
                             className={classNames('option-list-item', {
-                                'option-list-item-selected': controlledValue === option.value,
+                                'option-list-item-selected':
+                                    !!controlledValue &&
+                                    onGetValue(controlledValue) === onGetValue(option),
                                 'option-list-item-disabled': option.disabled,
                                 'option-list-item-focused': focusedItemIndex === optionIndex,
                             })}
                             role="option"
-                            aria-selected={controlledValue === option.value}
+                            aria-selected={
+                                !!controlledValue &&
+                                onGetValue(controlledValue) === onGetValue(option)
+                            }
                             data-value={option.value}
-                            onClick={() => onControlledChange(option.value)}
+                            onClick={() => onControlledChange(option)}
                         >
-                            {option.label}
+                            {onGetLabel(option)}
                         </li>
                     ))}
+                    {options.length === 0 ? (
+                        <div className="option-list-no-data">{noDataText}</div>
+                    ) : null}
                 </ul>
             )}
         </>

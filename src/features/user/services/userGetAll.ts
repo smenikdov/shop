@@ -40,6 +40,7 @@ export const userGetAllHandler = new Handler({
                 },
                 phone: {
                     contains: payload.phone || undefined,
+                    mode: 'insensitive',
                 },
             },
         });

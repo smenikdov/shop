@@ -8,7 +8,9 @@ import { measureGetAllHandler } from '../services/measureGetAll';
 import { measureCreateHandler } from '../services/measureCreate';
 import { measureUpdateHandler } from '../services/measureUpdate';
 import { measureGetDetailsHandler } from '../services/measureGetDetails';
-import type { MeasureCreatePayload, MeasureUpdatePayload  } from '@/features/measure/typings';
+import { measureSuggestHandler } from '../services/measureSuggest';
+
+import type { MeasureCreatePayload, MeasureUpdatePayload } from '@/features/measure/typings';
 
 interface MeasureGetAllPayload {
     page: number;
@@ -41,5 +43,12 @@ export const measureGetDetails = createRoute({
     access: ['ADMIN'],
     async handler({ payload }: RouteData<{ measureId: integer }>) {
         return measureGetDetailsHandler.execute(payload);
+    },
+});
+
+export const measureSuggest = createRoute({
+    access: ['ADMIN'],
+    async handler({ payload }: RouteData<{ query: string }>) {
+        return measureSuggestHandler.execute(payload);
     },
 });

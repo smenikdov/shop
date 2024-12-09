@@ -6,6 +6,10 @@ import {
     messageDelete as messageDeleteAction,
 } from '../store';
 
+const messages: {
+    [messegeId: string]: Function;
+} = {};
+
 const useMessage = () => {
     const dispatch = useAppDispatch();
 
@@ -17,23 +21,42 @@ const useMessage = () => {
                 id: messageId,
             })
         );
+        const promise = new Promise((resolve) => {
+            messages[messageId] = resolve;
+        });
+        return promise;
     };
 
     const alert = (message: string) => {
-        createMessage({
+        return createMessage({
             title: 'Подтвердите действие',
             message: message,
+            type: 'ALERT',
         });
     };
 
     const confirm = (message: string) => {
-        createMessage({
+        return createMessage({
             title: 'Подтвердите действие',
             message: message,
+            type: 'CONFIRM',
         });
     };
 
-    return { alert, confirm } as const;
+    const prompt = (message: string) => {
+        return createMessage({
+            title: 'Подтвердите действие',
+            message: message,
+            type: 'PROMPT',
+        });
+    };
+
+    const confirmMessage = (messageId: string, data) => {
+        messages[messageId](data);
+        delete messages[messageId];
+    };
+
+    return { alert, confirm, prompt, confirmMessage } as const;
 };
 
 export default useMessage;

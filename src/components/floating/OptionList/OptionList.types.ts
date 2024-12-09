@@ -1,28 +1,30 @@
 import type React from 'react';
-import { BaseColors } from '@/typings';
-import { Placement } from '@floating-ui/react';
+import type { BaseColors } from '@/typings';
 
-export type Options = Array<{
+export type DefaultOption = {
     label: React.ReactNode;
     value: string | number;
     disabled?: boolean;
-}>;
+};
 
-export interface BaseOptionListProps {
+export interface BaseOptionListProps<T> {
     className?: string;
     style?: React.CSSProperties;
     open?: boolean;
     onOpenChange?: (value: boolean) => void;
-    options: Options;
+    options: Array<T>;
     children: React.ReactNode;
     offset?: number;
     color?: BaseColors;
-    placement?: Placement;
     disabled?: boolean;
-    value?: string | number | null;
-    onChange?: (value: string | number | null) => void;
+    value?: T | null;
+    onChange?: (option: T) => void;
     focusedItemIndex?: integer;
+    onOutsideClickNeedHide?: boolean;
+    onGetLabel?: (option: T) => React.ReactNode;
+    onGetValue?: (option: T) => number | string;
+    noDataText?: string;
 }
 
-export type OptionListProps = BaseOptionListProps &
-    Omit<React.HTMLAttributes<HTMLUListElement>, keyof BaseOptionListProps>;
+export type OptionListProps<T> = BaseOptionListProps<T> &
+    Omit<React.HTMLAttributes<HTMLUListElement>, keyof BaseOptionListProps<T>>;

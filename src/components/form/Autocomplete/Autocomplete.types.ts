@@ -4,7 +4,8 @@ import type { Options } from '@/components/floating/OptionList';
 import type { FieldVariant } from '../typings';
 import type { BaseSizes } from '@/typings';
 
-export interface BaseAutocompleteProps {
+export interface BaseAutocompleteProps<T> {
+    inputValue?: string;
     className?: string;
     disabled?: boolean;
     readOnly?: boolean;
@@ -14,10 +15,13 @@ export interface BaseAutocompleteProps {
     size?: BaseSizes;
     error?: React.ReactNode;
     options: Options;
-    value?: string | number | null;
-    onChange?: (value: string | number | null) => void;
+    value?: T | null;
+    onGetLabel?: (option: T) => React.ReactNode;
+    onGetValue?: (option: T) => number | string;
+    onChange?: (value: T | null) => void;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
     onKeyDown?: (event: React.KeyboardEvent) => void;
+    onInputChange?: (value: string) => void;
 }
 
-export type AutocompleteProps = BaseAutocompleteProps;
+export type AutocompleteProps<T> = BaseAutocompleteProps<T>;

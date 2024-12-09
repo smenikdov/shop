@@ -34,6 +34,7 @@ export const productGetAllHandler = new Handler({
                 id: payload.productId || undefined,
                 name: {
                     contains: payload.name || undefined,
+                    mode: 'insensitive',
                 },
             },
         });

@@ -10,7 +10,6 @@
 
     &-container {
         position: relative;
-        width: fit-content;
     }
 
     &-item {
@@ -23,9 +22,16 @@
         }
         &-selected {
             background: $light;
-            font-weight: 600;
+            font-weight: 500;
         }
         &-disabled {}
+    }
+
+    &-no-data {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-style: italic;
+        color: $muted;
     }
 
     &-primary {}

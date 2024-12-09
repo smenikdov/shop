@@ -15,6 +15,7 @@ import Button from '@/components/Button';
 import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
 import Select from '@/components/form/Select';
+import Autocomplete from '@/components/form/Autocomplete';
 import InputMask from '@/components/form/InputMask';
 import InputNumber from '@/components/form/InputNumber';
 import ModalDialog from '@/components/modal/ModalDialog';
@@ -34,65 +35,102 @@ import { getOptionsFromConstants } from '@/constants/constants.utils';
 import { PROPERTY_TYPE, PROPERTY_TYPE_LABEL } from '@/constants';
 
 import type { PropertyEditFormProps } from './PropertyEditForm.types';
-import type { PropertyOption } from '@/features/property/typings';
+import type { PropertyType } from '@prisma/client';
+import type { AnyObject } from '@/typings';
+import type { TableColumns } from '@/components/Table';
 
-import { useForm, textInput, phoneInput, baseInput } from '@/hooks/useForm';
+import { useForm, textInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import useArray from '@/hooks/useArray';
 import useOnMount from '@/hooks/useOnMount';
+import useMessage from '@/features/message/hooks/useMessage';
+
+import { propertyGetDetails } from '@/features/property/routes';
+import { measureSuggest } from '@/features/measure/routes';
 
 export default function PropertyEditForm(props: PropertyEditFormProps) {
     const { isCreate, isEdit, propertyId } = props;
 
     const { notifyError, notifySuccess } = useNotification();
+    const { prompt } = useMessage();
+
     const router = useRouter();
-    const [ measures, setMeasures] = useState([]);
+    const addNewOption = async () => {
+        const newName = await prompt('Введите название нового варианта');
+        if (newName) {
+            options.push({ id: null, name: newName });
+        }
+    };
 
-    const showAddModal = () => {};
-
-    const form = useForm({
+    const form = useForm<{
+        name: string;
+        description: string | null;
+        type: PropertyType;
+        measure: {
+            id: integer;
+            name: string;
+        } | null;
+    }>({
         initialState: {
             name: '',
-            description: '',
-            type: '',
-            measure: '',
+            description: null,
+            type: 'STRING',
+            measure: null,
         },
         schema: v.object({}),
     });
 
-    const meta = useForm({
-        initialState: {
-            password: '',
-            phone: '',
-        },
+    const meta = useForm<AnyObject>({
+        initialState: {},
         schema: v.object({}),
     });
 
-    const options = useArray<PropertyOption>([]);
+    interface OptionsTableItem {
+        id?: integer | null;
+        name: string;
+    }
+    const options = useArray<OptionsTableItem>([]);
 
-    const loadForm = async () => {
-        if (!isEdit || !propertyId) {
-            return;
-        }
-
-        const response = await TODO({ propertyId });
-        if (!response.isSuccess) {
-            notifyError(response.message);
-            return;
-        }
-        // TODO
-        form.setState(response.data);
-        meta.setState(response.data.meta);
-        options.set(response.data.options);
-    }; 
-
-    useOnMount(() => {
-        loadForm();
-    });
+    //const loadForm = async () => {
+    //    if (!isEdit || !propertyId) {
+    //        return;
+    //    }
+    //
+    //    const response = await propertyGetDetails({ propertyId });
+    //    if (!response.isSuccess) {
+    //        notifyError(response.message);
+    //        return;
+    //    }
+    //    form.setState({
+    //        ...response.data,
+    //        measure: response.data.measure
+    //            ? {
+    //                  value: response.data.measure.id,
+    //                  label: response.data.measure.name,
+    //              }
+    //            : null,
+    //    });
+    //    meta.setState(response.data.meta || {});
+    //    options.set(response.data.options);
+    //};
+    //
+    //useOnMount(() => {
+    //    loadForm();
+    //});
 
     const handelCancel = () => {
         router.back();
+    };
+
+    const { value: measures, set: setMeasures } = useArray<{ id: integer; name: string }>([]);
+    const [measureInputValue, setMeasureInputValue] = useState('');
+    const onMeasuresInputChange = async (value: string) => {
+        setMeasureInputValue(value);
+        const response = await measureSuggest({ query: value });
+        if (response.isSuccess) {
+            setMeasures(response.data);
+        }
     };
 
     const handleApply = async () => {
@@ -108,99 +146,117 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         };
     };
 
-    // const columns: TableColumnsFor<typeof Option> = [
-    //     {
-    //         title: 'ID',
-    //         render: ({ id }) => id,
-    //     },
-    //     {
-    //         title: 'Название',
-    //         render: ({ name }) => name,
-    //     },
-    //     {
-    //         title: 'Сокращение',
-    //         render: ({ shortName }) => shortName,
-    //     },
-    // ];
+    const columns: TableColumns<OptionsTableItem> = [
+        {
+            title: 'ID',
+            render: ({ id }) => id || '-',
+        },
+        {
+            title: 'Название',
+            render: ({ name }) => name,
+        },
+        {
+            title: 'Действия',
+            render: ({ id }) => (
+                <Button color="danger" variant="link" size="sm">
+                    Удалить
+                </Button>
+            ),
+        },
+    ];
 
     return (
         <div>
             <Form action={handleApply}>
-                <Title level={2} className="mb-sm">
+                <Title level={2} className="mb-lg">
                     Информация о свойстве
                 </Title>
-                <Row gapX="md" gapY="sm">
+                <Row gapX="md" gapY="md">
                     <Col md={6}>
-                        <FormItem label="Название">
+                        <FormItem label="Название" required>
                             <Input {...form.register('name', textInput)} />
                         </FormItem>
                     </Col>
                     <Col md={6}>
-                        <FormItem label="Описание">
+                        <FormItem label="Описание" required>
                             <Input {...form.register('description', textInput)} />
                         </FormItem>
                     </Col>
                     <Col md={6}>
-                        <FormItem label="Тип">
-                            <Select {...form.register('type')} options={getOptionsFromConstants(PROPERTY_TYPE_LABEL)} />
+                        <FormItem label="Тип" required>
+                            <Select
+                                {...form.register('type')}
+                                options={getOptionsFromConstants(PROPERTY_TYPE_LABEL)}
+                            />
                         </FormItem>
                     </Col>
                     <Col md={6}>
-                        <FormItem label="Единица измерения">
-                            <Select {...form.register('measure')} options={measures} />
+                        <FormItem label="Единица измерения" required>
+                            <Autocomplete
+                                {...form.register('measure')}
+                                inputValue={measureInputValue}
+                                options={measures}
+                                onGetValue={(option) => option.id}
+                                onGetLabel={(option) => option.name}
+                                onInputChange={(value) => onMeasuresInputChange(value)}
+                            />
                         </FormItem>
                     </Col>
                 </Row>
 
-                <Title level={2} className="mt-lg mb-sm">
+                <Title level={2} className="mt-xl mb-lg">
                     Информация для заполнения
                 </Title>
-                <Row gapX="md" gapY="sm">
-                    { form.serverState.type === PROPERTY_TYPE.STRING && (
-                        <Row gapX="md" gapY="sm">
+                <div>
+                    {form.serverState.type === PROPERTY_TYPE.STRING && (
+                        <Row gapX="md" gapY="md">
                             <Col md={6}>
-                                <FormItem label="Максимальная длинна">
+                                <FormItem label="Максимальная длинна" required>
                                     <InputNumber {...meta.register('maxLength')} />
                                 </FormItem>
                             </Col>
                             <Col md={6}>
-                                <FormItem label="Минимальная длинна">
+                                <FormItem label="Минимальная длинна" required>
                                     <InputNumber {...meta.register('minLength')} />
                                 </FormItem>
                             </Col>
                         </Row>
                     )}
-                    
-                    { form.serverState.type === PROPERTY_TYPE.NUMBER && (
-                        <Row gapX="md" gapY="sm">
+
+                    {form.serverState.type === PROPERTY_TYPE.NUMBER && (
+                        <Row gapX="md" gapY="md">
                             <Col md={6}>
-                                <FormItem label="Максимальное значение">
+                                <FormItem label="Максимальное значение" required>
                                     <InputNumber {...meta.register('max')} />
                                 </FormItem>
                             </Col>
                             <Col md={6}>
-                                <FormItem label="Минимальное значение">
+                                <FormItem label="Минимальное значение" required>
                                     <InputNumber {...meta.register('min')} />
                                 </FormItem>
                             </Col>
                         </Row>
                     )}
 
-                    { form.serverState.type === PROPERTY_TYPE.SELECT && (
+                    {form.serverState.type === PROPERTY_TYPE.SELECT && (
                         <div>
-                            <Button onClick={showAddModal}>
+                            <Table columns={columns} data={options.value} />
+                            <Button onClick={addNewOption} className="mt-md">
                                 Добавить вариант
                             </Button>
                         </div>
                     )}
-                </Row>
+                </div>
 
-                <Flex justify="flex-end" gapX="md" className="mt-sm">
+                <Flex justify="flex-end" gapX="md" className="mt-xl">
                     <div>
                         <Button onClick={handelCancel}>Отмена</Button>
                     </div>
                     <div>
-                        <Button type="submit">Добавить</Button>
+                        <Button type="submit">
+                            {isCreate && 'Добавить'}
+                            {isEdit && 'Сохранить'}
+                        </Button>
                     </div>
                 </Flex>
             </Form>

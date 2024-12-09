@@ -22,13 +22,9 @@ const Stepper = (props: StepperProps) => {
         ...otherProps
     } = props;
 
-    const windowSize = useWindowSize()
+    const windowSize = useWindowSize();
 
-    const [controlledValue, onControlledChange] = useUncontrolledProp(
-        value,
-        defaultStep,
-        onChange
-    );
+    const [controlledValue, onControlledChange] = useUncontrolledProp(value, defaultStep, onChange);
 
     const mergedDirection = useMemo(() => {
         if (responsiveBreakPoint && windowSize.width < responsiveBreakPoint) {
@@ -37,14 +33,12 @@ const Stepper = (props: StepperProps) => {
         return direction;
     }, [direction, windowSize, responsiveBreakPoint]);
 
-    const mergedCls = classNames(
-        'stepper',
-        `stepper-${ mergedDirection }`,
-        className,
-    );
+    const mergedCls = classNames('stepper', `stepper-${mergedDirection}`, className);
 
     const stepperContent = useMemo(() => {
-        const item = items.find((item, index) => item.value === controlledValue || index === controlledValue);
+        const item = items.find(
+            (item, index) => item.value === controlledValue || index === controlledValue
+        );
         return item?.content || null;
     }, [items, controlledValue]);
 
@@ -54,34 +48,23 @@ const Stepper = (props: StepperProps) => {
                 {items.map((item, index) => (
                     <div
                         key={item.value || index}
-                        className={classNames(
-                            'stepper-item',
-                            {
-                                'stepper-item-current': controlledValue === (item.value || index),
-                                'stepper-item-disabled': item.disabled,
-                                [`stepper-item-${ item.status }`]: item.status,
-                            },
-                        )}
+                        className={classNames('stepper-item', {
+                            'stepper-item-current': controlledValue === (item.value || index),
+                            'stepper-item-disabled': item.disabled,
+                            [`stepper-item-${item.status}`]: item.status,
+                        })}
                     >
-                        <Flex
-                            className="stepper-item-container"
-                            align="center"
-                            wrap="nowrap"
-                        >
+                        <Flex className="stepper-item-container" align="center" wrap="nowrap">
                             <Flex className="stepper-item-icon" align="center" justify="center">
-                                { index + 1 }
+                                {index + 1}
                             </Flex>
-                            <div className="stepper-item-name">
-                                {item.title}
-                            </div>
+                            <div className="stepper-item-name">{item.title}</div>
                         </Flex>
                     </div>
                 ))}
             </div>
 
-            <div className="stepper-content">
-                { stepperContent }
-            </div>
+            <div className="stepper-content">{stepperContent}</div>
         </div>
     );
 };

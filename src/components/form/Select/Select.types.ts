@@ -4,7 +4,7 @@ import type { Options } from '@/components/floating/OptionList';
 import type { FieldVariant } from '../typings';
 import type { BaseSizes } from '@/typings';
 
-export interface BaseSelectProps {
+export interface SelectProps<T> {
     className?: string;
     disabled?: boolean;
     readOnly?: boolean;
@@ -17,9 +17,9 @@ export interface BaseSelectProps {
     error?: React.ReactNode;
     options: Options;
     value?: string | number | null;
-    onChange?: (value: string | number | null) => void;
+    onChange?: (option: string | number | null) => void;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
     onKeyDown?: (event: React.KeyboardEvent) => void;
+    onGetLabel?: (option: T) => React.ReactNode;
+    onGetValue?: (option: T) => number | string;
 }
-
-export type SelectProps = BaseSelectProps;

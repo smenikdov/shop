@@ -1,99 +1,127 @@
-// 'use client';
+'use client';
 
-// import React, { useState } from 'react';
-// import './Autocomplete.scss';
-// import Input from '../Input';
-// import classNames from 'classnames';
-// import { AutocompleteProps } from './Autocomplete.types';
-// import { useUncontrolledProp } from 'uncontrollable';
-// import OptionList from '@/components/floating/OptionList';
-// import Icon from '@/components/Icon';
-// import FormContext from '@/components/form/Form/Form.context';
-// import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-// import useOptionsList from '@/components/floating/OptionList/OptionsList.hooks';
+import React, { useState } from 'react';
+import './Autocomplete.scss';
+import Input from '../Input';
+import classNames from 'classnames';
+import { AutocompleteProps } from './Autocomplete.types';
+import { useUncontrolledProp } from 'uncontrollable';
+import OptionList from '@/components/floating/OptionList';
+import Icon from '@/components/Icon';
+import FormContext from '@/components/form/Form/Form.context';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import useOptionsList from '@/components/floating/OptionList/OptionsList.hooks';
 
-// const Autocomplete = (props: AutocompleteProps) => {
-//     const { options, className, style, value, onChange, onClick, onKeyDown, ...otherProps } = props;
+import type { AnyObject } from '@/typings';
 
-//     const [controlledValue, onControlledChange] = useUncontrolledProp(value, '', onChange);
+const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
+    const {
+        inputValue,
+        options,
+        className,
+        style,
+        value,
+        onChange,
+        disabled,
+        readOnly,
+        onClick,
+        onKeyDown,
+        onGetLabel = (option: T) => option.label,
+        onGetValue = (option: T) => option.value,
+        onInputChange,
+        ...otherProps
+    } = props;
 
-//     const formContext = React.useContext(FormContext);
-//     const optionsListId = React.useId();
-//     const [isOpenPopup, setIsOpenPopup] = useState(false);
-//     const { focusedItemIndex, increaseFocusItemIndex, decreaseFocusedItemIndex } = useOptionsList(options);
+    const [controlledValue, onControlledChange] = useUncontrolledProp(value, null, onChange);
+    const [inputControlledValue, onInputControlledChange] = useUncontrolledProp(
+        inputValue,
+        controlledValue ? onGetLabel(controlledValue) : '',
+        onInputChange
+    );
 
-//     const [focused, setFocused] = useState(false);
-//     const mergedDisabled = formContext?.disabled || disabled;
-//     const mergedReadOnly = formContext?.readOnly || readOnly;
+    const formContext = React.useContext(FormContext);
+    const optionsListId = React.useId();
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
+    const { focusedItemIndex, increaseFocusItemIndex, decreaseFocusedItemIndex } =
+        useOptionsList(options);
 
-//     const mergedCls = classNames(
-//         'autocomplete',
-//         className,
-//     );
+    const mergedCls = classNames('autocomplete', className);
 
-//     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-//         onClick?.(event);
-//         setIsOpenPopup(true);
-//     };
+    const handleSelect = (option: T) => {
+        onControlledChange(option);
+        onInputControlledChange(onGetLabel(option));
+        setIsOpenPopup(false);
+    };
 
-//     const handleKeyDown = (event: React.KeyboardEvent) => {
-//         onKeyDown?.(event);
+    const handleInputChange = (value: string) => {
+        onInputControlledChange(value);
+        const selectedOption = options.find((option: T) => onGetLabel(option) === value);
+        if (selectedOption) {
+            onControlledChange(selectedOption);
+        } else {
+            onControlledChange(null);
+        }
+    };
 
-//         const isEnter = event.keyCode === 13;
-//         const isEsc = event.keyCode === 27;
-//         const isArrowUp = event.keyCode === 38;
-//         const isArrowDown = event.keyCode === 40;
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        onKeyDown?.(event);
 
-//         if (isArrowDown) {
-//             decreaseFocusedItemIndex();
-//         }
+        const isEnter = event.keyCode === 13;
+        const isEsc = event.keyCode === 27;
+        const isArrowUp = event.keyCode === 38;
+        const isArrowDown = event.keyCode === 40;
 
-//         if (isArrowUp) {
-//             increaseFocusItemIndex()
-//         }
+        if (isArrowDown) {
+            decreaseFocusedItemIndex();
+        }
 
-//         if (isEnter) {
-//             if (options[focusedItemIndex] && isOpenPopup) {
-//                 onControlledChange(options[focusedItemIndex].value);
-//                 setIsOpenPopup(false);
-//             } else {
-//                 setIsOpenPopup(!isOpenPopup);
-//             }
-//         }
-        
-//         if (isEsc) {
-//             setIsOpenPopup(false);
-//         }
-//     };
+        if (isArrowUp) {
+            increaseFocusItemIndex();
+        }
 
-//     return (
-//         <div className="autocomplete-container">
-//             <OptionList
-//                 id={optionsListId}
-//                 value={controlledValue}
-//                 options={options}
-//                 onChange={onControlledChange}
-//                 open={isOpenPopup}
-//                 onOpenChange={setIsOpenPopup}
-//                 focusedItemIndex={focusedItemIndex}
-//             >
-//                 <Input
-//                     {...otherProps}
-//                     value={controlledValue}
-//                     className={mergedCls}
-//                     style={style}
-//                     onClick={handleClick}
-//                     onKeyDown={handleKeyDown}
-//                     onChange={onControlledChange}
-//                 />
-//             </OptionList>
+        if (isEnter) {
+            if (options[focusedItemIndex] && isOpenPopup) {
+                handleSelect(options[focusedItemIndex]);
+            } else {
+                setIsOpenPopup(!isOpenPopup);
+            }
+        }
 
-//             <Icon
-//                 className="autocomplete-icon"
-//                 icon={<MdOutlineKeyboardArrowDown />}
-//             />
-//         </div>
-//     );
-// };
+        if (isEsc) {
+            setIsOpenPopup(false);
+        }
+    };
 
-// export default Autocomplete;
+    return (
+        <div className="autocomplete-container">
+            <OptionList
+                id={optionsListId}
+                value={controlledValue}
+                options={options}
+                onChange={handleSelect}
+                open={isOpenPopup}
+                focusedItemIndex={focusedItemIndex}
+                onGetLabel={onGetLabel}
+                onGetValue={onGetValue}
+                onOutsideClickNeedHide
+                onOpenChange={(isOpen) => setIsOpenPopup(isOpen)}
+            >
+                <Input
+                    {...otherProps}
+                    autoComplete="off"
+                    value={inputControlledValue}
+                    className={mergedCls}
+                    style={style}
+                    onKeyDown={handleKeyDown}
+                    onChange={(event) => handleInputChange(event.target.value)}
+                    onFocus={() => setIsOpenPopup(true)}
+                    addonAfter={
+                        <Icon className="autocomplete-icon" icon={<MdOutlineKeyboardArrowDown />} />
+                    }
+                />
+            </OptionList>
+        </div>
+    );
+};
+
+export default Autocomplete;
