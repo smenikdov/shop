@@ -8,3 +8,11 @@ export interface Message {
     id: string;
     type: MessageType;
 }
+
+export type AlertResult = { close: true } | { ok: true };
+
+export type ConfirmResult = { close: true } | { ok: true } | { cancel: true };
+
+export type PromptResult = { close: true } | { ok: true; message: string } | { cancel: true };
+
+export type AnyMessageResult = AlertResult | ConfirmResult | PromptResult;
