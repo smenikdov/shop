@@ -9,10 +9,17 @@ export interface Message {
     type: MessageType;
 }
 
-export type AlertResult = { close: true } | { ok: true };
+export interface MessageClose { close: true, ok?: undefined, cancel?: undefined };
+export interface MessageOk { close?: undefined, ok: true, cancel?: undefined };
+export interface MessageCancel { close?: undefined, ok?: undefined, cancel: true };
+export interface MessageOkPrompt extends MessageOk {
+    input: stirng;
+};
 
-export type ConfirmResult = { close: true } | { ok: true } | { cancel: true };
+export type AlertResult = MessageClose | MessageOk | MessageCancel;
 
-export type PromptResult = { close: true } | { ok: true; message: string } | { cancel: true };
+export type ConfirmResult = MessageClose | MessageOk | MessageCancel;
+
+export type PromptResult = MessageClose | MessageOkPrompt | MessageCancel;
 
 export type AnyMessageResult = AlertResult | ConfirmResult | PromptResult;

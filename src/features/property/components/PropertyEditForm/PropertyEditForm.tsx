@@ -38,7 +38,7 @@ import { measureSuggest } from '@/features/measure/routes';
 
 export default function PropertyEditForm(props: PropertyEditFormProps) {
     const { notifyError, notifySuccess } = useNotification();
-    const { prompt } = useMessage();
+    const { prompt, confirm } = useMessage();
 
     const router = useRouter();
 
@@ -72,8 +72,8 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
     const options = useArray<OptionsTableItem>([]);
     const addNewOption = async () => {
         const newName = await prompt('Введите название нового варианта');
-        if (newName) {
-            options.push({ name: newName });
+        if (newName.ok) {
+            options.push({ name: newName.input });
         }
     };
 
@@ -142,8 +142,10 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
     };
 
     const handleDeletePropertyOption = async (index: integer) => {
-        // TODO MESSAGE CONFIRM;
-        options.remove(index);
+        const result = await confirm('Вы уверены, что хотите удалить свойство?');
+        if (result.ok) {
+            options.remove(index);
+        }
     };
 
     const columns: TableColumns<OptionsTableItem> = [
