@@ -45,17 +45,18 @@ export const file = (error = 'Значение должно быть файло�
         ],
     });
 
+// TODO доделать проерку типа
 export const object = (fields: ObjectFieldsVlidators) => new ObjectValidator(fields);
 
-export const email = () =>
+export const email = (error = 'Неверный адрес электронной почты') =>
     string()
         .required()
-        .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Неверный адрес электронной почты');
+        .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, error);
 
-export const phone = () =>
+export const phone = (error = 'Неверный номер телефона') =>
     string()
         .required()
-        .pattern(/^7\d\d\d\d\d\d\d\d\d\d$/, 'Неверный номер телефона');
+        .pattern(/^7\d\d\d\d\d\d\d\d\d\d$/, error);
 
 export const password = () =>
     string()

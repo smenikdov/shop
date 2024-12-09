@@ -2,35 +2,22 @@
 
 import React, { useState } from 'react';
 
-import Container from '@/components/grid/Container';
 import Row from '@/components/grid/Row';
 import Col from '@/components/grid/Col';
-import Text from '@/components/typography/Text';
-import Paragraph from '@/components/typography/Paragraph';
 import Title from '@/components/typography/Title';
-import Link from '@/components/typography/Link';
-import Icon from '@/components/Icon';
-import Empty from '@/components/Empty';
 import Button from '@/components/Button';
-import Tooltip from '@/components/floating/Tooltip';
 import Input from '@/components/form/Input';
 import Select from '@/components/form/Select';
 import Autocomplete from '@/components/form/Autocomplete';
-import InputMask from '@/components/form/InputMask';
 import InputNumber from '@/components/form/InputNumber';
-import ModalDialog from '@/components/modal/ModalDialog';
 import Flex from '@/components/Flex';
 import Table from '@/components/Table';
 import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
-import Result from '@/components/Result';
-import Stepper from '@/components/Stepper';
 
 import styles from './PropertyEditForm.module.scss';
 
 import * as v from '@/utils/validate';
-import { formatPhoneNumber } from '@/utils/text';
-import { parseSearchParams as psp } from '@/utils/actions/search-params';
 import { getOptionsFromConstants } from '@/constants/constants.utils';
 import { PROPERTY_TYPE, PROPERTY_TYPE_LABEL } from '@/constants';
 
@@ -46,22 +33,14 @@ import useArray from '@/hooks/useArray';
 import useOnMount from '@/hooks/useOnMount';
 import useMessage from '@/features/message/hooks/useMessage';
 
-import { propertyGetDetails } from '@/features/property/routes';
+import { propertyGetDetails, propertyUpdate, propertyCreate } from '@/features/property/routes';
 import { measureSuggest } from '@/features/measure/routes';
 
 export default function PropertyEditForm(props: PropertyEditFormProps) {
-    const { isCreate, isEdit, propertyId } = props;
-
     const { notifyError, notifySuccess } = useNotification();
     const { prompt } = useMessage();
 
     const router = useRouter();
-    const addNewOption = async () => {
-        const newName = await prompt('Введите название нового варианта');
-        if (newName) {
-            options.push({ id: null, name: newName });
-        }
-    };
 
     const form = useForm<{
         name: string;
@@ -87,37 +66,37 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
     });
 
     interface OptionsTableItem {
-        id?: integer | null;
+        id?: integer;
         name: string;
     }
     const options = useArray<OptionsTableItem>([]);
+    const addNewOption = async () => {
+        const newName = await prompt('Введите название нового варианта');
+        if (newName) {
+            options.push({ name: newName });
+        }
+    };
 
-    //const loadForm = async () => {
-    //    if (!isEdit || !propertyId) {
-    //        return;
-    //    }
-    //
-    //    const response = await propertyGetDetails({ propertyId });
-    //    if (!response.isSuccess) {
-    //        notifyError(response.message);
-    //        return;
-    //    }
-    //    form.setState({
-    //        ...response.data,
-    //        measure: response.data.measure
-    //            ? {
-    //                  value: response.data.measure.id,
-    //                  label: response.data.measure.name,
-    //              }
-    //            : null,
-    //    });
-    //    meta.setState(response.data.meta || {});
-    //    options.set(response.data.options);
-    //};
-    //
-    //useOnMount(() => {
-    //    loadForm();
-    //});
+    const loadForm = async () => {
+        if (props.isCreate) {
+            return;
+        }
+
+        const response = await propertyGetDetails({ propertyId: props.propertyId });
+        if (!response.isSuccess) {
+            notifyError(response.message);
+            return;
+        }
+        form.setState({
+            ...response.data,
+        });
+        meta.setState(response.data.meta || {});
+        options.set(response.data.options);
+    };
+
+    useOnMount(() => {
+        loadForm();
+    });
 
     const handelCancel = () => {
         router.back();
@@ -139,11 +118,32 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
             return;
         }
 
-        const request = {
-            ...form.serverState,
-            meta: meta.serverState,
-            options: options.value,
-        };
+        let response;
+        if (props.isEdit) {
+            response = await propertyUpdate({
+                ...form.serverState,
+                propertyId: props.propertyId,
+                meta: meta.serverState,
+                options: options.value,
+            });
+        } else {
+            response = await propertyCreate({
+                ...form.serverState,
+                meta: meta.serverState,
+                options: options.value,
+            });
+        }
+        if (!response.isSuccess) {
+            notifyError(response.message);
+            return;
+        }
+
+        router.push('/admin/property');
+    };
+
+    const handleDeletePropertyOption = async (index: integer) => {
+        // TODO MESSAGE CONFIRM;
+        options.remove(index);
     };
 
     const columns: TableColumns<OptionsTableItem> = [
@@ -157,8 +157,13 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         },
         {
             title: 'Действия',
-            render: ({ id }) => (
-                <Button color="danger" variant="link" size="sm">
+            render: (propertyOption, index) => (
+                <Button
+                    color="danger"
+                    variant="link"
+                    size="sm"
+                    onClick={() => handleDeletePropertyOption(index)}
+                >
                     Удалить
                 </Button>
             ),
@@ -254,8 +259,8 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
                     </div>
                     <div>
                         <Button type="submit">
-                            {isCreate && 'Добавить'}
-                            {isEdit && 'Сохранить'}
+                            {props.isCreate && 'Добавить'}
+                            {props.isEdit && 'Сохранить'}
                         </Button>
                     </div>
                 </Flex>

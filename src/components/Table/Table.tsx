@@ -1,10 +1,11 @@
 import React from 'react';
 import './Table.scss';
 import classNames from 'classnames';
+import type { AnyObject } from '@/typings';
 
-import type { TableProps, TableColumn, TableHeadProps, TableBodyProps } from './Table.types';
+import type { TableProps, TableHeadProps, TableBodyProps } from './Table.types';
 
-const TableHead = (props: TableHeadProps) => {
+const TableHead = <DataType extends AnyObject>(props: TableHeadProps<DataType>) => {
     const { columns } = props;
 
     return (
@@ -20,7 +21,7 @@ const TableHead = (props: TableHeadProps) => {
     );
 };
 
-const TableBody = (props: TableBodyProps) => {
+const TableBody = <DataType extends AnyObject>(props: TableBodyProps<DataType>) => {
     const { columns, data } = props;
 
     return (
@@ -29,7 +30,7 @@ const TableBody = (props: TableBodyProps) => {
                 <tr key={dataIndex} className="table-row">
                     {columns.map((column, columnIndex) => (
                         <td key={columnIndex} className="table-cell">
-                            {column.render(data) || '—'}
+                            {column.render(data, dataIndex) || '—'}
                         </td>
                     ))}
                 </tr>
@@ -38,7 +39,7 @@ const TableBody = (props: TableBodyProps) => {
     );
 };
 
-const Table = (props: TableProps) => {
+const Table = <DataType extends AnyObject>(props: TableProps<DataType>) => {
     const { className, style, columns, data, caption, ...othersProps } = props;
 
     const mergedCls = classNames(className, 'table');

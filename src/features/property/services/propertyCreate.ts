@@ -4,36 +4,38 @@ import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 import type { PropertyCreatePayload } from '@/features/property/typings';
+import { PROPERTY_TYPE } from '@/constants';
 
 export const propertyCreateHandler = new Handler({
-    name: 'Создание своства',
-    errors: { default: 'Ошибка при создании своства' },
+    name: 'Создание свойства',
+    errors: { default: 'Ошибка при создании свойства' },
     schema: v.object({
-        userId: v.id(),
-        notice: v.string(),
-        delivery: v.object({
-            company: v.string(),
-            type: v.string(),
-            cityId: v.string(),
-            pointId: v.string(),
-            address: v.string(),
-        }),
-        paymentType: v.string(),
+        name: v.string(),
+        description: v.string().nullable(),
+        type: v.string().in(Object.values(PROPERTY_TYPE)).nullable(),
+        meta: v.object({}),
+        // TODO
+        // options
     }),
 
     async request(payload: PropertyCreatePayload) {
         const property = await prisma.property.create({
             data: {
-                userId: payload.userId,
-                status: ORDER_STATUS.PAYMENT,
-                total: total,
-                orderItems: userInfo.checkoutItems,
-                paymentType: payload.paymentType,
+                name: payload.name,
+                description: payload.description,
+                type: payload.type,
+                measureId: payload.measure?.id,
+                meta: payload.meta,
+                options: {
+                    create: payload.options,
+                },
             },
         });
 
-        return new SuccessResponse({ data: {
-            id: property.id,
-        }});
+        return new SuccessResponse({
+            data: {
+                id: property.id,
+            },
+        });
     },
 });

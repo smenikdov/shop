@@ -1,7 +1,9 @@
-import type React from 'react';
-
-export interface MeasureEditFormProps  {
-    isCreate?: boolean;
-    isEdit?: boolean;
-    measureId?: integer;
-}
+export type MeasureEditFormProps = {
+    isCreate: true;
+    isEdit: undefined;
+    measureId: undefined;
+} | {
+    isCreate: undefined;
+    isEdit: true;
+    measureId: integer;
+};

@@ -25,8 +25,6 @@ import useOnMount from '@/hooks/useOnMount';
 import { measureGetDetails, measureCreate, measureUpdate } from '@/features/measure/routes';
 
 export default function MeasureEditForm(props: MeasureEditFormProps) {
-    const { isCreate, isEdit, measureId } = props;
-
     const { notifyError, notifySuccess } = useNotification();
     const router = useRouter();
 
@@ -48,11 +46,11 @@ export default function MeasureEditForm(props: MeasureEditFormProps) {
     });
 
     const loadForm = async () => {
-        if (!isEdit || !measureId) {
+        if (!props.isEdit) {
             return;
         }
 
-        const response = await measureGetDetails({ measureId });
+        const response = await measureGetDetails({ measureId: props.measureId });
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
@@ -75,9 +73,9 @@ export default function MeasureEditForm(props: MeasureEditFormProps) {
         }
 
         let response;
-        if (isEdit && measureId) {
+        if (props.isEdit) {
             response = await measureUpdate({
-                measureId,
+                measureId: props.measureId,
                 ...form.serverState,
             });
         } else {
@@ -121,8 +119,8 @@ export default function MeasureEditForm(props: MeasureEditFormProps) {
                     </div>
                     <div>
                         <Button type="submit">
-                            {isCreate && 'Добавить'}
-                            {isEdit && 'Сохранить'}
+                            {props.isCreate && 'Добавить'}
+                            {props.isEdit && 'Сохранить'}
                         </Button>
                     </div>
                 </Flex>

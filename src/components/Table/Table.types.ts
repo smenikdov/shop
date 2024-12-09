@@ -3,7 +3,7 @@ import type { AnyObject, UnwrapArray, UnwrapPromise } from '@/typings';
 
 export interface TableColumn<DataType extends AnyObject> {
     title: React.ReactNode;
-    render: (data: DataType) => React.ReactNode;
+    render: (data: DataType, index: integer) => React.ReactNode;
 }
 
 export type TableColumns<DataType extends AnyObject> = Array<TableColumn<DataType>>;

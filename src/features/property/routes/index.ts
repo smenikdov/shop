@@ -10,12 +10,6 @@ import { propertyGetDetailsHandler } from '../services/propertyGetDetails';
 import { propertyCreateHandler } from '../services/propertyCreate';
 import { propertyUpdateHandler } from '../services/propertyUpdate';
 
-interface PropertyGetAllPayload {
-    page: number;
-    propertyId: number;
-    name: string;
-}
-
 export const propertyGetAll = createRoute({
     access: ['ADMIN'],
     async handler({ payload }: RouteData<PropertyGetAllPayload>) {
