@@ -4,12 +4,7 @@ import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 import { includePagination } from '@/utils/prisma';
-
-interface PayloadFilters {
-    page: number;
-    name: string;
-    propertyId: number;
-}
+import type { PropertyGetAllPayload } from '@/features/property/typings';
 
 export const propertyGetAllHandler = new Handler({
     name: 'Получение списка всех свойств',
@@ -20,7 +15,7 @@ export const propertyGetAllHandler = new Handler({
         propertyId: v.id(),
     }),
 
-    async request(payload: PayloadFilters) {
+    async request(payload: PropertyGetAllPayload) {
         const properties = await prisma.property.findMany({
             ...includePagination(payload.page),
             select: {
