@@ -3,18 +3,16 @@
 
 .modal {
     &-slider {
-        &-container {
-            border-radius: 20px 0 0 20px;
-            border: 1px solid #ccc;
-            right: 0;
-            height: 100%;
-            padding: 20px;
-            position: absolute;
-            background: #fff;
-            overflow: auto;
-            outline: none;
-            animation-name: back-left-in;
-            animation-duration: 0.3s;
-        }
+        border-radius: 20px 0 0 20px;
+        border: 1px solid #ccc;
+        right: 0;
+        height: 100%;
+        padding: 20px;
+        position: absolute;
+        background: #fff;
+        overflow: auto;
+        outline: none;
+        animation-name: back-left-in;
+        animation-duration: 0.3s;
     }
 }

@@ -1,6 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from '@/hooks/useStore';
-import type { Message, AnyMessageResult, AlertResult, PromptResult, ConfirmResult } from '../typings';
+import type {
+    Message,
+    AnyMessageResult,
+    AlertResult,
+    PromptResult,
+    ConfirmResult,
+} from '../typings';
 import {
     messageCreate as messageCreateAction,
     messageDelete as messageDeleteAction,
@@ -57,6 +63,9 @@ const useMessage = (id?: string) => {
         }
         messages[id](data);
         delete messages[id];
+        setTimeout(() => {
+            dispatch(messageDeleteAction(id));
+        }, 5000);
     };
 
     return { alert, confirm, prompt, confirmMessage } as const;

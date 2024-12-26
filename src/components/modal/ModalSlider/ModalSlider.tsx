@@ -34,7 +34,7 @@ const ModalSlider = (props: ModalSliderProps) => {
         return null;
     }
 
-    const mergedCls = classNames(className, 'modal-slider-container');
+    const mergedCls = classNames(className, 'modal-slider');
 
     return (
         <ModalTemplate {...othersProps} isOpen={isOpen} onClose={onClose} className={mergedCls} overlayClassName="modal-slider-overlay">

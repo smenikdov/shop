@@ -1,62 +1,75 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import './MessageElement.scss';
-import Property from '@/components/Property';
-import Container from '@/components/grid/Container';
-import Row from '@/components/grid/Row';
+
 import type { MessageElementProps } from './MessageElement.types';
-import Title from '@/components/typography/Title';
-import Paragraph from '@/components/typography/Paragraph';
-import Card from '@/components/Card';
+import type { AnyMessageResult } from '@/features/message/typings';
+
 import Button from '@/components/Button';
 import Input from '@/components/form/Input';
 import ModalDialog from '@/components/modal/ModalDialog';
+import ModalSlider from '@/components/modal/ModalSlider';
 import Text from '@/components/typography/Text';
+import FormItem from '@/components/form/FormItem';
+
 import classNames from 'classnames';
+import * as v from '@/utils/validate';
+
 import useMessage from '@/features/message/hooks/useMessage';
+import { useForm, textInput, baseInput } from '@/hooks/useForm';
 
 const MessageElement = (props: MessageElementProps) => {
     const { title, message, id, type } = props;
     const { confirmMessage } = useMessage(id);
+    const [isOpen, setIsOpen] = useState(true);
 
     const mergedCls = classNames('message');
 
+    const form = useForm<{
+        input: string;
+    }>({
+        initialState: {
+            input: '',
+        },
+        schema: v.object({}),
+    });
+
+    const handleConfirm = (data: AnyMessageResult) => {
+        if (!isOpen) {
+            return;
+        }
+        setIsOpen(false);
+        confirmMessage(data);
+    };
+
     const handleClickOk = () => {
         if (type === 'CONFIRM') {
-            // TODO
+            handleConfirm({ ok: true });
         }
         if (type === 'PROMPT') {
-            confirmMessage({ ok: true });
+            handleConfirm({ ok: true, input: form.clientState.input });
         }
     };
 
     return (
-        <ModalDialog
-            isOpen={true}
-            onClose={() => confirmMessage({ close: true })}
-            title={title}
-        >
-            <Card className={mergedCls}>
+        <ModalDialog isOpen={isOpen} onClose={() => handleConfirm({ close: true })} title={title}>
+            <div className={mergedCls}>
                 <div>
                     <Text>{message}</Text>
                 </div>
-                {
-                    type === 'PROMPT' &&
+                {type === 'PROMPT' && (
                     <div>
-                        <Input
-
-                        />
+                        <FormItem label={title}>
+                            <Input {...form.register('input', textInput)} />
+                        </FormItem>
                     </div>
-                }
-                {
-                    type === 'PROMPT' || 'CONFIRM' &&
-                    <Button onClick={() => confirmMessage({ cancel: true })}>
-                        Отмена
-                    </Button>
-                }
-                <Button onClick={handleClickOk}>
-                    ОК
-                </Button>
-            </Card>
+                )}
+                {(type === 'PROMPT' || type === 'CONFIRM') && (
+                    <Button onClick={() => handleConfirm({ cancel: true })}>Отмена</Button>
+                )}
+                <Button onClick={handleClickOk}>ОК</Button>
+            </div>
         </ModalDialog>
     );
 };
