@@ -114,7 +114,7 @@ const InputNumber = (props: InputNumberProps) => {
     return (
         <Input
             {...otherProps}
-            value={value}
+            value={displayValue}
             onChange={handleChange}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}

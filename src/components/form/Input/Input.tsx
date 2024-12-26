@@ -23,6 +23,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         ...otherProps
     } = props;
 
+    if (otherProps.value === null) {
+        otherProps.value = '';
+    }
+
     const formContext = React.useContext(FormContext);
 
     const [focused, setFocused] = useState(false);
