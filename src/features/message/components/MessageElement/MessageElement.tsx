@@ -49,7 +49,18 @@ const MessageElement = (props: MessageElementProps) => {
             handleConfirm({ ok: true });
         }
         if (type === 'PROMPT') {
+            const isValid = form.validate();
+            if (!isValid) {
+                return;
+            }
             handleConfirm({ ok: true, input: form.clientState.input });
+        }
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        const isEnter = event.keyCode === 13;
+        if (isEnter) {
+            handleClickOk();
         }
     };
 
@@ -61,12 +72,14 @@ const MessageElement = (props: MessageElementProps) => {
                 </div>
                 {type === 'PROMPT' && (
                     <div>
-                        <Input {...form.register('input', textInput)} />
+                        <Input {...form.register('input', textInput)} onKeyDown={handleKeyDown} />
                     </div>
                 )}
                 <Flex className="mt-md" justify="flex-end">
                     {(type === 'PROMPT' || type === 'CONFIRM') && (
-                        <Button className="mr-md" onClick={() => handleConfirm({ cancel: true })}>Отмена</Button>
+                        <Button className="mr-md" onClick={() => handleConfirm({ cancel: true })}>
+                            Отмена
+                        </Button>
                     )}
                     <Button onClick={handleClickOk}>ОК</Button>
                 </Flex>

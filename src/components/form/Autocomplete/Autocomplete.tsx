@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Autocomplete.scss';
 import Input from '../Input';
 import classNames from 'classnames';
@@ -38,6 +38,11 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
         controlledValue ? onGetLabel(controlledValue) : '',
         onInputChange
     );
+
+    // Сомнительно
+    useEffect(() => {
+        onInputControlledChange(controlledValue ? onGetLabel(controlledValue) : '');
+    }, [ controlledValue ]);
 
     const formContext = React.useContext(FormContext);
     const optionsListId = React.useId();

@@ -15,7 +15,7 @@ export const propertyCreateHandler = new Handler({
         type: v.string().in(Object.values(PROPERTY_TYPE)).nullable(),
         meta: v.object({}),
         // TODO
-        // options
+        // options measure
     }),
 
     async request(payload: PropertyCreatePayload) {

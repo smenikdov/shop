@@ -6,7 +6,7 @@ import * as v from '@/utils/validate';
 import type { PropertyUpdatePayload } from '@/features/property/typings';
 import { PROPERTY_TYPE } from '@/constants';
 
-export const propertyCreateHandler = new Handler({
+export const propertyUpdateHandler = new Handler({
     name: 'Обновление свойства',
     errors: { default: 'Ошибка при обновлении свойства' },
     schema: v.object({

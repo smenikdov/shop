@@ -54,10 +54,14 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         initialState: {
             name: '',
             description: null,
-            type: 'STRING',
+            type: PROPERTY_TYPE.STRING,
             measure: null,
         },
-        schema: v.object({}),
+        schema: v.object({
+            name: v.string().required(),
+            description: v.string().nullable(),
+            type: v.string().in(Object.values(PROPERTY_TYPE)),
+        }),
     });
 
     const meta = useForm<AnyObject>({
@@ -76,6 +80,36 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
             options.push({ name: newName.input });
         }
     };
+    const deletePropertyOption = async (index: integer) => {
+        const result = await confirm('Вы уверены, что хотите удалить свойство?');
+        if (result.ok) {
+            options.remove(index);
+        }
+    };
+
+    const columns: TableColumns<OptionsTableItem> = [
+        {
+            title: 'ID',
+            render: ({ id }) => id || '-',
+        },
+        {
+            title: 'Название',
+            render: ({ name }) => name,
+        },
+        {
+            title: 'Действия',
+            render: (propertyOption, index) => (
+                <Button
+                    color="danger"
+                    variant="link"
+                    size="sm"
+                    onClick={() => deletePropertyOption(index)}
+                >
+                    Удалить
+                </Button>
+            ),
+        },
+    ];
 
     const loadForm = async () => {
         if (props.isCreate) {
@@ -85,6 +119,7 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         const response = await propertyGetDetails({ propertyId: props.propertyId });
         if (!response.isSuccess) {
             notifyError(response.message);
+            router.back();
             return;
         }
         form.setState({
@@ -98,10 +133,6 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         loadForm();
     });
 
-    const handelCancel = () => {
-        router.back();
-    };
-
     const { value: measures, set: setMeasures } = useArray<{ id: integer; name: string }>([]);
     const [measureInputValue, setMeasureInputValue] = useState('');
     const onMeasuresInputChange = async (value: string) => {
@@ -110,6 +141,10 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         if (response.isSuccess) {
             setMeasures(response.data);
         }
+    };
+
+    const handelCancel = () => {
+        router.back();
     };
 
     const handleApply = async () => {
@@ -141,37 +176,6 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
         router.push('/admin/property');
     };
 
-    const handleDeletePropertyOption = async (index: integer) => {
-        const result = await confirm('Вы уверены, что хотите удалить свойство?');
-        if (result.ok) {
-            options.remove(index);
-        }
-    };
-
-    const columns: TableColumns<OptionsTableItem> = [
-        {
-            title: 'ID',
-            render: ({ id }) => id || '-',
-        },
-        {
-            title: 'Название',
-            render: ({ name }) => name,
-        },
-        {
-            title: 'Действия',
-            render: (propertyOption, index) => (
-                <Button
-                    color="danger"
-                    variant="link"
-                    size="sm"
-                    onClick={() => handleDeletePropertyOption(index)}
-                >
-                    Удалить
-                </Button>
-            ),
-        },
-    ];
-
     return (
         <div>
             <Form action={handleApply}>
@@ -185,7 +189,7 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
                         </FormItem>
                     </Col>
                     <Col md={6}>
-                        <FormItem label="Описание" required>
+                        <FormItem label="Описание">
                             <Input {...form.register('description', textInput)} />
                         </FormItem>
                     </Col>
@@ -198,7 +202,7 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
                         </FormItem>
                     </Col>
                     <Col md={6}>
-                        <FormItem label="Единица измерения" required>
+                        <FormItem label="Единица измерения">
                             <Autocomplete
                                 {...form.register('measure')}
                                 inputValue={measureInputValue}
