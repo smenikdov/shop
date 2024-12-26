@@ -29,7 +29,7 @@ const ModalDialog = (props: ModalDialogProps) => {
             overlayClassName="modal-dialog-overlay"
         >
             <div className="modal-dialog-content">
-                <Flex className="modal-dialog-header" justify="space-between">
+                <Flex className="modal-dialog-header" justify="space-between" wrap="nowrap">
                     <Title level={2} className="modal-dialog-title">
                         {title}
                     </Title>

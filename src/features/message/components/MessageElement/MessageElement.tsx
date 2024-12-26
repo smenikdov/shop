@@ -11,6 +11,7 @@ import Input from '@/components/form/Input';
 import ModalDialog from '@/components/modal/ModalDialog';
 import ModalSlider from '@/components/modal/ModalSlider';
 import Text from '@/components/typography/Text';
+import Flex from '@/components/Flex';
 import FormItem from '@/components/form/FormItem';
 
 import classNames from 'classnames';
@@ -55,20 +56,20 @@ const MessageElement = (props: MessageElementProps) => {
     return (
         <ModalDialog isOpen={isOpen} onClose={() => handleConfirm({ close: true })} title={title}>
             <div className={mergedCls}>
-                <div>
+                <div className="mb-md">
                     <Text>{message}</Text>
                 </div>
                 {type === 'PROMPT' && (
                     <div>
-                        <FormItem label={title}>
-                            <Input {...form.register('input', textInput)} />
-                        </FormItem>
+                        <Input {...form.register('input', textInput)} />
                     </div>
                 )}
-                {(type === 'PROMPT' || type === 'CONFIRM') && (
-                    <Button onClick={() => handleConfirm({ cancel: true })}>Отмена</Button>
-                )}
-                <Button onClick={handleClickOk}>ОК</Button>
+                <Flex className="mt-md" justify="flex-end">
+                    {(type === 'PROMPT' || type === 'CONFIRM') && (
+                        <Button className="mr-md" onClick={() => handleConfirm({ cancel: true })}>Отмена</Button>
+                    )}
+                    <Button onClick={handleClickOk}>ОК</Button>
+                </Flex>
             </div>
         </ModalDialog>
     );
