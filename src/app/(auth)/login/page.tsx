@@ -27,7 +27,7 @@ export default function Login() {
     return (
         <main>
             <Container>
-                <Flex justify="center">
+                <Flex justify="center" align="center" style={{ height: '80vh' }}>
                     <Card>
                         <AuthLoginForm />
                     </Card>
