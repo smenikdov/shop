@@ -4,6 +4,7 @@ import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 import { includePagination } from '@/utils/prisma';
+import { USER_ROLE } from '@/constants';
 
 interface PayloadFilters {
     phone: string;
@@ -41,6 +42,9 @@ export const userGetAllHandler = new Handler({
                 phone: {
                     contains: payload.phone || undefined,
                     mode: 'insensitive',
+                },
+                role: {
+                    notIn: [ USER_ROLE.GUEST ],
                 },
             },
         });
