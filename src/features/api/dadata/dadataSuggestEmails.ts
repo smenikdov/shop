@@ -10,6 +10,20 @@ import {
 import * as v from '@/utils/validate';
 import { dadata } from './dadata';
 
+export interface DadataSuggestEmailData {
+    suggestions: Array<{
+        value: string;
+        unsrestricted_value?: string;
+        data: {
+            local?: string;
+            domain?: string;
+            type?: string;
+            source?: string;
+            qc?: string;
+        };
+    }>
+};
+
 export const dadataSuggestEmailsHandler = new Handler({
     name: 'Получение списка email-адресов',
     errors: { default: 'Ошибка при получении списка email-адресов' },
@@ -18,7 +32,7 @@ export const dadataSuggestEmailsHandler = new Handler({
     }),
 
     async request(payload: { query: string }) {
-        const response = await dadata.post('/4_1/rs/suggest/email', {
+        const response = await dadata.post<DadataSuggestEmailData>('/4_1/rs/suggest/email', {
             query: payload.query,
             count: 10,
         });

@@ -129,6 +129,7 @@ model User {
     orders        Order[]
     city          City?          @relation(fields: [cityId], references: [id])
     products      Product[]
+    qc            Int?
 
     createdAt DateTime  @default(now()) @map(name: "created_at")
     updatedAt DateTime  @updatedAt @map(name: "updated_at")

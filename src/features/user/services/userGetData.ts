@@ -9,7 +9,7 @@ import {
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 
-export const userGetData = new Handler({
+export const userGetDataHandler = new Handler({
     name: 'Получение детализации по пользователю',
     errors: { default: 'Ошибка при получении данных пользователя' },
     schema: v.object({

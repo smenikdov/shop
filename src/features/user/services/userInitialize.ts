@@ -1,12 +1,6 @@
 import 'server-only';
 import prisma from '@/lib/prisma';
-import bcrypt from 'bcrypt';
-import {
-    ServerErrorResponse,
-    RequestErrorResponse,
-    Response,
-    SuccessResponse,
-} from '@/utils/actions/responses';
+import { SuccessResponse } from '@/utils/actions/responses';
 import { Handler } from '@/utils/actions/routes';
 import * as v from '@/utils/validate';
 
@@ -14,16 +8,20 @@ import { authGuestIdentificationHandler } from '@/features/auth/services/authGue
 
 export const userInitializeHandler = new Handler({
     name: 'Инициализация пользователя',
-    errors: { default: 'Произошла ошибка при инициализации пользователя' },
+    errors: {
+        default: 'Произошла ошибка при инициализации пользователя',
+        identification: 'Произошла ошибка при идентификации пользователя',
+        notFound: 'Произошла ошибка при получении данных пользователя',
+    },
     schema: v.object({
         userId: v.id().optional(),
     }),
 
-    async request(payload: { userId?: number }) {
+    async request(payload: { userId?: number }, errors) {
         if (!payload.userId) {
             const identificationResponse = await authGuestIdentificationHandler.execute({});
             if (!identificationResponse.isSuccess) {
-                throw new Error('Ошибка при идентификации пользователя');
+                throw new Error(errors.identification);
             }
             payload.userId = identificationResponse.data.id;
         }
@@ -37,7 +35,7 @@ export const userInitializeHandler = new Handler({
             },
         });
         if (!userData) {
-            throw new Error('Ошибка при инициализации пользователя');
+            throw new Error(errors.notFound);
         }
         return new SuccessResponse({ data: userData });
     },

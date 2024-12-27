@@ -10,6 +10,20 @@ import {
 import * as v from '@/utils/validate';
 import { dadata } from './dadata';
 
+export interface DadataSuggestAddressData {
+    suggestions: Array<{
+        value: string;
+        unsrestricted_value?: string;
+        data: {
+            country?: string;
+            fias_level?: string;
+            settlement?: string;
+            city?: string;
+            okato?: string;
+        };
+    }>
+};
+
 const formatDadataAddress = (settlement) => {
     let settlementName;
     let settlementId;
@@ -35,7 +49,7 @@ export const dadataSuggestSettlementsHandler = new Handler({
     }),
 
     async request(payload: { query: string }) {
-        const response = await dadata.post('/4_1/rs/suggest/address', {
+        const response = await dadata.post<DadataSuggestAddressData>('/4_1/rs/suggest/address', {
             query: payload.query,
             from_bound: { value: 'city' },
             to_bound: { value: 'settlement' },
