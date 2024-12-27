@@ -1,11 +1,19 @@
 import { Validator } from '@/utils/validate/validator';
 import type {
     ValidationRule,
-    ValidPrimitiveResult,
+    ValidResult,
     INumberValidator,
 } from '@/utils/validate/typings';
 
 export class NumberValidator extends Validator implements INumberValidator {
+    validate(value: any): ValidResult {
+        if (value instanceof Number) {
+            return super.validate(value);
+        } else {
+            return { isValid: false, error: 'Значение должно быть числом' };
+        }
+    }
+
     addRule(rule: ValidationRule) {
         return new NumberValidator({ ...this, rules: [...this.rules, rule] });
     }

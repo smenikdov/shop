@@ -9,9 +9,9 @@ export const measureCreateHandler = new Handler({
     name: 'Создание единицы измерения',
     errors: { default: 'Ошибка при создании единицы измерения' },
     schema: v.object({
-        name: v.string().required(),
-        shortName: v.string().required(),
-        description: v.string(),
+        name: v.sr(),
+        shortName: v.sr(),
+        description: v.sn(),
     }),
 
     async request(payload: MeasureCreatePayload) {

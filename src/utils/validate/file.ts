@@ -1,7 +1,7 @@
 import { Validator } from '@/utils/validate/validator';
 import type {
     ValidationRule,
-    ValidPrimitiveResult,
+    ValidResult,
     IFileValidator,
 } from '@/utils/validate/typings';
 
@@ -30,6 +30,14 @@ const imageMimeTypes = [
 ];
 
 export class FileValidator extends Validator implements IFileValidator {
+    validate(value: any): ValidResult {
+        if (value instanceof File) {
+            return super.validate(value);
+        } else {
+            return { isValid: false, error: 'Значение должно быть файлом' };
+        }
+    }
+
     addRule(rule: ValidationRule) {
         return new FileValidator({ ...this, rules: [...this.rules, rule] });
     }

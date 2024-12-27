@@ -1,20 +1,15 @@
-interface ValidSuccesResult {
+import type { AnyObject } from "@/typings";
+
+export interface ValidSuccesResult {
     isValid: true;
 }
-interface ValidPrimitiveErrorResult {
+
+export interface ValidErrorResult {
     isValid: false;
     error: string;
 }
 
-interface ValidObjectError {
-    [key: string]: string | ValidObjectError;
-}
-interface ValidObjectErrorResult {
-    isValid: false;
-    error: ValidObjectError;
-}
-export type ValidPrimitiveResult = ValidSuccesResult | ValidPrimitiveErrorResult;
-export type ValidObjectResult = ValidSuccesResult | ValidObjectErrorResult;
+export type ValidResult = ValidSuccesResult | ValidErrorResult;
 
 export interface ValidationRule {
     validateFunction: (value: any) => boolean;
@@ -26,32 +21,34 @@ export interface ValidationOptions {
     nullable: boolean;
 }
 
-export interface INumberValidator {
-    validate(value: number): ValidPrimitiveResult;
+export interface IValidator {
+    validate(value: any): ValidResult;
 }
 
-export interface IStringValidator {
-    validate(value: string): ValidPrimitiveResult;
+export interface INumberValidator extends IValidator {
+    validate(value: number): ValidResult;
 }
 
-export interface IDateValidator {
-    validate(value: Date): ValidPrimitiveResult;
+export interface IStringValidator extends IValidator {
+    validate(value: string): ValidResult;
 }
 
-export interface IFileValidator {
-    validate(value: File): ValidPrimitiveResult;
-}
-export interface IObjectValidator {
-    validate(value: object): ValidObjectResult;
+export interface IDateValidator extends IValidator {
+    validate(value: Date): ValidResult;
 }
 
-export type AnyValidator =
-    | INumberValidator
-    | IStringValidator
-    | IDateValidator
-    | IFileValidator
-    | IObjectValidator;
+export interface IFileValidator extends IValidator {
+    validate(value: File): ValidResult;
+}
+
+export interface IObjectValidator extends IValidator {
+    validate(value: AnyObject): ValidResult;
+}
+
+export interface IArrayValidator extends IValidator {
+    validate(value: Array<any>): ValidResult;
+}
 
 export interface ObjectFieldsVlidators {
-    [key: string]: AnyValidator;
+    [key: string]: IValidator;
 }

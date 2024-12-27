@@ -1,10 +1,11 @@
 import type {
     ValidationRule,
     ValidationOptions,
-    ValidPrimitiveResult,
+    ValidResult,
+    IValidator,
 } from '@/utils/validate/typings';
 
-export class Validator {
+export class Validator implements IValidator{
     public rules: ValidationRule[];
     public options: ValidationOptions;
 
@@ -22,7 +23,7 @@ export class Validator {
         };
     }
 
-    validate(value: any): ValidPrimitiveResult {
+    validate(value: any): ValidResult {
         if (this.options.optional && value === undefined) {
             return {
                 isValid: true,

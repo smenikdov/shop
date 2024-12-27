@@ -1,11 +1,19 @@
 import { Validator } from '@/utils/validate/validator';
 import type {
     ValidationRule,
-    ValidPrimitiveResult,
+    ValidResult,
     IStringValidator,
 } from '@/utils/validate/typings';
 
 export class StringValidator extends Validator implements IStringValidator {
+    validate(value: any): ValidResult {
+        if (value instanceof String) {
+            return super.validate(value);
+        } else {
+            return { isValid: false, error: 'Значение должно быть строкой' };
+        }
+    }
+
     addRule(rule: ValidationRule) {
         return new StringValidator({ ...this, rules: [...this.rules, rule] });
     }

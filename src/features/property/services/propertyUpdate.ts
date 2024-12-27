@@ -11,12 +11,20 @@ export const propertyUpdateHandler = new Handler({
     errors: { default: 'Ошибка при обновлении свойства' },
     schema: v.object({
         propertyId: v.id(),
-        name: v.string(),
-        description: v.string().nullable(),
-        type: v.string().in(Object.values(PROPERTY_TYPE)).nullable(),
+        name: v.sr(),
+        description: v.sn(),
+        type: v.constant(PROPERTY_TYPE).nullable(),
+        options: v.ao({
+            id: v.id().optional(),
+            name: v.sr(),
+        }),
+        measure: v.object({
+            id: v.id(),
+            name: v.sr(),
+        }).nullable(),
+
+        // TODO better check
         meta: v.object({}),
-        // TODO
-        // options
     }),
 
     async request(payload: PropertyUpdatePayload) {

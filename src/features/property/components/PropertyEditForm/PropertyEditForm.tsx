@@ -58,9 +58,9 @@ export default function PropertyEditForm(props: PropertyEditFormProps) {
             measure: null,
         },
         schema: v.object({
-            name: v.string().required(),
-            description: v.string().nullable(),
-            type: v.string().in(Object.values(PROPERTY_TYPE)),
+            name: v.sr(),
+            description: v.sn(),
+            type: v.constant(PROPERTY_TYPE),
         }),
     });
 

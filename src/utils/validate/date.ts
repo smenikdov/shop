@@ -1,17 +1,17 @@
 import { Validator } from '@/utils/validate/validator';
 import type {
     ValidationRule,
-    ValidPrimitiveResult,
+    ValidResult,
     IDateValidator,
 } from '@/utils/validate/typings';
 import { formatDate } from '../date';
 
 export class DateValidator extends Validator implements IDateValidator {
-    validate(value: any): ValidPrimitiveResult {
+    validate(value: any): ValidResult {
         if (value instanceof Date) {
             return super.validate(value);
         } else {
-            return { isValid: false, error: 'Неверный формат данных' };
+            return { isValid: false, error: 'Значение должно быть датой' };
         }
     }
 

@@ -1,52 +1,17 @@
-import type { ObjectFieldsVlidators } from './typings';
+import type { ObjectFieldsVlidators, IValidator } from './typings';
 import { NumberValidator } from './number';
 import { StringValidator } from './string';
 import { DateValidator } from './date';
 import { ObjectValidator } from './object';
+import { ArrayValidator } from './array';
 import { FileValidator } from './file';
 
-export const string = (error = 'Значение должно быть текстом') =>
-    new StringValidator({
-        rules: [
-            {
-                validateFunction: (value: any) => typeof value === 'string',
-                error,
-            },
-        ],
-    });
-
-export const number = (error = 'Значение должно быть числом') =>
-    new NumberValidator({
-        rules: [
-            {
-                validateFunction: (value: any) => typeof value === 'number',
-                error,
-            },
-        ],
-    });
-
-export const date = (error = 'Значение должно быть датой') =>
-    new DateValidator({
-        rules: [
-            {
-                validateFunction: (value: any) => value instanceof Date,
-                error,
-            },
-        ],
-    });
-
-export const file = (error = 'Значение должно быть файлом') =>
-    new FileValidator({
-        rules: [
-            {
-                validateFunction: (value: any) => value instanceof File,
-                error,
-            },
-        ],
-    });
-
-// TODO доделать проерку типа
+export const string = () => new StringValidator();
+export const number = () => new NumberValidator();
+export const date = () => new DateValidator();
+export const file = () => new FileValidator();
 export const object = (fields: ObjectFieldsVlidators) => new ObjectValidator(fields);
+export const array = (validator: IValidator) => new ArrayValidator(validator);
 
 export const email = (error = 'Неверный адрес электронной почты') =>
     string()
@@ -70,5 +35,10 @@ export const password = () =>
         });
 
 export const id = () => number().integer().gte(0);
+export const sr = () => string().required();
+export const sn = () => string().nullable();
+export const ao = (fields: ObjectFieldsVlidators) => array(object(fields));
 export const quantity = () => number().integer().gte(0);
 export const page = () => number().integer().gte(1);
+export const constant = (constant: { [key: string]: string }) =>
+    string().in(Object.values(constant)).nullable();

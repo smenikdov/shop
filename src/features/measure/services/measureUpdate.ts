@@ -10,9 +10,9 @@ export const measureUpdateHandler = new Handler({
     errors: { default: 'Ошибка при обновление единицы измерения' },
     schema: v.object({
         measureId: v.id(),
-        name: v.string().required(),
-        shortName: v.string().required(),
-        description: v.string(),
+        name: v.sr(),
+        shortName: v.sr(),
+        description: v.sn(),
     }),
 
     async request(payload: MeasureUpdatePayload) {

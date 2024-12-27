@@ -21,7 +21,7 @@ export const deliveryCreateIntakeHandler = new Handler({
     name: 'Вызов курьера',
     errors: { default: 'Ошибка при вызове курьера' },
     schema: v.object({
-        deliveryCompany: v.string().in(Object.values(DELIVERY_COMPANY)),
+        deliveryCompany: v.constant(DELIVERY_COMPANY),
         arriveAt: v.date(),
     }),
 
