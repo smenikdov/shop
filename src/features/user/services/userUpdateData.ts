@@ -5,7 +5,6 @@ import { Handler } from '@/utils/actions/routes';
 import { SuccessResponse } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 import { USER_SEX } from '@/constants';
-import logger from '@/lib/logger';
 
 import type { UserSex } from '@prisma/client';
 

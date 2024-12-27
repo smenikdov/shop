@@ -9,7 +9,7 @@ import {
 } from '@/utils/actions/responses';
 import * as v from '@/utils/validate';
 
-import logger from '@/lib/logger';
+import { logger } from '@/lib/logger';
 
 import { boxberryGetPointsShortHandler } from '@/features/api/boxberry/boxberryGetPointsShort';
 import { boxberryGetPointDetailsHandler } from '@/features/api/boxberry/boxberryGetPointDetails';

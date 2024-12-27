@@ -1,0 +1,2 @@
+{"level":"info","message":"Инициализация пользователя: request","meta":{},"timestamp":"2024-12-27T13:02:11.309Z"}
+{"level":"info","message":"Инициализация пользователя: not-valid","meta":"userId - Значение должно быть числом","timestamp":"2024-12-27T13:02:11.310Z"}

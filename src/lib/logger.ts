@@ -19,31 +19,44 @@ class Logger {
         });
     }
 
-    trace(msg: any, meta?: any) {
-        this.logger.log('trace', msg, meta);
+    debug(message: any, meta?: any) {
+        this.logger.debug({ message, meta });
     }
 
-    debug(msg: any, meta?: any) {
-        this.logger.debug(msg, meta);
+    info(message: any, meta?: any) {
+        this.logger.info({ message, meta });
     }
 
-    info(msg: any, meta?: any) {
-        this.logger.info(msg, meta);
+    warn(message: any, meta?: any) {
+        this.logger.warn({ message, meta });
     }
 
-    warn(msg: any, meta?: any) {
-        this.logger.warn(msg, meta);
-    }
-
-    error(msg: any, meta?: any) {
-        this.logger.error(msg, meta);
-    }
-
-    fatal(msg: any, meta?: any) {
-        this.logger.log('fatal', msg, meta);
+    error(message: any, meta?: any) {
+        this.logger.error({ message, meta });
     }
 }
 
-const logger = new Logger();
+class RequestLogger {
+    private logger: winston.Logger;
 
-export default logger;
+    constructor() {
+        this.logger = winston.createLogger({
+            format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+            transports: [
+                new winston.transports.File({
+                    filename: 'application-log/request.log',
+                }),
+            ],
+        });
+    }
+
+    info(message: any, meta?: any) {
+        this.logger.info({
+            message,
+            meta,
+        });
+    }
+}
+
+export const logger = new Logger();
+export const requestLogger = new RequestLogger();

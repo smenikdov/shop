@@ -3,7 +3,7 @@ import { cookies as getCookies, headers as getHeaders } from 'next/headers';
 import { decrypt } from '@/features/auth/utils/crypto';
 import { IObjectValidator } from '@/utils/validate/typings';
 import { deepClone } from '@/utils/helpers';
-import logger from '@/lib/logger';
+import { requestLogger, logger } from '@/lib/logger';
 import { UserRole } from '@prisma/client';
 import type { AnyObject } from '@/typings';
 import type { AccessTokenPayload } from '@/features/auth/typings';
@@ -57,14 +57,10 @@ export class Handler<
     }
 
     async execute(payload: RequestPayload) {
+        requestLogger.info(`${this.name}: request`, payload);
+
         try {
             if (this.schema) {
-                if (!payload) {
-                    const response = new RequestErrorResponse({
-                        message: 'Сервер не получил данные',
-                    });
-                    return response;
-                }
                 const validationResult = this.schema.validate(payload);
                 if (!validationResult.isValid) {
                     const error = validationResult.error;
@@ -73,15 +69,23 @@ export class Handler<
                             'Сервер понял запрос, но отказался его выполнять. Причина: передан некорректный запрос',
                         error,
                     });
+                    requestLogger.info(`${this.name}: not-valid`, error);
                     return response;
                 }
             }
-            return await this.request(payload, this.errors);
+            const response = await this.request(payload, this.errors);
+            requestLogger.info(
+                `${this.name}: ${response.statusCode}`,
+                'data' in response ? response.data : '-'
+            );
+            return response;
         } catch (error) {
             logger.error(this.name, error);
             // await sendMailToAdminIfCritical();
             // await sendEventsToSentry();
-            return new ServerErrorResponse({ message: this.errors.default || 'Неизвестная ошибка' });
+            return new ServerErrorResponse({
+                message: this.errors.default || 'Неизвестная ошибка',
+            });
         }
     }
 }
@@ -108,7 +112,7 @@ export function createRoute<
         if (access) {
             const userRole = accessTokenData?.userRole as UserRole | undefined;
             if (!userRole || !access.includes(userRole)) {
-                // TODO 
+                // TODO
                 return deepClone(new AccessDeniedResponse()) as RouteResponse;
             }
         }
