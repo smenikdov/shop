@@ -5,13 +5,10 @@ import Flex from '@/components/Flex';
 import Form from '@/components/form/Form';
 import FormItem from '@/components/form/FormItem';
 
-import { USER_SEX } from '@/constants';
 import * as v from '@/utils/validate';
 
 import { useForm, textInput, baseInput } from '@/hooks/useForm';
 import useNotification from '@/features/notification/hooks/useNotification';
-
-import type { UserRole, UserSex } from '@prisma/client';
 
 import { userUpdateData } from '@/features/user/routes';
 
@@ -46,6 +43,8 @@ export default function UserDataForm() {
             notifyError(response.message);
             return;
         }
+
+        notifySuccess('Данные успешно обновлены!');
     };
 
     return (

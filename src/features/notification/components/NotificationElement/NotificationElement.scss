@@ -1,5 +1,30 @@
 @import '@/styles/abstracts';
 
+@mixin notification-color($color) {
+    --notification-text-color: #{$color};
+    --notification-background-color: #{lighten($color, 30)};
+}
+
 .notification {
-    
+    color: var(--notification-text-color);
+    background: var(--notification-background-color);
+    margin-bottom: 10px;
+    padding: 8px 16px;
+    border-radius: 0.33rem 0 0 0.33rem;
+
+    &-primary {
+        @include notification-color($primary);
+    } 
+    &-muted {
+        @include notification-color($muted);
+    } 
+    &-danger {
+        @include notification-color($danger);
+    } 
+    &-warning {
+        @include notification-color($warning);
+    } 
+    &-success {
+        @include notification-color($success);
+    } 
 }
