@@ -19,8 +19,9 @@ export class ArrayValidator  extends Validator implements IArrayValidator  {
     }
 
     validate(array: any): ValidResult {
-        if (!(array instanceof Array)) {
-            return { isValid: false, error: 'Значение должно быть массивом' };
+        const baseValidationResult = super.validate(array);
+        if (!baseValidationResult.isValid) {
+            return baseValidationResult;
         }
 
         for (let i = 0; i < array.length; i++) {
@@ -40,5 +41,12 @@ export class ArrayValidator  extends Validator implements IArrayValidator  {
 
     addRule(rule: ValidationRule) {
         return new ArrayValidator(this.validator, { ...this, rules: [...this.rules, rule] });
+    }
+
+    length(targetLength: number, error?: string) {
+        return this.addRule({
+            validateFunction: (value: Array<any>) => value.length === targetLength,
+            error: error || `Длина массива должна быть равна ${ targetLength }`,
+        });
     }
 }

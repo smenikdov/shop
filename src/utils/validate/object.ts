@@ -20,8 +20,9 @@ export class ObjectValidator extends Validator implements IObjectValidator {
     }
 
     validate(object: AnyObject): ValidResult {
-        if (!(object instanceof Object)) {
-            return { isValid: false, error: 'Значение должно быть объектом' };
+        const baseValidationResult = super.validate(object);
+        if (!baseValidationResult.isValid) {
+            return baseValidationResult;
         }
 
         for (let fieldKey of Object.keys(this.fieldsValidators)) {

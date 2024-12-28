@@ -7,14 +7,6 @@ import type {
 import { formatDate } from '../date';
 
 export class DateValidator extends Validator implements IDateValidator {
-    validate(value: any): ValidResult {
-        if (value instanceof Date) {
-            return super.validate(value);
-        } else {
-            return { isValid: false, error: 'Значение должно быть датой' };
-        }
-    }
-
     addRule(rule: ValidationRule) {
         return new DateValidator({ ...this, rules: [...this.rules, rule] });
     }
