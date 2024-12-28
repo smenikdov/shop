@@ -45,14 +45,16 @@ const FormItem = (props: FormItemProps) => {
               };
 
     return (
-        <Row className={mergedCls} style={style} {...othersProps} gapX="xs" gapY="xs">
-            <Col {...labelColProps}>
-                {label && <label className="form-item-label">{label}</label>}
-            </Col>
-            <Col {...controlColProps}>
-                {children && <div className="form-item-control">{children}</div>}
-            </Col>
-        </Row>
+        <div className={mergedCls} style={style} {...othersProps}>
+            <Row gapX="xs" gapY="xs">
+                <Col {...labelColProps}>
+                    {label && <label className="form-item-label">{label}</label>}
+                </Col>
+                <Col {...controlColProps}>
+                    {children && <div className="form-item-control">{children}</div>}
+                </Col>
+            </Row>
+        </div>
     );
 };
 

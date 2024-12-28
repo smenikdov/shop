@@ -26,8 +26,7 @@ export class ObjectValidator extends Validator implements IObjectValidator {
         }
 
         for (let fieldKey of Object.keys(this.fieldsValidators)) {
-            const validator = this.fieldsValidators[fieldKey];
-            const validationResult = validator.validate(object[fieldKey as keyof typeof object]);
+            const validationResult = this.validateField(fieldKey, object[fieldKey]);
             if (!validationResult.isValid) {
                 return {
                     isValid: false,
@@ -38,6 +37,16 @@ export class ObjectValidator extends Validator implements IObjectValidator {
         return {
             isValid: true,
         };
+    }
+
+    validateField(fieldKey: string, value: any): ValidResult {
+        if (fieldKey in this.fieldsValidators) {
+            const validator = this.fieldsValidators[fieldKey];
+            const validationResult = validator.validate(value);
+            return validationResult;
+        }
+
+        return { isValid: true };
     }
 
     addRule(rule: ValidationRule) {

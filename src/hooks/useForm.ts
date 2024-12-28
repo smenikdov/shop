@@ -1,4 +1,4 @@
-import { IObjectValidator, ValidObjectResult } from '@/utils/validate/typings';
+import { IObjectValidator } from '@/utils/validate/typings';
 import { useEffect, useState } from 'react';
 import { AnyObject } from '@/typings';
 
@@ -12,7 +12,9 @@ interface RegisterOptions {
 }
 
 export const useForm = <FormState extends AnyObject>(options: UseFormOptions<FormState>) => {
-    const [error, setError] = useState({});
+    const [error, setError] = useState<{
+        [key: string]: string;
+    }>({});
     const [clientState, setClientState] = useState<FormState>(options.initialState); // TODO
     const [serverState, setServerState] = useState<FormState>(options.initialState);
 
@@ -21,31 +23,47 @@ export const useForm = <FormState extends AnyObject>(options: UseFormOptions<For
         setClientState(payload);
     };
 
-    const register = (fieldName: string, options: RegisterOptions =  baseInput) => {
+    const register = (fieldKey: string, registerOptions: RegisterOptions = baseInput) => {
         return {
-            name: fieldName,
-            value: clientState[fieldName],
+            name: fieldKey,
+            value: clientState[fieldKey],
             onChange: (newValue: any) => {
-                newValue = options.format(newValue);
-                setClientState((prevState) => ({ ...prevState, [fieldName]: newValue }));
-                setServerState((prevState) => ({ ...prevState, [fieldName]: newValue }));
+                newValue = registerOptions.format(newValue);
+                setClientState((prevState) => ({ ...prevState, [fieldKey]: newValue }));
+                setServerState((prevState) => ({ ...prevState, [fieldKey]: newValue }));
             },
-            error: fieldName in error ? error[fieldName] : undefined,
+            onBlur: () => {
+                if (options.schema && fieldKey in options.schema) {
+                    const validationResult = options.schema.validateField(
+                        fieldKey,
+                        serverState[fieldKey]
+                    );
+                    if (!validationResult.isValid) {
+                        setError((error) => ({ ...error, [fieldKey]: validationResult.error }));
+                    }
+                }
+            },
+            error: fieldKey in error ? error[fieldKey] : undefined,
         };
     };
 
-    const validate = (): ValidObjectResult => {
+    const validate = (): { isValid: boolean } => {
+        setError({});
+
         if (!options.schema) {
-            return {
-                isValid: true,
-            };
+            return { isValid: true };
         }
-        const validationResult = options.schema.validate(serverState);
-        if (!validationResult.isValid) {
-            const error = validationResult.error;
-            setError(error);
+
+        const result = { isValid: true };
+
+        for (let fieldKey of Object.keys(serverState)) {
+            const validationResult = options.schema.validateField(fieldKey, serverState[fieldKey]);
+            if (!validationResult.isValid) {
+                setError((error) => ({ ...error, [fieldKey]: validationResult.error }));
+                result.isValid = false;
+            }
         }
-        return validationResult;
+        return result;
     };
 
     return {

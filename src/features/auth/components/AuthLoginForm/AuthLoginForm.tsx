@@ -58,19 +58,21 @@ export default function AuthLoginForm() {
 
     return (
         <Form action={loginAction}>
-            <FormItem label="Номер телефона">
-                <InputMask
-                    {...form.register('phone', phoneInput)}
-                    mask="+{7} (000) 000-00-00"
-                    placeholder="+7 (___) __-__"
-                />
-            </FormItem>
-            <FormItem label="Пароль">
-                <Input {...form.register('password', textInput)} type="password" />
-            </FormItem>
-            <Button type="submit" className="mt-lg">
-                Войти
-            </Button>
+            <Flex gapY="sm" direction="column">
+                <FormItem label="Номер телефона">
+                    <InputMask
+                        {...form.register('phone', phoneInput)}
+                        mask="+{7} (000) 000-00-00"
+                        placeholder="+7 (___) __-__"
+                    />
+                </FormItem>
+                <FormItem label="Пароль">
+                    <Input {...form.register('password', textInput)} type="password" />
+                </FormItem>
+                <Button type="submit" className="mt-lg">
+                    Войти
+                </Button>
+            </Flex>
         </Form>
     );
 }

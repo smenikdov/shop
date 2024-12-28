@@ -43,6 +43,7 @@ export interface IFileValidator extends IValidator {
 
 export interface IObjectValidator extends IValidator {
     validate(value: AnyObject): ValidResult;
+    validateField(fieldKey: string, value: any): ValidResult;
 }
 
 export interface IArrayValidator extends IValidator {
