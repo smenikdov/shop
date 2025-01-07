@@ -23,6 +23,8 @@ export const userGetDetailsHandler = new Handler({
                 email: true,
                 phone: true,
                 role: true,
+                sex: true,
+                birthday: true,
             },
             where: {
                 id: payload.userId,

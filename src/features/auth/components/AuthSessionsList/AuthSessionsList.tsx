@@ -15,16 +15,11 @@ import Flex from '@/components/Flex';
 import Result from '@/components/Result';
 import Divider from '@/components/Divider';
 import Card from '@/components/Card';
-import { authGetMySessions } from '@/features/auth/routes';
 import { formatDate } from '@/utils/date';
 
-export default async function AuthSessionsList() {
-    const response = await authGetMySessions({});
-    if (!response.isSuccess || !response.data) {
-        return <Result response={response} />;
-    }
-    const sessions = response.data;
+import type { AuthSessionsListProps } from './AuthSessionsList.types';
 
+export default function AuthSessionsList({ sessions }: AuthSessionsListProps) {
     return (
         <Flex gapY="sm" direction="column">
             {sessions.map((session) => (

@@ -48,8 +48,8 @@ export const [USER_ROLE, USER_ROLE_LABEL] = CreateConstants<UserRole>({
 });
 
 export const [USER_SEX, USER_SEX_LABEL] = CreateConstants<UserSex>({
-    MALE: 'Мужской пол',
-    FEMALE: 'Женский пол',
+    MALE: 'Мужской',
+    FEMALE: 'Женский',
 });
 
 export const [DELIVERY_COMPANY, DELIVERY_COMPANY_LABEL] = CreateConstants<DeliveryCompany>({

@@ -36,3 +36,10 @@ export const authGetMySessions = createRoute({
         return authGetMySessionsHandler.execute({ userId: accessTokenData.userId });
     },
 });
+
+export const authGetUserSessions = createRoute({
+    access: ['ADMIN'],
+    async handler({ payload }: RouteData<{ userId: integer }>) {
+        return authGetMySessionsHandler.execute(payload);
+    },
+});
