@@ -9,6 +9,8 @@ import type { UserUpdateDataPayload, UserGetAllPayload } from '@/features/user/t
 import { userGetAllHandler } from '@/features/user/services/userGetAll';
 import { userInitializeHandler } from '@/features/user/services/userInitialize';
 import { userUpdateDataHandler } from '@/features/user/services/userUpdateData';
+import { userGetDetailsHandler } from '@/features/user/services/userGetDetails';
+
 
 export const userGetAll = createRoute({
     access: ['ADMIN'],
@@ -26,5 +28,12 @@ export const userInitialize = createRoute({
 export const userUpdateData = createRoute({
     async handler({ accessTokenData }: RouteData<UserUpdateDataPayload>) {
         return userInitializeHandler.execute({ userId: accessTokenData?.userId });
+    },
+});
+
+export const userGetDetails = createRoute({
+    access: ['ADMIN'],
+    async handler({ payload }: RouteData<{ userId: integer }>) {
+        return userGetDetailsHandler.execute(payload);
     },
 });

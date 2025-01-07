@@ -22,6 +22,7 @@ const PAGE_NAMES: {
     category: 'Категории',
     payment: 'Баланс',
     order: 'Заказы',
+    user: 'Пользователи',
     property: 'Свойства',
     measure: 'Единицы измерения',
 };
