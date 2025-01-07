@@ -21,7 +21,7 @@ export class ObjectValidator extends Validator implements IObjectValidator {
 
     validate(object: AnyObject): ValidResult {
         const baseValidationResult = super.validate(object);
-        if (!baseValidationResult.isValid) {
+        if (!baseValidationResult.isValid || baseValidationResult.isPermanent) {
             return baseValidationResult;
         }
 

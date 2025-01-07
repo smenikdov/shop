@@ -5,7 +5,11 @@ class Logger {
 
     constructor() {
         this.logger = winston.createLogger({
-            format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+            format: winston.format.combine(
+                winston.format.timestamp(),
+                winston.format.json(),
+                winston.format.errors({ stack: true }),
+            ),
             transports: [
                 new winston.transports.Console(),
                 new winston.transports.File({

@@ -9,9 +9,8 @@ export const categoryCreateHandler = new Handler({
     name: 'Создание категории',
     errors: { default: 'Ошибка при создании категории' },
     schema: v.object({
-        name: v.string().required(),
-        description: v.string(),
-        // TODO property
+        name: v.sr(),
+        description: v.sn(),
     }),
 
     async request(payload: CategoryCreatePayload) {
@@ -19,17 +18,6 @@ export const categoryCreateHandler = new Handler({
             data: {
                 name: payload.name,
                 description: payload.description,
-                categoryProperties: {
-                    create: payload.categoryProperties.map(cp => ({
-                        isRequired: cp.isRequired,
-                        isUseAsFilter: cp.isUseAsFilter,
-                        property: {
-                            connect: {
-                                id: cp.propertyId,
-                            },
-                        },
-                    })),
-                },
             },
         });
 

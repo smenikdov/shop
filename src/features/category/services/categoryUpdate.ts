@@ -9,8 +9,9 @@ export const categoryUpdateHandler = new Handler({
     name: 'Обновление категории',
     errors: { default: 'Ошибка при обновление категории' },
     schema: v.object({
-        name: v.string().required(),
-        description: v.string(),
+        name: v.sr(),
+        description: v.sn(),
+        categoryId: v.id(),
     }),
 
     async request(payload: CategoryUpdatePayload) {
@@ -18,8 +19,9 @@ export const categoryUpdateHandler = new Handler({
             data: {
                 name: payload.name,
                 description: payload.description,
-                categoryProperties: {
-                },
+            },
+            where: {
+                id: payload.categoryId,
             },
         });
 

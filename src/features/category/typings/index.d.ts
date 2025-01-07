@@ -1,9 +1,10 @@
 export interface CategoryCreatePayload {
     name: string;
     description: string | null;
-    categoryProperties: Array<{
-        isRequired: boolean;
-        isUseAsFilter: boolean;
-        propertyId: integer;
-    }>
+}
+
+export interface CategoryUpdatePayload {
+    categoryId: integer;
+    name: string;
+    description: string | null;
 }

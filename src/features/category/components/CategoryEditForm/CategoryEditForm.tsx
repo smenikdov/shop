@@ -25,6 +25,8 @@ import FormItem from '@/components/form/FormItem';
 import Result from '@/components/Result';
 import Stepper from '@/components/Stepper';
 
+import { MdOutlineAdd, MdOutlineArrowRight } from 'react-icons/md';
+
 import * as v from '@/utils/validate';
 import { formatPhoneNumber } from '@/utils/text';
 import { parseSearchParams as psp } from '@/utils/actions/search-params';
@@ -36,31 +38,40 @@ import useNotification from '@/features/notification/hooks/useNotification';
 import useOnMount from '@/hooks/useOnMount';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
-export default function CategoryEditForm(props: CategoryEditFormProps) {
-    const { isCreate, isEdit, categoryId } = props;
+import { categoryGetDetails, categoryUpdate, categoryCreate } from '@/features/category/routes';
 
+export default function CategoryEditForm(props: CategoryEditFormProps) {
     const { notifyError, notifySuccess } = useNotification();
     const router = useRouter();
 
-    const form = useForm({
+    const form = useForm<{
+        name: string;
+        description: string | null;
+    }>({
         initialState: {
-            password: '',
-            phone: '',
+            name: '',
+            description: null,
         },
-        schema: v.object({}),
+        schema: v.object({
+            name: v.sr(),
+            description: v.sn(),
+        }),
     });
 
     const loadForm = async () => {
-        if (!isEdit || !categoryId) {
+        if (props.isCreate) {
             return;
         }
 
-        const response = await TODO({ categoryId });
+        const response = await categoryGetDetails({ categoryId: props.categoryId });
         if (!response.isSuccess) {
             notifyError(response.message);
+            router.back();
             return;
         }
-        form.setState(response.data);
+        form.setState({
+            ...response.data,
+        });
     };
 
     useOnMount(() => {
@@ -71,19 +82,55 @@ export default function CategoryEditForm(props: CategoryEditFormProps) {
         router.back();
     };
 
-    const handleApply = () => {
+    const handleApply = async () => {
         const { isValid } = form.validate();
         if (!isValid) {
             return;
+        }
+
+        if (props.isEdit) {
+            const response = await categoryUpdate({
+                ...form.serverState,
+                categoryId: props.categoryId,
+            });
+            if (!response.isSuccess) {
+                notifyError(response.message);
+                return;
+            }
+            notifySuccess('Категория успешно обновлена');
+        }
+
+        if (props.isCreate) {
+            const response = await categoryCreate({
+                ...form.serverState,
+            });
+            if (!response.isSuccess) {
+                notifyError(response.message);
+                return;
+            }
+            router.push(`/admin/category/${response.data.id}`);
         }
     };
 
     return (
         <div>
             <Form action={handleApply}>
+                {props.isEdit && (
+                    <Button
+                        className="mb-sm"
+                        type="submit"
+                        variant="outlined"
+                        href={`/admin/category/${props.categoryId}/property`}
+                    >
+                        Свойства категории
+                    </Button>
+                )}
+
                 <Title level={2} className="mb-sm">
                     Информация о категории
                 </Title>
+
+
                 <Row gapX="md" gapY="sm">
                     <Col md={6}>
                         <FormItem label="Название">
@@ -97,18 +144,15 @@ export default function CategoryEditForm(props: CategoryEditFormProps) {
                     </Col>
                 </Row>
 
-                <Title level={2} className="mt-lg mb-sm">
-                    Свойства товаров
-                </Title>
-                <Row gapX="md" gapY="sm">
-                </Row>
-
                 <Flex justify="flex-end" gapX="md" className="mt-sm">
                     <div>
                         <Button onClick={handelCancel}>Отмена</Button>
                     </div>
                     <div>
-                        <Button type="submit">Добавить</Button>
+                        <Button type="submit">
+                            {props.isCreate && 'Добавить'}
+                            {props.isEdit && 'Сохранить'}
+                        </Button>
                     </div>
                 </Flex>
             </Form>

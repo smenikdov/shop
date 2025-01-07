@@ -80,7 +80,9 @@ export class Handler<
             );
             return response;
         } catch (error) {
-            logger.error(this.name, error);
+            logger.error(this.name);
+            logger.error(error);
+            console.error(error);
             // await sendMailToAdminIfCritical();
             // await sendEventsToSentry();
             return new ServerErrorResponse({

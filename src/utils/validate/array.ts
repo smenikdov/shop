@@ -20,7 +20,7 @@ export class ArrayValidator  extends Validator implements IArrayValidator  {
 
     validate(array: any): ValidResult {
         const baseValidationResult = super.validate(array);
-        if (!baseValidationResult.isValid) {
+        if (!baseValidationResult.isValid || baseValidationResult.isPermanent) {
             return baseValidationResult;
         }
 

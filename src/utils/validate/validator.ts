@@ -27,12 +27,14 @@ export class Validator implements IValidator{
         if (this.options.optional && value === undefined) {
             return {
                 isValid: true,
+                isPermanent: true,
             };
         }
 
         if (this.options.nullable && value === null) {
             return {
                 isValid: true,
+                isPermanent: true,
             };
         }
 

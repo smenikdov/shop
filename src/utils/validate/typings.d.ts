@@ -2,6 +2,7 @@ import type { AnyObject } from "@/typings";
 
 export interface ValidSuccesResult {
     isValid: true;
+    isPermanent?: true;
 }
 
 export interface ValidErrorResult {
