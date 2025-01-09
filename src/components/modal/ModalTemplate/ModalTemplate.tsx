@@ -8,6 +8,8 @@ import Fade from '@/components/transitions/Fade';
 import BackLeft from '@/components/transitions/BackLeft';
 import Icon from '@/components/Icon';
 
+import useBoolean from '@/hooks/useBoolean';
+
 import type { ModalTemplateProps } from './ModalTemplate.types';
 
 import { MdClose } from "react-icons/md";
@@ -33,18 +35,18 @@ const ModalTemplate = (props: ModalTemplateProps) => {
         ...othersProps
     } = props;
 
-    const [isOpen, setIsOpen] = useState(false);
+    const isOpen = useBoolean(false);
 
     const open = () => {
         bodyOpenClassName && document.body.classList.add(bodyOpenClassName);
-        setIsOpen(true);
+        isOpen.setTrue();
         if (onAfterOpen) {
             onAfterOpen();
         }
     };
 
     const close = () => {
-        setIsOpen(false);
+        isOpen.setFalse();
         bodyOpenClassName && document.body.classList.remove(bodyOpenClassName);
         if (onAfterClose) {
             onAfterClose();
@@ -86,7 +88,7 @@ const ModalTemplate = (props: ModalTemplateProps) => {
     };
 
     return createPortal(
-        <Fade isVisible={isOpen}>
+        <Fade isVisible={isOpen.value}>
             <div
                 className={classNames('modal-overlay', overlayClassName)}
                 onClick={handleOverlayClick}

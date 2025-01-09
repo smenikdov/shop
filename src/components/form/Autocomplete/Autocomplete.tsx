@@ -11,6 +11,7 @@ import Icon from '@/components/Icon';
 import FormContext from '@/components/form/Form/Form.context';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import useOptionsList from '@/components/floating/OptionList/OptionsList.hooks';
+import useBoolean from '@/hooks/useBoolean';
 
 import type { AnyObject } from '@/typings';
 
@@ -46,7 +47,7 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
 
     const formContext = React.useContext(FormContext);
     const optionsListId = React.useId();
-    const [isOpenPopup, setIsOpenPopup] = useState(false);
+    const isOpenPopup = useBoolean(false);
     const { focusedItemIndex, increaseFocusItemIndex, decreaseFocusedItemIndex } =
         useOptionsList(options);
 
@@ -55,7 +56,7 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
     const handleSelect = (option: T) => {
         onControlledChange(option);
         onInputControlledChange(onGetLabel(option));
-        setIsOpenPopup(false);
+        isOpenPopup.setFalse();
     };
 
     const handleInputChange = (value: string) => {
@@ -88,12 +89,12 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
             if (options[focusedItemIndex] && isOpenPopup) {
                 handleSelect(options[focusedItemIndex]);
             } else {
-                setIsOpenPopup(!isOpenPopup);
+                isOpenPopup.toggle();
             }
         }
 
         if (isEsc) {
-            setIsOpenPopup(false);
+            isOpenPopup.setFalse();
         }
     };
 
@@ -104,12 +105,12 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
                 value={controlledValue}
                 options={options}
                 onChange={handleSelect}
-                open={isOpenPopup}
+                open={isOpenPopup.value}
                 focusedItemIndex={focusedItemIndex}
                 onGetLabel={onGetLabel}
                 onGetValue={onGetValue}
                 onOutsideClickNeedHide
-                onOpenChange={(isOpen) => setIsOpenPopup(isOpen)}
+                onOpenChange={isOpenPopup.set}
             >
                 <Input
                     {...otherProps}
@@ -119,7 +120,7 @@ const Autocomplete = <T extends AnyObject>(props: AutocompleteProps<T>) => {
                     style={style}
                     onKeyDown={handleKeyDown}
                     onChange={(event) => handleInputChange(event.target.value)}
-                    onFocus={() => setIsOpenPopup(true)}
+                    onFocus={isOpenPopup.setTrue}
                     addonAfter={
                         <Icon className="autocomplete-icon" icon={<MdOutlineKeyboardArrowDown />} />
                     }

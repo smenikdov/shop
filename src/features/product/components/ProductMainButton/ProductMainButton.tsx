@@ -20,7 +20,7 @@ import { MdFavorite, MdDelete } from 'react-icons/md';
 const ProductMainButton = (props: ProductMainButtonProps) => {
     const { product, ...otherProps } = props;
 
-    const { isLoadig, quantity, basketAddItem, basketDeleteItem, basketUpdateQuantity } =
+    const { isLoading, quantity, basketAddItem, basketDeleteItem, basketUpdateQuantity } =
         useBasket(product);
 
     const handleChangeQuantity = (newQuantity: number) => {

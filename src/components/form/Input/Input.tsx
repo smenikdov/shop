@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import FormContext from '@/components/form/Form/Form.context';
 import { InputProps } from './Input.types';
 
+import useBoolean from '@/hooks/useBoolean';
+
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const {
         className,
@@ -29,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
     const formContext = React.useContext(FormContext);
 
-    const [focused, setFocused] = useState(false);
+    const isFocused = useBoolean(false);
     const mergedDisabled = formContext?.disabled || disabled;
     const mergedReadOnly = formContext?.readOnly || readOnly;
 
@@ -38,7 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         {
             'input-disabled': mergedDisabled,
             'input-readonly': mergedReadOnly,
-            'input-focus': focused,
+            'input-focus': isFocused.value,
             'input-invalid': error,
         },
         `input-${size}`,
@@ -47,12 +49,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
     const handleFocus = (event: React.FocusEvent) => {
         onFocus?.(event);
-        setFocused(true);
+        isFocused.setTrue();
     };
 
     const handleBlur = (event: React.FocusEvent) => {
         onBlur?.(event);
-        setFocused(false);
+        isFocused.setFalse();
     };
 
     return (

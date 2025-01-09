@@ -17,38 +17,40 @@ import {
 
 import type { Product } from '@/features/product/typings';
 
+import useBoolean from '@/hooks/useBoolean';
+
 const useBasket = (product: Product) => {
     const { notifyError, notifySuccess } = useNotification();
-    const [isLoadig, setIsLoading] = useState(false);
+    const isLoading = useBoolean(false);
     const dispatch = useAppDispatch();
     const quantity =
         useAppSelector((state) => state.basket.basketItems.find((bi) => bi.id === product.id))
             ?.basketQuantity || 0;
 
     const basketAddItem = async () => {
-        setIsLoading(true);
+        isLoading.setTrue();
         const response = await basketAddItemServerAction({ productId: product.id });
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
         }
         dispatch(basketAddItemAction(product));
-        setIsLoading(false);
+        isLoading.setFalse();
     };
 
     const basketDeleteItem = async () => {
-        setIsLoading(true);
+        isLoading.setTrue();
         const response = await basketDeleteItemServerAction({ productId: product.id });
         if (!response.isSuccess) {
             notifyError(response.message);
             return;
         }
         dispatch(basketDeleteItemAction({ productId: product.id }));
-        setIsLoading(false);
+        isLoading.setFalse();
     };
 
     const basketUpdateQuantity = async (quantity: number) => {
-        setIsLoading(true);
+        isLoading.setTrue();
         const response = await basketUpdateQuantityServerAction({
             productId: product.id,
             quantity,
@@ -58,11 +60,11 @@ const useBasket = (product: Product) => {
             return;
         }
         dispatch(basketUpdateQuantityAction({ productId: product.id, quantity }));
-        setIsLoading(false);
+        isLoading.setFalse();
     };
 
     return {
-        isLoadig,
+        isLoading: isLoading.value,
         quantity,
         basketAddItem,
         basketDeleteItem,

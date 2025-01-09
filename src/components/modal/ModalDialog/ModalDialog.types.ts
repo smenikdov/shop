@@ -6,5 +6,5 @@ export interface ModalDialogProps {
     isOpen: boolean;
     style?: React.CSSProperties;
     className?: string;
-    onClose?: Function;
+    onClose: Function;
 }

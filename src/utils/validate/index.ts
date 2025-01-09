@@ -5,6 +5,7 @@ import { DateValidator } from './date';
 import { ObjectValidator } from './object';
 import { ArrayValidator } from './array';
 import { FileValidator } from './file';
+import { BooleanValidator } from './boolean';
 
 export const string = (error = 'Значение должно быть строкой') => new StringValidator({
     rules: [{
@@ -44,6 +45,13 @@ export const object = (fields: ObjectFieldsVlidators, error = 'Значние д
 export const array = (validator: IValidator, error = 'Значение должно быть массивом') => new ArrayValidator(validator, {
     rules: [{
         validateFunction: (value: any) => value instanceof Array,
+        error,
+    }],
+});
+
+export const boolean = (error = 'Значение должно быть логическим') => new BooleanValidator({
+    rules: [{
+        validateFunction: (value: any) => typeof value === 'boolean',
         error,
     }],
 });

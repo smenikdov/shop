@@ -51,6 +51,10 @@ export interface IArrayValidator extends IValidator {
     validate(value: Array<any>): ValidResult;
 }
 
+export interface IBooleanValidator extends IValidator {
+    validate(value: boolean): ValidResult;
+}
+
 export interface ObjectFieldsVlidators {
     [key: string]: IValidator;
 }

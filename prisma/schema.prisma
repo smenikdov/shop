@@ -171,18 +171,19 @@ model PropertyOption {
 
 model CategoryProperty {
     id         Int @id @default(autoincrement())
-    categorId  Int
+    categoryId Int
     propertyId Int
 
     isUseAsFilter Boolean
     isRequired    Boolean
 
-    category Category @relation(fields: [categorId], references: [id])
+    category Category @relation(fields: [categoryId], references: [id])
     property Property @relation(fields: [propertyId], references: [id])
 
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 
+    @@unique([categoryId, propertyId])
     @@map(name: "categoryproperties")
 }
 

@@ -26,7 +26,7 @@ import type { BasketItemProps } from './BasketItem.types';
 
 const BasketItem = (props: BasketItemProps) => {
     const { product } = props;
-    const { isLoadig, basketAddItem, basketDeleteItem, basketUpdateQuantity } = useBasket(product);
+    const { isLoading, basketAddItem, basketDeleteItem, basketUpdateQuantity } = useBasket(product);
     const basketItems = useAppSelector((state) => state.basket.basketItems);
 
     return (

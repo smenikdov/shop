@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import Container from '@/components/grid/Container';
+import Title from '@/components/typography/Title';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 import type { PageProps } from '@/typings';
@@ -18,6 +19,10 @@ export default async function CategoryEdit(props: PageProps<{ id: string }>) {
                     pageNames={{ [`${ props.params.id }`]: 'Редактирование категории' }}
                     className="mb-lg"
                 />
+
+                <Title level={2} className="mb-sm">
+                    Свойства категории
+                </Title>
 
                 TODO
             </Container>

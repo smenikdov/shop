@@ -10,6 +10,7 @@ import Icon from '@/components/Icon';
 import FormContext from '@/components/form/Form/Form.context';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import useOptionsList from '@/components/floating/OptionList/OptionsList.hooks';
+import useBoolean from '@/hooks/useBoolean';
 
 import type { AnyObject } from '@/typings';
 
@@ -39,14 +40,14 @@ const Select = <T extends AnyObject>(props: SelectProps<T>) => {
     const [controlledValue, onControlledChange] = useUncontrolledProp(value, null, onChange);
     const setValueAndHide = (option: T) => {
         onControlledChange(onGetValue(option));
-        setIsOpenPopup(false);
+        isOpenPopup.setFalse();
     };
     const optionsListId = React.useId();
-    const [isOpenPopup, setIsOpenPopup] = useState(false);
+    const isOpenPopup = useBoolean(false);
     const { focusedItemIndex, increaseFocusItemIndex, decreaseFocusedItemIndex } =
         useOptionsList(options);
 
-    const [focused, setFocused] = useState(false);
+    const isFocused = useBoolean(false);
     const mergedDisabled = formContext?.disabled || disabled;
     const mergedReadOnly = formContext?.readOnly || readOnly;
 
@@ -55,7 +56,7 @@ const Select = <T extends AnyObject>(props: SelectProps<T>) => {
         {
             'select-disabled': mergedDisabled,
             'select-readonly': mergedReadOnly,
-            'select-focus': focused,
+            'select-focus': isFocused.value,
             'select-invalid': error,
             'select-expanded': isOpenPopup,
         },
@@ -65,17 +66,17 @@ const Select = <T extends AnyObject>(props: SelectProps<T>) => {
 
     const handleFocus = (event: React.FocusEvent) => {
         onFocus?.(event);
-        setFocused(true);
+        isFocused.setTrue();
     };
 
     const handleBlur = (event: React.FocusEvent) => {
         onBlur?.(event);
-        setFocused(false);
+        isFocused.setFalse();
     };
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         onClick?.(event);
-        setIsOpenPopup(!isOpenPopup);
+        isOpenPopup.toggle();
     };
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -98,12 +99,12 @@ const Select = <T extends AnyObject>(props: SelectProps<T>) => {
             if (options[focusedItemIndex] && isOpenPopup) {
                 setValueAndHide(options[focusedItemIndex]);
             } else {
-                setIsOpenPopup(!isOpenPopup);
+                isOpenPopup.toggle();
             }
         }
 
         if (isEsc) {
-            setIsOpenPopup(false);
+            isOpenPopup.setFalse();
         }
     };
 
@@ -117,10 +118,10 @@ const Select = <T extends AnyObject>(props: SelectProps<T>) => {
                 value={selectedOption}
                 options={options}
                 onChange={setValueAndHide}
-                open={isOpenPopup}
+                open={isOpenPopup.value}
                 focusedItemIndex={focusedItemIndex}
                 onOutsideClickNeedHide
-                onOpenChange={(isOpen) => setIsOpenPopup(isOpen)}
+                onOpenChange={isOpenPopup.set}
                 onGetLabel={onGetLabel}
                 onGetValue={onGetValue}
             >
@@ -129,7 +130,7 @@ const Select = <T extends AnyObject>(props: SelectProps<T>) => {
                         className="select-field"
                         tabIndex={0}
                         role="combobox"
-                        aria-expanded={isOpenPopup}
+                        aria-expanded={isOpenPopup.value}
                         aria-controls={optionsListId}
                         aria-haspopup="listbox"
                         aria-disabled={disabled}
